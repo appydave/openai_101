@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/appydave/openai_101/compare/v1.2.2...v1.2.3) (2024-06-19)
+
+
+### Bug Fixes
+
+* node update on ci ([3aa4b9d](https://github.com/appydave/openai_101/commit/3aa4b9dc783f5ef1d47c2583c6c988446c472a05))
+
 ## [1.2.2](https://github.com/appydave/openai_101/compare/v1.2.1...v1.2.2) (2024-06-19)
 
 
