@@ -1,0 +1,285 @@
+{
+  "groups": [
+    {
+      "name": "GPT-4 Turbo",
+      "description": "With 128k context, fresher knowledge and the broadest set of capabilities, GPT-4 Turbo is more powerful than GPT-4 and offered at a lower price.",
+      "models": [
+        {
+          "name": "gpt-4-0125-preview",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$10.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$30.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "gpt-4-1106-preview",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$10.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$30.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "gpt-4-1106-vision-preview",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$10.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$30.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GPT-4",
+      "description": "With broad general knowledge and domain expertise, GPT-4 can follow complex instructions in natural language and solve difficult problems with accuracy.",
+      "models": [
+        {
+          "name": "gpt-4",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$30.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$60.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "gpt-4-32k",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$60.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$120.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GPT-3.5 Turbo",
+      "description": "GPT-3.5 Turbo models are capable and cost-effective.",
+      "models": [
+        {
+          "name": "gpt-3.5-turbo-0125",
+          "notes": "gpt-3.5-turbo-0125 is the flagship model of this family, supports a 16K context window and is optimized for dialog.",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$0.50",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$1.50",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "gpt-3.5-turbo-instruct",
+          "notes": "gpt-3.5-turbo-instruct is an Instruct model and only supports a 4K context window.",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$1.50",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$2.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Assistants API",
+      "description": "Assistants API and tools (retrieval, code interpreter) make it easy for developers to build AI assistants within their own applications. Each assistant incurs its own retrieval file storage fee based on the files passed to that assistant. The retrieval tool chunks and indexes your files content in our vector database.",
+      "models": [
+        {
+          "name": "code_interpreter",
+          "notes": "The tokens used for the Assistant API are billed at the chosen language model's per-token input/output rates, and the assistant intelligently chooses which context from the thread to include when calling the model.",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$0.03",
+              "unit_type": "session"
+            }
+          ]
+        },
+        {
+          "name": "retrieval",
+          "costs": [
+            {
+              "usage_type": "input",
+              "price_per_unit": "$0.20",
+              "unit_type": "GB / assistant / day",
+              "notes": "Free until 04/01/2024"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fine-tuning models",
+      "description": "Create your own custom models by fine-tuning our base models with your training data. Once you fine-tune a model, you’ll be billed only for the tokens you use in requests to that model.",
+      "models": [
+        {
+          "name": "gpt-3.5-turbo",
+          "costs": [
+            {
+              "usage_type": "training",
+              "price_per_unit": "$8.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "input",
+              "price_per_unit": "$3.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$6.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "davinci-002",
+          "costs": [
+            {
+              "usage_type": "training",
+              "price_per_unit": "$6.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "input",
+              "price_per_unit": "$12.00",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$12.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "babbage-002",
+          "costs": [
+            {
+              "usage_type": "training",
+              "price_per_unit": "$0.40",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "input",
+              "price_per_unit": "$1.60",
+              "unit_type": "1M tokens"
+            },
+            {
+              "usage_type": "output",
+              "price_per_unit": "$1.60",
+              "unit_type": "1M tokens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Embedding models",
+      "description": "Build advanced search, clustering, topic modeling, and classification functionality with our embeddings offering.",
+      "models": [
+        {
+          "name": "text-embedding-3-small",
+          "costs": [
+            {
+              "usage_type": "usage",
+              "price_per_unit": "$0.02",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "text-embedding-3-large",
+          "costs": [
+            {
+              "usage_type": "usage",
+              "price_per_unit": "$0.13",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "ada v2",
+          "costs": [
+            {
+              "usage_type": "usage",
+              "price_per_unit": "$0.10",
+              "unit_type": "1M tokens"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Base models",
+      "description": "GPT base models are not optimized for instruction-following and are less capable, but they can be effective when fine-tuned for narrow tasks.",
+      "models": [
+        {
+          "name": "davinci-002",
+          "costs": [
+            {
+              "usage_type": "usage",
+              "price_per_unit": "$2.00",
+              "unit_type": "1M tokens"
+            }
+          ]
+        },
+        {
+          "name": "babbage-002",
+          "costs": [
+            {
+              "usage_type": "usage",
+              "price_per_unit": "$0.40",
+              "unit_type": "1M tokens"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

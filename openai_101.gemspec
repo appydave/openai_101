@@ -39,8 +39,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   # spec.extensions    = ['ext/openai_101/extconf.rb']
 
+  spec.add_dependency 'activemodel', '~> 7'
+  spec.add_dependency 'bigdecimal'
   spec.add_dependency 'clipboard', '~> 1'
+  spec.add_dependency 'csv', '~> 3'
   spec.add_dependency 'dotenv', '~> 3'
   spec.add_dependency 'k_log', '~> 0'
+  spec.add_dependency 'mutex_m'
   spec.add_dependency 'ruby-openai', '~> 7'
 end

@@ -7,9 +7,15 @@ require 'csv'
 require 'json'
 require 'table_print'
 require 'pry'
+require 'active_model'
 
 require 'openai101/version'
-require 'openai101/sample'
+require 'openai101/initializer'
+require 'openai101/types/hash_type'
+require 'openai101/types/array_type'
+require 'openai101/types/base_model'
+
+require 'openai101/models/completion_params'
 
 module Openai101
   # raise Openai101::Error, 'Sample message'

@@ -92,8 +92,11 @@ Layout/SpaceBeforeComma:
 # My Preferences - End
 
 # RSpec Cops
+RSpec/MultipleExpectations:
+  Max: 8
+
 RSpec/NestedGroups:
-  Max: 5
+  Max: 8
 
 RSpec/SpecFilePathFormat:
   Enabled: true
