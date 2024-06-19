@@ -1,3 +1,12 @@
+## [1.2.4](https://github.com/appydave/openai_101/compare/v1.2.3...v1.2.4) (2024-06-19)
+
+
+### Bug Fixes
+
+* preperation for the completions API (legacy) ([1d88a79](https://github.com/appydave/openai_101/commit/1d88a799aaa489de107ae22f0033316aabb754f1))
+* preperation for the completions API (legacy) ([c0be6cf](https://github.com/appydave/openai_101/commit/c0be6cf3fdd2431e9ec3b1254c4879ad667efa13))
+* update cops ([e6fb01a](https://github.com/appydave/openai_101/commit/e6fb01a07eb4864f1eeab5cbf9975524274462a6))
+
 ## [1.2.3](https://github.com/appydave/openai_101/compare/v1.2.2...v1.2.3) (2024-06-19)
 
 
