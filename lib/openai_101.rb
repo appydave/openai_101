@@ -8,8 +8,8 @@ require 'json'
 require 'table_print'
 require 'pry'
 
-require 'openai_101/version'
-require 'openai_101/sample'
+require 'openai101/version'
+require 'openai101/sample'
 
 module Openai101
   # raise Openai101::Error, 'Sample message'

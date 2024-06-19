@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'lib/openai_101/version'
+require_relative 'lib/openai101/version'
 
 Gem::Specification.new do |spec|
   spec.required_ruby_version  = '>= 3.0'
