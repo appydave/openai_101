@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/appydave/openai_101/compare/v1.2.1...v1.2.2) (2024-06-19)
+
+
+### Bug Fixes
+
+* tools enabled flag and node update on ci ([dc515b6](https://github.com/appydave/openai_101/commit/dc515b6d004d4399f6312ef8355102bd8882d977))
+
 ## [1.2.1](https://github.com/appydave/openai_101/compare/v1.2.0...v1.2.1) (2024-06-19)
 
 
