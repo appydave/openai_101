@@ -1,3 +1,11 @@
+## [1.2.6](https://github.com/appydave/openai_101/compare/v1.2.5...v1.2.6) (2024-06-19)
+
+
+### Bug Fixes
+
+* models - list, retrieve ([a7b3fb7](https://github.com/appydave/openai_101/commit/a7b3fb72b3cfb30803de7ba3ad60f46c58000bd3))
+* models - list, retrieve ([58f6c6a](https://github.com/appydave/openai_101/commit/58f6c6a1fb0fcaf5db0587392f7a22224c1463e1))
+
 ## [1.2.5](https://github.com/appydave/openai_101/compare/v1.2.4...v1.2.5) (2024-06-19)
 
 
