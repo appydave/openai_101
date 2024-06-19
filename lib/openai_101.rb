@@ -5,8 +5,6 @@ require 'openai_101/version'
 module Openai101
   # raise Openai101::Error, 'Sample message'
   Error = Class.new(StandardError)
-
-  # Your code goes here...
 end
 
 if ENV.fetch('KLUE_DEBUG', 'false').downcase == 'true'
