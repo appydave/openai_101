@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/appydave/openai_101/compare/v1.2.0...v1.2.1) (2024-06-19)
+
+
+### Bug Fixes
+
+* namespace issues ([e949689](https://github.com/appydave/openai_101/commit/e949689d69f49bf0874e31174acef977816aa43c))
+* when tool not enabled ([fbfd0ad](https://github.com/appydave/openai_101/commit/fbfd0ad478c05e416cc72163a3300efa89acdd86))
+
 # [1.2.0](https://github.com/appydave/openai_101/compare/v1.1.0...v1.2.0) (2024-06-19)
 
 
