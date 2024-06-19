@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/appydave/openai_101/compare/v1.1.0...v1.2.0) (2024-06-19)
+
+
+### Features
+
+* moved repo to appydave organization ([b37548c](https://github.com/appydave/openai_101/commit/b37548ca75e2e25b8f3c08cf22801ef1f6d1d631))
+
 # [0.2.0](https://github.com/appydave/openai_101/compare/v0.1.0...v0.2.0) (2024-06-19)
 
 
