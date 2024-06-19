@@ -46,6 +46,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'dotenv', '~> 3'
   spec.add_dependency 'k_log', '~> 0'
   spec.add_dependency 'mutex_m', '~> 0'
-  spec.add_dependency 'table_print', '~> 1'
   spec.add_dependency 'ruby-openai', '~> 7'
+  spec.add_dependency 'table_print', '~> 1'
 end
