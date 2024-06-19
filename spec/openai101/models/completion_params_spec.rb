@@ -10,6 +10,7 @@ RSpec.describe Openai101::Models::CompletionParams do
       temperature: 0.7,
       max_tokens: 128,
       top_p: 0.9,
+      best_of: 2,
       frequency_penalty: 0.5,
       presence_penalty: 0.5
     }
@@ -20,6 +21,7 @@ RSpec.describe Openai101::Models::CompletionParams do
     expect(params.temperature).to eq(1.0)
     expect(params.max_tokens).to eq(256)
     expect(params.top_p).to eq(1.0)
+    expect(params.best_of).to eq(1)
     expect(params.frequency_penalty).to eq(0.0)
     expect(params.presence_penalty).to eq(0.0)
   end
@@ -30,6 +32,7 @@ RSpec.describe Openai101::Models::CompletionParams do
     expect(subject.temperature).to eq(0.7)
     expect(subject.max_tokens).to eq(128)
     expect(subject.top_p).to eq(0.9)
+    expect(subject.best_of).to eq(2)
     expect(subject.frequency_penalty).to eq(0.5)
     expect(subject.presence_penalty).to eq(0.5)
   end
@@ -48,6 +51,7 @@ RSpec.describe Openai101::Models::CompletionParams do
       expect(subject.temperature).to eq(1.0)
       expect(subject.max_tokens).to eq(256)
       expect(subject.top_p).to eq(1.0)
+      expect(subject.best_of).to eq(1)
       expect(subject.frequency_penalty).to eq(0.0)
       expect(subject.presence_penalty).to eq(0.0)
     end
