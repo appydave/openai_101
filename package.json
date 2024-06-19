@@ -1,0 +1,14 @@
+{
+  "name": "openai_101",
+  "version": "0.0.1",
+  "description": "OpenAI 101 working through the API endpoints",
+  "scripts": {
+    "release": "semantic-release"
+  },
+  "devDependencies": {
+    "@klueless-js/semantic-release-rubygem": "github:klueless-js/semantic-release-rubygem",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^24.0.0"
+  }
+}
