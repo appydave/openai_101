@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
+require 'clipboard'
+require 'openai'
+
+require 'csv'
+require 'json'
+require 'table_print'
+require 'pry'
+
 require 'openai_101/version'
+require 'openai_101/sample'
 
 module Openai101
   # raise Openai101::Error, 'Sample message'
