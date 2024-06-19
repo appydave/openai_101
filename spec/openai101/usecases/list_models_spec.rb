@@ -5,8 +5,8 @@ RSpec.describe 'List Models', :tools_enabled do
 
   it 'list models' do
     models = client.models.list['data']
-      .reject { |model| model['owned_by'] == 'print-speak' }
-      .sort_by { |model| -model['created'] }
+                   .reject { |model| model['owned_by'] == 'print-speak' }
+                   .sort_by { |model| -model['created'] }
     tp models
   end
 
