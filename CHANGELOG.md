@@ -1,3 +1,11 @@
+## [1.2.5](https://github.com/appydave/openai_101/compare/v1.2.4...v1.2.5) (2024-06-19)
+
+
+### Bug Fixes
+
+* completions API is deprecated, added support for model list ([65fba89](https://github.com/appydave/openai_101/commit/65fba896ace6c635d8a9a444c57f59534f9005b2))
+* cops ([024487a](https://github.com/appydave/openai_101/commit/024487a539d64530f633baacbd37946774dd89db))
+
 ## [1.2.4](https://github.com/appydave/openai_101/compare/v1.2.3...v1.2.4) (2024-06-19)
 
 
