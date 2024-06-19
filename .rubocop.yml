@@ -94,7 +94,8 @@ Layout/SpaceBeforeComma:
 # RSpec Cops
 RSpec/MultipleExpectations:
   Max: 8
-
+RSpec/ExampleLength:
+  Max: 25
 RSpec/NestedGroups:
   Max: 8
 
