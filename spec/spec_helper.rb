@@ -10,7 +10,7 @@ require 'openai_101'
 
 support_glob = File.join(__dir__, 'support', '**', '*.rb')
 
-Dir[support_glob].sort.each { |file| require file }
+Dir[support_glob].each { |file| require file }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

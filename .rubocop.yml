@@ -107,7 +107,8 @@ RSpec/NoExpectationExample:
   Enabled: false
 RSpec/SpecFilePathSuffix:
   Enabled: true
-
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
 RSpec/NamedSubject:
   Exclude:
     - "**/spec/**/*"

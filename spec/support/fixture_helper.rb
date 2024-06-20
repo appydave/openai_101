@@ -2,7 +2,7 @@
 
 module FixtureHelper
   def fixture_path(file_name)
-    File.join(File.dirname(__FILE__), '../fixtures', file_name)
+    File.expand_path(File.join(File.dirname(__FILE__), '../fixtures', file_name))
   end
 
   def fixture(file_name)
@@ -10,7 +10,7 @@ module FixtureHelper
   end
 
   def fixture_binary(file_name)
-    File.open(fixture_path(file_name), "rb")
+    File.open(fixture_path(file_name), 'rb')
   end
 
   def json_fixture(file_name)

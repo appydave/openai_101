@@ -5,7 +5,7 @@ require 'openai'
 require 'base64'
 require 'clipboard'
 require 'csv'
-require "damerau-levenshtein"
+require 'damerau-levenshtein'
 require 'json'
 require 'table_print'
 require 'pry'
