@@ -40,9 +40,11 @@ Gem::Specification.new do |spec|
   # spec.extensions    = ['ext/openai_101/extconf.rb']
 
   spec.add_dependency 'activemodel', '~> 7'
+  spec.add_dependency 'base64', '~> 0'
   spec.add_dependency 'bigdecimal', '~> 3'
   spec.add_dependency 'clipboard', '~> 1'
   spec.add_dependency 'csv', '~> 3'
+  spec.add_dependency 'damerau-levenshtein', '~> 1'
   spec.add_dependency 'dotenv', '~> 3'
   spec.add_dependency 'k_log', '~> 0'
   spec.add_dependency 'mutex_m', '~> 0'

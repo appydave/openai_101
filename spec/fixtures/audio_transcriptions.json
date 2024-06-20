@@ -1,0 +1,10 @@
+{
+  "parameters": {
+    "model": "whisper-1",
+    "file": "path/to/audio/barista_interaction.mp3",
+    "language": "th" // Assuming the audio is in Thai
+  },
+  "response": {
+    "text": "สวัสดีครับ ผมขอคาปูชิโน่ได้ไหมครับ?" // "Hello, can I have a cappuccino please?" in Thai
+  }
+}
