@@ -1,3 +1,10 @@
+## [1.2.8](https://github.com/appydave/openai_101/compare/v1.2.7...v1.2.8) (2024-06-21)
+
+
+### Bug Fixes
+
+* audio - update speach-to-text and text-to-speach usecases ([80dff90](https://github.com/appydave/openai_101/commit/80dff9089e15b233a69dd06a3d2047c0b9cc388d))
+
 ## [1.2.7](https://github.com/appydave/openai_101/compare/v1.2.6...v1.2.7) (2024-06-20)
 
 
