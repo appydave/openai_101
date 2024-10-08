@@ -1,0 +1,915 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/requests/budgets_spec.rb
+Apply the fix to this code:
+@@ -12,14 +12,14 @@ RSpec.describe "BudgetsController", type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:budget) { FactoryBot.create(:budget, :trait1, tenant: tenant, financial_year: DateTime.now.year) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:budget) { FactoryBot.create(:budget, :trait1, tenant:, financial_year: DateTime.now.year) }
+
+Apply the fix to this code:
+@@ -84,7 +84,7 @@ RSpec.describe "BudgetsController", type: :request do
+ 
+-            post "/budgets", params: params
++            post("/budgets", params:)
+
+Apply the fix to this code:
+@@ -109,7 +109,7 @@ RSpec.describe "BudgetsController", type: :request do
+ 
+-            put "/budgets/#{budget.id}", params: params
++            put("/budgets/#{budget.id}", params:)
+
+Apply the fix to this code:
+@@ -121,7 +121,7 @@ RSpec.describe "BudgetsController", type: :request do
+ 
+-        let(:signin_user) { FactoryBot.create(:user, :trait3, *user_traits, **user_values, role: "Enterprise User", token: token_trait3, enterprise: tenant.enterprise, tenant: tenant) }
++        let(:signin_user) { FactoryBot.create(:user, :trait3, *user_traits, **user_values, role: "Enterprise User", token: token_trait3, enterprise: tenant.enterprise, tenant:) }
+
+File: spec/requests/builds_spec.rb
+Apply the fix to this code:
+@@ -12,13 +12,13 @@ RSpec.describe "BuildsController", type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:build) { FactoryBot.create(:build, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:build) { FactoryBot.create(:build, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -64,7 +64,7 @@ RSpec.describe "BuildsController", type: :request do
+ 
+-            post "/builds", params: params
++            post("/builds", params:)
+
+File: spec/requests/business_plan_equipments_spec.rb
+Apply the fix to this code:
+@@ -12,14 +12,14 @@ RSpec.describe "BusinessPlanEquipmentsController", type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant: tenant) }
+-  let(:business_plan_equipment) { FactoryBot.create(:business_plan_equipment, :trait1, business_plan: business_plan) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant:) }
++  let(:business_plan_equipment) { FactoryBot.create(:business_plan_equipment, :trait1, business_plan:) }
+
+Apply the fix to this code:
+@@ -117,7 +117,7 @@ RSpec.describe "BusinessPlanEquipmentsController", type: :request do
+ 
+-            post "/business_plans/#{business_plan.id}/business_plan_equipments", params: params
++            post("/business_plans/#{business_plan.id}/business_plan_equipments", params:)
+
+File: spec/requests/business_plan_goal_items_spec.rb
+Apply the fix to this code:
+@@ -12,14 +12,14 @@ RSpec.describe BusinessPlanGoalItemsController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant: tenant) }
+-  let(:business_plan_goal_item) { FactoryBot.create(:business_plan_goal_item, :trait1, business_plan: business_plan) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant:) }
++  let(:business_plan_goal_item) { FactoryBot.create(:business_plan_goal_item, :trait1, business_plan:) }
+
+File: spec/requests/business_plan_goals_spec.rb
+Apply the fix to this code:
+@@ -12,14 +12,14 @@ RSpec.describe BusinessPlanGoalsController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant: tenant) }
+-  let(:business_plan_goal) { FactoryBot.create(:business_plan_goal, :trait1, business_plan: business_plan, business_plan_kpi_id: business_plan_kpi.id) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant:) }
++  let(:business_plan_goal) { FactoryBot.create(:business_plan_goal, :trait1, business_plan:, business_plan_kpi_id: business_plan_kpi.id) }
+
+File: spec/requests/business_plan_marketing_activities_controller_spec.rb
+Apply the fix to this code:
+@@ -12,14 +12,14 @@ RSpec.describe BusinessPlanMarketingActivitiesController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant: tenant) }
+-  let(:business_plan_marketing_activity) { FactoryBot.create(:business_plan_marketing_activity, :trait1, business_plan: business_plan) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant:) }
++  let(:business_plan_marketing_activity) { FactoryBot.create(:business_plan_marketing_activity, :trait1, business_plan:) }
+
+Apply the fix to this code:
+@@ -73,7 +73,7 @@ RSpec.describe BusinessPlanMarketingActivitiesController, type: :request do
+ 
+-            post "/business_plans/#{business_plan.id}/business_plan_marketing_activities", params: params
++            post("/business_plans/#{business_plan.id}/business_plan_marketing_activities", params:)
+
+File: spec/requests/business_plan_plan_items_controller_spec.rb
+Apply the fix to this code:
+@@ -12,15 +12,15 @@ RSpec.describe BusinessPlanPlanItemsController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant:) }
+-  let(:business_plan_plan_item) { FactoryBot.create(:business_plan_plan_item, :trait1, business_plan: business_plan, business_plan_plan_category_id: business_plan_plan_category.id) }
++  let(:business_plan_plan_item) { FactoryBot.create(:business_plan_plan_item, :trait1, business_plan:, business_plan_plan_category_id: business_plan_plan_category.id) }
+
+Apply the fix to this code:
+@@ -74,7 +74,7 @@ RSpec.describe BusinessPlanPlanItemsController, type: :request do
+ 
+-            post "/business_plans/#{business_plan.id}/business_plan_plan_items", params: params
++            post("/business_plans/#{business_plan.id}/business_plan_plan_items", params:)
+
+File: spec/requests/business_plans_spec.rb
+Apply the fix to this code:
+@@ -12,13 +12,13 @@ RSpec.describe BusinessPlansController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:business_plan) { FactoryBot.create(:business_plan, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -91,7 +91,7 @@ RSpec.describe BusinessPlansController, type: :request do
+ 
+-            post "/business_plans", params: params
++            post("/business_plans", params:)
+
+Apply the fix to this code:
+@@ -143,8 +143,8 @@ RSpec.describe BusinessPlansController, type: :request do
+ 
+-      let!(:business_plan_prev) { FactoryBot.create(:business_plan, :trait1, tenant: tenant, financial_year: business_plan.financial_year - 1) }
+-      let!(:business_plan_sales_investment) { FactoryBot.create(:business_plan_sales_investment, :trait1, business_plan: business_plan_prev, tenant: tenant) }
++      let!(:business_plan_prev) { FactoryBot.create(:business_plan, :trait1, tenant:, financial_year: business_plan.financial_year - 1) }
++      let!(:business_plan_sales_investment) { FactoryBot.create(:business_plan_sales_investment, :trait1, business_plan: business_plan_prev, tenant:) }
+
+File: spec/requests/callbacks_spec.rb
+Apply the fix to this code:
+@@ -11,17 +11,17 @@ RSpec.describe CallbacksController, type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, mobile: "1235") }
+-  let(:phone_call) { FactoryBot.create(:phone_call, :trait1, tenant: tenant, phoneable_id: contact.id, phoneable_type: "Contact", twillio_message_sid: "1234") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, mobile: "1235") }
++  let(:phone_call) { FactoryBot.create(:phone_call, :trait1, tenant:, phoneable_id: contact.id, phoneable_type: "Contact", twillio_message_sid: "1234") }
+
+File: spec/requests/campaign_exclusions_spec.rb
+Apply the fix to this code:
+@@ -11,8 +11,8 @@ RSpec.describe "CampaignExclusionsController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+
+Apply the fix to this code:
+@@ -23,12 +23,12 @@ RSpec.describe "CampaignExclusionsController", type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:contact_trait1) { FactoryBot.create(:contact, :trait1, inquiry: inquiry_trait1, location_user_id: location_trait1.id, sales_rep_user_id: user_trait1.id, address: address_trait1, company: company_trait1, lead_type: lead_type_trait1, parent_contact: nil , prospect_status: prospect_status_trait1, tenant: tenant) }
+-  let(:company_trait1) { FactoryBot.build(:company, :trait1, tenant: tenant, location_user_id: location_trait1.id) } ## , location: location_trait1) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:contact_trait1) { FactoryBot.create(:contact, :trait1, inquiry: inquiry_trait1, location_user_id: location_trait1.id, sales_rep_user_id: user_trait1.id, address: address_trait1, company: company_trait1, lead_type: lead_type_trait1, parent_contact: nil , prospect_status: prospect_status_trait1, tenant:) }
++  let(:company_trait1) { FactoryBot.build(:company, :trait1, tenant:, location_user_id: location_trait1.id) } ## , location: location_trait1) }
+-  let(:lead_type_trait1) { FactoryBot.build(:lead_type, :trait1, tenant: tenant, enterprise: enterprise) }
+-  let(:prospect_status_trait1) { FactoryBot.build(:prospect_status, :trait1, enterprise: enterprise) }
++  let(:lead_type_trait1) { FactoryBot.build(:lead_type, :trait1, tenant:, enterprise:) }
++  let(:prospect_status_trait1) { FactoryBot.build(:prospect_status, :trait1, enterprise:) }
+
+File: spec/requests/cases_spec.rb
+Apply the fix to this code:
+@@ -4,10 +4,10 @@ RSpec.describe CasesController, type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
+-  let(:user) { FactoryBot.create(:user, :trait1, tenant: tenant, enterprise: enterprise) }
+-  let(:kase) { FactoryBot.create(:case, :trait1, tenant: tenant, company: company, user_id: user.id) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:) }
++  let(:user) { FactoryBot.create(:user, :trait1, tenant:, enterprise:) }
++  let(:kase) { FactoryBot.create(:case, :trait1, tenant:, company:, user_id: user.id) }
+
+Apply the fix to this code:
+@@ -54,7 +54,7 @@ RSpec.describe CasesController, type: :request do
+ 
+-          post "/cases", params: params
++          post("/cases", params:)
+
+File: spec/requests/email_aliases_spec.rb
+Apply the fix to this code:
+@@ -12,12 +12,12 @@ RSpec.describe EmailAliasesController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/requests/email_configuration_spec.rb
+Apply the fix to this code:
+@@ -12,12 +12,12 @@ RSpec.describe EmailConfigurationController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -68,7 +68,7 @@ RSpec.describe EmailConfigurationController, type: :request do
+ 
+-            post "/email_configuration", params: params
++            post("/email_configuration", params:)
+
+Apply the fix to this code:
+@@ -99,7 +99,7 @@ RSpec.describe EmailConfigurationController, type: :request do
+ 
+-            put "/email_configuration/#{signin_user.id}", params: params
++            put("/email_configuration/#{signin_user.id}", params:)
+
+File: spec/requests/email_templates_spec.rb
+Apply the fix to this code:
+@@ -12,13 +12,13 @@ RSpec.describe EmailTemplatesController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:email_template) { FactoryBot.create(:email_template, :trait2, tenant: tenant, enterprise_id: tenant.enterprise.id) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:email_template) { FactoryBot.create(:email_template, :trait2, tenant:, enterprise_id: tenant.enterprise.id) }
+
+File: spec/requests/enterprises/assets_spec.rb
+Apply the fix to this code:
+@@ -63,7 +63,7 @@ RSpec.describe "Enterprises::AssetsController", type: :request do
+ 
+-            post "/enterprises/assets", params: params
++            post("/enterprises/assets", params:)
+
+File: spec/requests/enterprises/business_plan_goals_spec.rb
+Apply the fix to this code:
+@@ -55,7 +55,7 @@ RSpec.describe "Enterprises::BusinessPlanGoalsController", type: :request do
+ 
+-            post "/enterprises/business_plan_goals", params: params
++            post("/enterprises/business_plan_goals", params:)
+
+File: spec/requests/enterprises/business_plan_kpis_spec.rb
+Apply the fix to this code:
+@@ -46,7 +46,7 @@ RSpec.describe "Enterprises::BusinessPlanKpisController", type: :request do
+ 
+-            post enterprises_business_plan_kpis_path(), params: params
++            post(enterprises_business_plan_kpis_path(), params:)
+
+File: spec/requests/enterprises/business_plan_marketing_activities_spec.rb
+Apply the fix to this code:
+@@ -18,7 +18,7 @@ RSpec.describe "Enterprises::BusinessPlanMarketingActivitiesController", type: :
+ 
+-  let(:business_plan_marketing_activity) { FactoryBot.create(:business_plan_marketing_activity, :trait1, business_plan: business_plan, enterprise: enterprise_trait3) }
++  let(:business_plan_marketing_activity) { FactoryBot.create(:business_plan_marketing_activity, :trait1, business_plan:, enterprise: enterprise_trait3) }
+
+Apply the fix to this code:
+@@ -48,7 +48,7 @@ RSpec.describe "Enterprises::BusinessPlanMarketingActivitiesController", type: :
+ 
+-            post enterprises_business_plan_marketing_activities_path(), params: params
++            post(enterprises_business_plan_marketing_activities_path(), params:)
+
+File: spec/requests/enterprises/business_submits_spec.rb
+Apply the fix to this code:
+@@ -55,7 +55,7 @@ RSpec.describe "Enterprises::BusinessSubmitsController", type: :request do
+ 
+-            post "/enterprises/business_submits", params: params
++            post("/enterprises/business_submits", params:)
+
+File: spec/requests/enterprises/business_welcomes_spec.rb
+Apply the fix to this code:
+@@ -55,7 +55,7 @@ RSpec.describe "Enterprises::BusinessWelcomesController", type: :request do
+ 
+-            post "/enterprises/business_welcomes", params: params
++            post("/enterprises/business_welcomes", params:)
+
+File: spec/requests/enterprises/estimate_stages_spec.rb
+Apply the fix to this code:
+@@ -52,7 +52,7 @@ RSpec.describe "Enterprises::EstimateStagesController", type: :request do
+ 
+-            post "/enterprises/estimate_stages", params: params
++            post("/enterprises/estimate_stages", params:)
+
+File: spec/requests/enterprises/groups_spec.rb
+Apply the fix to this code:
+@@ -57,7 +57,7 @@ RSpec.describe "Enterprises::GroupsController", type: :request do
+ 
+-            post "/enterprises/groups", params: params
++            post("/enterprises/groups", params:)
+
+File: spec/requests/enterprises/interest_categories_spec.rb
+Apply the fix to this code:
+@@ -56,7 +56,7 @@ RSpec.describe "Enterprises::InterestCategoriesController", type: :request do
+ 
+-            post "/enterprises/interest_categories", params: params
++            post("/enterprises/interest_categories", params:)
+
+File: spec/requests/enterprises/interests_spec.rb
+Apply the fix to this code:
+@@ -17,7 +17,7 @@ RSpec.describe "Enterprises::InterestsController", type: :request do
+-  let(:interest) { FactoryBot.create(:interest, :trait3, interest_category: interest_category) }
++  let(:interest) { FactoryBot.create(:interest, :trait3, interest_category:) }
+
+Apply the fix to this code:
+@@ -58,7 +58,7 @@ RSpec.describe "Enterprises::InterestsController", type: :request do
+ 
+-            post "/enterprises/interests", params: params
++            post("/enterprises/interests", params:)
+
+File: spec/requests/enterprises/lead_funnel_stages_spec.rb
+Apply the fix to this code:
+@@ -18,7 +18,7 @@ RSpec.describe "Enterprises::LeadFunnelStagesController", type: :request do
+-  let!(:lead_funnel_stage) { FactoryBot.create(:lead_funnel_stage, :trait1, lead_funnel: lead_funnel) }
++  let!(:lead_funnel_stage) { FactoryBot.create(:lead_funnel_stage, :trait1, lead_funnel:) }
+
+File: spec/requests/enterprises/lead_funnels_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ RSpec.describe "Enterprises::LeadFunnelsController", type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait3, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait3, enterprise:) }
+
+Apply the fix to this code:
+@@ -13,9 +13,9 @@ RSpec.describe "Enterprises::LeadFunnelsController", type: :request do
+-      token: token,
+-      enterprise: enterprise,
+-      tenant: tenant,
++      token:,
++      enterprise:,
++      tenant:,
+
+Apply the fix to this code:
+@@ -58,10 +58,10 @@ RSpec.describe "Enterprises::LeadFunnelsController", type: :request do
+ 
+-      let(:lead_funnel_stage_1) { FactoryBot.create(:lead_funnel_stage, :trait1, lead_funnel: lead_funnel, name: "TEST1") }
+-      let(:lead_funnel_stage_2) { FactoryBot.create(:lead_funnel_stage, :trait2, lead_funnel: lead_funnel, name: "TEST2") }
+-      let(:lead_funnel_stage_3) { FactoryBot.create(:lead_funnel_stage, :trait3, lead_funnel: lead_funnel, name: "TEST3") }
+-      let(:lead_funnel_stage_4) { FactoryBot.create(:lead_funnel_stage, :trait3, lead_funnel: lead_funnel, archived: true) }
++      let(:lead_funnel_stage_1) { FactoryBot.create(:lead_funnel_stage, :trait1, lead_funnel:, name: "TEST1") }
++      let(:lead_funnel_stage_2) { FactoryBot.create(:lead_funnel_stage, :trait2, lead_funnel:, name: "TEST2") }
++      let(:lead_funnel_stage_3) { FactoryBot.create(:lead_funnel_stage, :trait3, lead_funnel:, name: "TEST3") }
++      let(:lead_funnel_stage_4) { FactoryBot.create(:lead_funnel_stage, :trait3, lead_funnel:, archived: true) }
+
+File: spec/requests/enterprises/lead_types_spec.rb
+Apply the fix to this code:
+@@ -69,7 +69,7 @@ RSpec.describe "Enterprises::LeadTypesController", type: :request do
+ 
+-            post "/enterprises/lead_types", params: params
++            post("/enterprises/lead_types", params:)
+
+File: spec/requests/enterprises/marketing_groups_spec.rb
+Apply the fix to this code:
+@@ -56,7 +56,7 @@ RSpec.describe "Enterprises::MarketingGroupsController", type: :request do
+ 
+-            post "/enterprises/marketing_groups", params: params
++            post("/enterprises/marketing_groups", params:)
+
+File: spec/requests/enterprises/prospect_status_items_spec.rb
+Apply the fix to this code:
+@@ -20,8 +20,8 @@ RSpec.describe "Enterprises::ProspectStatusItemsController", type: :request do
+ 
+-  let(:prospect_status_item) { FactoryBot.create(:prospect_status_item, :trait1, prospect_status: prospect_status, enterprise: enterprise_trait3, lead_type_id: lead_type.id) }
+-  let(:prospect_status_version_trait1) { FactoryBot.build(:prospect_status_version, :trait1, prospect_status: prospect_status, status: "Live") }
++  let(:prospect_status_item) { FactoryBot.create(:prospect_status_item, :trait1, prospect_status:, enterprise: enterprise_trait3, lead_type_id: lead_type.id) }
++  let(:prospect_status_version_trait1) { FactoryBot.build(:prospect_status_version, :trait1, prospect_status:, status: "Live") }
+
+File: spec/requests/enterprises/prospect_statuses_spec.rb
+Apply the fix to this code:
+@@ -77,7 +77,7 @@ RSpec.describe "Enterprises::ProspectStatusesController", type: :request do
+ 
+-            post "/enterprises/prospect_statuses", params: params
++            post("/enterprises/prospect_statuses", params:)
+
+File: spec/requests/enterprises/template_spec.rb
+Apply the fix to this code:
+@@ -9,7 +9,7 @@ RSpec.describe Enterprises::TemplatesController, type: :request do
+-  let(:template) { FactoryBot.create(:template, tenant: tenant, enterprise: enterprise, template_type: template_type) }
++  let(:template) { FactoryBot.create(:template, tenant:, enterprise:, template_type:) }
+
+File: spec/requests/enterprises/tenant_status_spec.rb
+Apply the fix to this code:
+@@ -11,12 +11,12 @@ RSpec.describe "ActionController::Base", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+File: spec/requests/enterprises/tenants_spec.rb
+Apply the fix to this code:
+@@ -128,7 +128,7 @@ RSpec.describe "Enterprises::TenantsController", type: :request do
+ 
+-            put "/enterprises/tenants/#{tenant.id}", params: params
++            put("/enterprises/tenants/#{tenant.id}", params:)
+
+Apply the fix to this code:
+@@ -144,7 +144,7 @@ RSpec.describe "Enterprises::TenantsController", type: :request do
+ 
+-            put "/enterprises/tenants/#{tenant.id}", params: params
++            put("/enterprises/tenants/#{tenant.id}", params:)
+
+Apply the fix to this code:
+@@ -165,7 +165,7 @@ RSpec.describe "Enterprises::TenantsController", type: :request do
+ 
+-            put "/enterprises/tenants/#{tenant.id}/migrate", params: params
++            put("/enterprises/tenants/#{tenant.id}/migrate", params:)
+
+File: spec/requests/enterprises/users_spec.rb
+Apply the fix to this code:
+@@ -63,7 +63,7 @@ RSpec.describe "Enterprises::UsersController", type: :request do
+ 
+-            post "/enterprises/users", params: params
++            post("/enterprises/users", params:)
+
+File: spec/requests/enterprises_spec.rb
+Apply the fix to this code:
+@@ -18,17 +18,17 @@ RSpec.describe EnterprisesController, type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let!(:group) { FactoryBot.create(:group, :trait1, enterprise: enterprise, user: signin_user) }
+-  let!(:group_tenant) { GroupsTenant.create(tenant: tenant, group: group) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let!(:group) { FactoryBot.create(:group, :trait1, enterprise:, user: signin_user) }
++  let!(:group_tenant) { GroupsTenant.create(tenant:, group:) }
+
+Apply the fix to this code:
+@@ -159,7 +159,7 @@ RSpec.describe EnterprisesController, type: :request do
+ 
+-          post "/enterprises/reports/csv_table", params: params
++          post("/enterprises/reports/csv_table", params:)
+
+File: spec/requests/estimates_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ RSpec.describe "EstimatesController", type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, :api, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, :api, enterprise:) }
+
+Apply the fix to this code:
+@@ -13,8 +13,8 @@ RSpec.describe "EstimatesController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+
+File: spec/requests/exclusions_spec.rb
+Apply the fix to this code:
+@@ -11,16 +11,16 @@ RSpec.describe ExclusionsController, type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -40,7 +40,7 @@ RSpec.describe ExclusionsController, type: :request do
+ 
+-            post "/exclusions", params: params
++            post("/exclusions", params:)
+
+File: spec/requests/holidays_spec.rb
+Apply the fix to this code:
+@@ -11,14 +11,14 @@ RSpec.describe "HolidaysController", type: :request do
+-      tenant: tenant
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:holiday) { FactoryBot.build(:holiday, :trait1, tenant: tenant, enterprise: tenant.enterprise, user: signin_user) }
+-  let(:holiday_date) { FactoryBot.create(:holiday_date, :trait1, holiday: holiday) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:holiday) { FactoryBot.build(:holiday, :trait1, tenant:, enterprise: tenant.enterprise, user: signin_user) }
++  let(:holiday_date) { FactoryBot.create(:holiday_date, :trait1, holiday:) }
+
+Apply the fix to this code:
+@@ -98,7 +98,7 @@ RSpec.describe "HolidaysController", type: :request do
+ 
+-            post "/holidays", params: params
++            post("/holidays", params:)
+
+File: spec/requests/inquiries_spec.rb
+Apply the fix to this code:
+@@ -5,12 +5,12 @@ RSpec.describe InquiriesController, type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, tenant_picker_name: "Test-1") }
+-  let(:another_tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, tenant_picker_name: "Test-2") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, tenant_picker_name: "Test-1") }
++  let(:another_tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, tenant_picker_name: "Test-2") }
+ 
+-  let!(:inquiry) { FactoryBot.create(:inquiry, :trait1, company: company_trait1, contact: contact_trait1, tenant: tenant, user: user_trait1) }
+-  let(:contact_trait1) { FactoryBot.create(:contact, :trait1, address: address_trait1, company: company_trait1, tenant: tenant) }
+-  let(:company_trait1) { FactoryBot.create(:company, :trait1, tenant: tenant) }
++  let!(:inquiry) { FactoryBot.create(:inquiry, :trait1, company: company_trait1, contact: contact_trait1, tenant:, user: user_trait1) }
++  let(:contact_trait1) { FactoryBot.create(:contact, :trait1, address: address_trait1, company: company_trait1, tenant:) }
++  let(:company_trait1) { FactoryBot.create(:company, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -18,9 +18,9 @@ RSpec.describe InquiriesController, type: :request do
+-      token: token,
+-      enterprise: enterprise,
+-      tenant: tenant,
++      token:,
++      enterprise:,
++      tenant:,
+
+Apply the fix to this code:
+@@ -67,7 +67,7 @@ RSpec.describe InquiriesController, type: :request do
+ 
+-          get "/inquiries/#{inquiry.id}/update_assigned_user", params: params
++          get("/inquiries/#{inquiry.id}/update_assigned_user", params:)
+
+File: spec/requests/leads_dashboard_spec.rb
+Apply the fix to this code:
+@@ -5,8 +5,8 @@ RSpec.describe "LeadsController", type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait3, enterprise: enterprise) }
+-  let!(:sales_summary) { FactoryBot.create(:sales_summary, :trait1, monthly: true, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait3, enterprise:) }
++  let!(:sales_summary) { FactoryBot.create(:sales_summary, :trait1, monthly: true, tenant:) }
+
+Apply the fix to this code:
+@@ -14,9 +14,9 @@ RSpec.describe "LeadsController", type: :request do
+-      token: token,
+-      enterprise: enterprise,
+-      tenant: tenant
++      token:,
++      enterprise:,
++      tenant:
+
+File: spec/requests/notes_spec.rb
+Apply the fix to this code:
+@@ -10,22 +10,22 @@ RSpec.describe "NotesController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+ 
+-  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type: platform_type) }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type:) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+ 
+-  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant) }
+-  let(:note_trait1) { FactoryBot.create(:note, :trait1, tenant: tenant, context_id: estimate.id, context_type: "Estimate", user_id: sales_rep.id) }
+-  let(:note_trait2) { FactoryBot.create(:note, :trait2, tenant: tenant, context_id: contact.id, context_type: "Contact", user_id: sales_rep.id) }
+-  let(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, platform_id: "test") }
++  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, tenant:) }
++  let(:note_trait1) { FactoryBot.create(:note, :trait1, tenant:, context_id: estimate.id, context_type: "Estimate", user_id: sales_rep.id) }
++  let(:note_trait2) { FactoryBot.create(:note, :trait2, tenant:, context_id: contact.id, context_type: "Contact", user_id: sales_rep.id) }
++  let(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, platform_id: "test") }
+
+Apply the fix to this code:
+@@ -85,14 +85,14 @@ RSpec.describe "NotesController", type: :request do
+ 
+-          post "/notes", params: params
++          post("/notes", params:)
+ 
+-        let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant) }
++        let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:) }
+
+File: spec/requests/passwords_spec.rb
+Apply the fix to this code:
+@@ -4,10 +4,10 @@ RSpec.describe "PasswordsController", type: :request do
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
+-    create(:user, :trait3, *user_traits, **user_values, role: "Portal User", reset_password_sent_at: Time.now, username: "test@printspeak.com", manual_email: "test@printspeak.com", reset_password_token: token, enterprise: enterprise, tenant: tenant)
++    create(:user, :trait3, *user_traits, **user_values, role: "Portal User", reset_password_sent_at: Time.now, username: "test@printspeak.com", manual_email: "test@printspeak.com", reset_password_token: token, enterprise:, tenant:)
+
+File: spec/requests/phone_call_data_spec.rb
+Apply the fix to this code:
+@@ -17,9 +17,9 @@ RSpec.describe "PhoneCallDataController", type: :request do
+-  let(:tenant) { FactoryBot.create(:tenant, enterprise: enterprise) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant) }
+-  let!(:phone_call_data) { FactoryBot.create(:phone_call_data, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, enterprise:) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, tenant:) }
++  let!(:phone_call_data) { FactoryBot.create(:phone_call_data, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ RSpec.describe "PhoneCallDataController", type: :request do
+-        let(:estimate) { FactoryBot.create(:estimate, tenant: tenant, contact_id: contact.id, deleted: false, voided: false) }
++        let(:estimate) { FactoryBot.create(:estimate, tenant:, contact_id: contact.id, deleted: false, voided: false) }
+
+File: spec/requests/phone_calls_spec.rb
+Apply the fix to this code:
+@@ -11,19 +11,19 @@ RSpec.describe PhoneCallsController, type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:company) { FactoryBot.create(:company, :trait2, tenant: tenant) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, company: company) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, mobile: "1235") }
+-  let!(:phone_call) { FactoryBot.create(:phone_call, :trait1, tenant: tenant, phoneable_id: contact.id, phoneable_type: "Contact", twillio_message_sid: "1234", caller_user_id: signin_user.id, user_id: signin_user.id) }
+-  let!(:phone_call_2) { FactoryBot.create(:phone_call, :trait1, tenant: tenant, phoneable_id: estimate.id, phoneable_type: "Estimate", caller_user_id: signin_user.id, user_id: signin_user.id) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:company) { FactoryBot.create(:company, :trait2, tenant:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, company:) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, mobile: "1235") }
++  let!(:phone_call) { FactoryBot.create(:phone_call, :trait1, tenant:, phoneable_id: contact.id, phoneable_type: "Contact", twillio_message_sid: "1234", caller_user_id: signin_user.id, user_id: signin_user.id) }
++  let!(:phone_call_2) { FactoryBot.create(:phone_call, :trait1, tenant:, phoneable_id: estimate.id, phoneable_type: "Estimate", caller_user_id: signin_user.id, user_id: signin_user.id) }
+
+Apply the fix to this code:
+@@ -41,7 +41,7 @@ RSpec.describe PhoneCallsController, type: :request do
+-          get "/phone_calls", params: params
++          get("/phone_calls", params:)
+
+Apply the fix to this code:
+@@ -59,7 +59,7 @@ RSpec.describe PhoneCallsController, type: :request do
+ 
+-          get new_phone_call_path(), params: params, headers: {  }
++          get new_phone_call_path(), params:, headers: {  }
+
+Apply the fix to this code:
+@@ -79,7 +79,7 @@ RSpec.describe PhoneCallsController, type: :request do
+ 
+-          get edit_phone_call_path(phone_call.id), params: params, headers: {  }
++          get edit_phone_call_path(phone_call.id), params:, headers: {  }
+
+Apply the fix to this code:
+@@ -125,7 +125,7 @@ RSpec.describe PhoneCallsController, type: :request do
+ 
+-            post "/phone_calls", params: params
++            post("/phone_calls", params:)
+
+File: spec/requests/portal/dashboard_spec.rb
+Apply the fix to this code:
+@@ -12,15 +12,15 @@ RSpec.describe "Portal::DashboardController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+File: spec/requests/portal/estimate_spec.rb
+Apply the fix to this code:
+@@ -11,19 +11,19 @@ RSpec.describe "Portal::EstimateController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-    let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, portal_key: "12345") }
++    let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, portal_key: "12345") }
+
+Apply the fix to this code:
+@@ -58,7 +58,7 @@ RSpec.describe "Portal::EstimateController", type: :request do
+ 
+-            post "/portal/estimate/12345", params: params
++            post("/portal/estimate/12345", params:)
+
+File: spec/requests/portal/estimates_spec.rb
+Apply the fix to this code:
+@@ -8,16 +8,16 @@ RSpec.describe "Portal::EstimatesController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant,
++      enterprise:,
++      tenant:,
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1,  tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:contact) { FactoryBot.create(:contact, :trait1,  tenant:) }
+
+File: spec/requests/portal/orders_spec.rb
+Apply the fix to this code:
+@@ -10,8 +10,8 @@ RSpec.describe "Portal::OrdersController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+
+Apply the fix to this code:
+@@ -19,7 +19,7 @@ RSpec.describe "Portal::OrdersController", type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+File: spec/requests/portal/proofs_spec.rb
+Apply the fix to this code:
+@@ -10,8 +10,8 @@ RSpec.describe "Portal::ProofsController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+
+File: spec/requests/portal/sale_spec.rb
+Apply the fix to this code:
+@@ -10,15 +10,15 @@ RSpec.describe "Portal::SaleController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+File: spec/requests/portal/sales_spec.rb
+Apply the fix to this code:
+@@ -6,16 +6,16 @@ RSpec.describe "Portal::SalesController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant,
++      enterprise:,
++      tenant:,
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1,  tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:contact) { FactoryBot.create(:contact, :trait1,  tenant:) }
+
+File: spec/requests/portal/users_spec.rb
+Apply the fix to this code:
+@@ -4,11 +4,11 @@ require "rails_helper"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:contact) { create(:contact, :trait1, tenant: tenant) }
+-  let(:current_user) { create(:user, enterprise: enterprise, first_name: "Super", last_name: "User", tenant: tenant, role: "Super User", eula_accepted_at: Time.now) }
+-  let(:parent_user1) { create(:user, first_name: "John", last_name: "Doe", role: "Portal User", enterprise: enterprise, tenant: tenant) }
+-  let(:parent_user2) { create(:user, first_name: "Jane", last_name: "Smith", role: "Portal User", enterprise: enterprise, tenant: tenant) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
++  let(:contact) { create(:contact, :trait1, tenant:) }
++  let(:current_user) { create(:user, enterprise:, first_name: "Super", last_name: "User", tenant:, role: "Super User", eula_accepted_at: Time.now) }
++  let(:parent_user1) { create(:user, first_name: "John", last_name: "Doe", role: "Portal User", enterprise:, tenant:) }
++  let(:parent_user2) { create(:user, first_name: "Jane", last_name: "Smith", role: "Portal User", enterprise:, tenant:) }
+
+File: spec/requests/reports_spec.rb
+Apply the fix to this code:
+@@ -10,8 +10,8 @@ RSpec.describe "ReportsController" , type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant,
++      enterprise:,
++      tenant:,
+
+Apply the fix to this code:
+@@ -22,12 +22,12 @@ RSpec.describe "ReportsController" , type: :request do
+ 
+-  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type: platform_type) }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:estimate) { FactoryBot.create(:company, :trait1, tenant: tenant, company: company, created_at: 5.days.ago, updated_at: 5.days.ago) }
+-  let(:order) { FactoryBot.create(:order, :trait1, tenant: tenant, created_at: 5.days.ago, updated_at: 5.days.ago) }
+-  let(:sale) { FactoryBot.create(:sale, :trait1, tenant: tenant, created_at: 5.days.ago, updated_at: 5.days.ago) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
++  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type:) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:estimate) { FactoryBot.create(:company, :trait1, tenant:, company:, created_at: 5.days.ago, updated_at: 5.days.ago) }
++  let(:order) { FactoryBot.create(:order, :trait1, tenant:, created_at: 5.days.ago, updated_at: 5.days.ago) }
++  let(:sale) { FactoryBot.create(:sale, :trait1, tenant:, created_at: 5.days.ago, updated_at: 5.days.ago) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -80,17 +80,17 @@ RSpec.describe "ReportsController" , type: :request do
+-          sales_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
+-          shipment_by_macro_area_value_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
+-          shipment_by_macro_area_count_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
+-          sales_by_profit_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
+-          sales_by_profit_chart_ly: OpenStruct.new(highchart_presenter: highchart_presenter),
+-          shipments_service_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
+-          shipments_courier_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
+-          regular_companies_monthly_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
+-          walk_in_companies_monthly_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
++          sales_chart: OpenStruct.new(highchart_presenter:),
++          shipment_by_macro_area_value_chart: OpenStruct.new(highchart_presenter:),
++          shipment_by_macro_area_count_chart: OpenStruct.new(highchart_presenter:),
++          sales_by_profit_chart: OpenStruct.new(highchart_presenter:),
++          sales_by_profit_chart_ly: OpenStruct.new(highchart_presenter:),
++          shipments_service_chart: OpenStruct.new(highchart_presenter:),
++          shipments_courier_chart: OpenStruct.new(highchart_presenter:),
++          regular_companies_monthly_chart: OpenStruct.new(highchart_presenter:),
++          walk_in_companies_monthly_chart: OpenStruct.new(highchart_presenter:),
+-          customer_composition_chart: OpenStruct.new(highchart_presenter: highchart_presenter),
++          customer_composition_chart: OpenStruct.new(highchart_presenter:),
+
+File: spec/requests/shipments_spec.rb
+Apply the fix to this code:
+@@ -11,8 +11,8 @@ RSpec.describe "ShipmentsController", type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+
+File: spec/requests/tasks_spec.rb
+Apply the fix to this code:
+@@ -22,10 +22,10 @@ RSpec.describe "TasksController", type: :request do
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, time_zone: "Sydney") }
+-  let(:admin_user) { create(:user, :trait1, :admin, tenant: tenant, enterprise: enterprise) }
+-  let(:task1) { create(:task, tenant: tenant, start_date: Time.zone.now - 1.hour, end_date: Time.zone.now, assigned_user_id: User.last.id, name: "Task to be updated") }
+-  let(:task2) { create(:task, tenant: tenant, start_date: Time.zone.now - 2.hour, end_date: Time.zone.now - 1.hour, assigned_user_id: User.last.id, name: "Second Task to be updated") }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, time_zone: "Sydney") }
++  let(:admin_user) { create(:user, :trait1, :admin, tenant:, enterprise:) }
++  let(:task1) { create(:task, tenant:, start_date: Time.zone.now - 1.hour, end_date: Time.zone.now, assigned_user_id: User.last.id, name: "Task to be updated") }
++  let(:task2) { create(:task, tenant:, start_date: Time.zone.now - 2.hour, end_date: Time.zone.now - 1.hour, assigned_user_id: User.last.id, name: "Second Task to be updated") }
+
+Apply the fix to this code:
+@@ -130,7 +130,7 @@ RSpec.describe "TasksController", type: :request do
+ 
+-            post "/tasks/bulk_update_due_time_write", params: params, headers: { }
++            post "/tasks/bulk_update_due_time_write", params:, headers: { }
+
+Apply the fix to this code:
+@@ -145,7 +145,7 @@ RSpec.describe "TasksController", type: :request do
+ 
+-            post "/tasks/bulk_complete_write", params: params, headers: { }
++            post "/tasks/bulk_complete_write", params:, headers: { }
+
+File: spec/requests/template_spec.rb
+Apply the fix to this code:
+@@ -9,7 +9,7 @@ RSpec.describe TemplatesController, type: :request do
+-  let(:template) { FactoryBot.create(:template, tenant: tenant, enterprise: enterprise, template_type: template_type) }
++  let(:template) { FactoryBot.create(:template, tenant:, enterprise:, template_type:) }
+
+File: spec/requests/tenant_date_filter_spec.rb
+Apply the fix to this code:
+@@ -11,13 +11,13 @@ RSpec.describe TenantDateFilterController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let!(:campaign) { FactoryBot.create(:campaign, :trait1, tenant: tenant, enterprise: tenant.enterprise, test: false, parent_id: 1, enterprise_campaign: false) }
++  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let!(:campaign) { FactoryBot.create(:campaign, :trait1, tenant:, enterprise: tenant.enterprise, test: false, parent_id: 1, enterprise_campaign: false) }
+
+Apply the fix to this code:
+@@ -47,7 +47,7 @@ RSpec.describe TenantDateFilterController, type: :request do
+ 
+-            post "/tenant_date_filter", params: params
++            post("/tenant_date_filter", params:)
+
+File: spec/requests/tenants_spec.rb
+Apply the fix to this code:
+@@ -12,14 +12,14 @@ type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ type: :request do
+-            tenant_id: tenant_id,
++            tenant_id:,
+
+Apply the fix to this code:
+@@ -129,7 +129,7 @@ type: :request do
+ 
+-            put "/tenants/#{tenant.id}", params: params
++            put("/tenants/#{tenant.id}", params:)
+
+File: spec/services/common/csv/leads_import_spec.rb
+Apply the fix to this code:
+@@ -4,20 +4,20 @@ require "rails_helper"
+ 
+-    create(:lead_source, :trait1, enterprise: enterprise, name: "Test Source")
+-    create(:tag_category, :trait1, enterprise: enterprise, name: "Test Tag")
+-    LeadImportField.create(enterprise: enterprise, name: "contact_first_name")
+-    LeadImportField.create(enterprise: enterprise, name: "contact_last_name")
+-    LeadImportField.create(enterprise: enterprise, name: "lead_source", required: true)
+-    LeadImportField.create(enterprise: enterprise, name: "tag", required: true)
++    create(:lead_source, :trait1, enterprise:, name: "Test Source")
++    create(:tag_category, :trait1, enterprise:, name: "Test Tag")
++    LeadImportField.create(enterprise:, name: "contact_first_name")
++    LeadImportField.create(enterprise:, name: "contact_last_name")
++    LeadImportField.create(enterprise:, name: "lead_source", required: true)
++    LeadImportField.create(enterprise:, name: "tag", required: true)
+ 
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-    let(:current_user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++    let(:current_user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

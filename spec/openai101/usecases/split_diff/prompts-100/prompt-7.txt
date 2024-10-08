@@ -1,0 +1,941 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/presenters/reports_dashboard_presenter_spec.rb
+Apply the fix to this code:
+@@ -6,8 +6,8 @@ RSpec.describe ReportsDashboardPresenter do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:group) { FactoryBot.create(:group, :trait1, enterprise: enterprise, pma: true) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:group) { FactoryBot.create(:group, :trait1, enterprise:, pma: true) }
+
+Apply the fix to this code:
+@@ -20,7 +20,7 @@ RSpec.describe ReportsDashboardPresenter do
+ 
+-      let(:current_user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant, role: "Enterprise User") }
++      let(:current_user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:, role: "Enterprise User") }
+
+File: spec/presenters/sale_document_details_presenter_spec.rb
+Apply the fix to this code:
+@@ -5,15 +5,15 @@ require "rails_helper"
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1, company: company, tenant: tenant, first_name: "Bob") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, company:, tenant:, first_name: "Bob") }
+-      tenant: tenant,
++      tenant:,
+
+File: spec/presenters/sales_by_users_presenter_spec.rb
+Apply the fix to this code:
+@@ -15,10 +15,10 @@ RSpec.describe SalesByUsersPresenter do
+ 
+-      let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, etl_flag: true, demo: false, training: false) }
+-      let(:group) { FactoryBot.create(:group, :trait1, enterprise: enterprise, pma: true) }
++      let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, etl_flag: true, demo: false, training: false) }
++      let(:group) { FactoryBot.create(:group, :trait1, enterprise:, pma: true) }
+-      let(:current_user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant, role: "Enterprise User", group_id: group.id) }
++      let(:current_user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:, role: "Enterprise User", group_id: group.id) }
+
+File: spec/presenters/sales_rep_select_presenter_spec.rb
+Apply the fix to this code:
+@@ -3,7 +3,7 @@ require "rails_helper"
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, sales_rep_for_locations: false) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, sales_rep_for_locations: false) }
+
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ RSpec.describe SalesRepSelectPresenter, type: :presenter do
+-          sales_rep = create(:sales_rep, :trait1, tenant: tenant)
++          sales_rep = create(:sales_rep, :trait1, tenant:)
+
+Apply the fix to this code:
+@@ -52,7 +52,7 @@ RSpec.describe SalesRepSelectPresenter, type: :presenter do
+ 
+-          user = create(:user, tenant: tenant, enterprise: enterprise, role: "User")
++          user = create(:user, tenant:, enterprise:, role: "User")
+
+File: spec/queries/activities_due_leads_dashboard_query_spec.rb
+Apply the fix to this code:
+@@ -4,25 +4,25 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-  let(:default_scope) { Contact.where(tenant: tenant) }
++  let(:default_scope) { Contact.where(tenant:) }
+ 
+-  let!(:user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
+-  let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, user: user) }
++  let!(:user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
++  let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, user:) }
+ 
+-  let!(:prospect_status) { FactoryBot.create(:prospect_status, :trait1, enterprise: enterprise) }
+-  let!(:prospect_status_item) { FactoryBot.create(:prospect_status_item, :trait1, prospect_status: prospect_status) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, external_id: "1") }
+-  let!(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, company: company, prospect_status_id: "1") }
++  let!(:prospect_status) { FactoryBot.create(:prospect_status, :trait1, enterprise:) }
++  let!(:prospect_status_item) { FactoryBot.create(:prospect_status_item, :trait1, prospect_status:) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:, external_id: "1") }
++  let!(:contact) { FactoryBot.create(:contact, :trait1, tenant:, company:, prospect_status_id: "1") }
+-      tenant: tenant,
+-      start_date: start_date,
++      tenant:,
++      start_date:,
+
+Apply the fix to this code:
+@@ -43,7 +43,7 @@ RSpec.describe ActivitiesDueLeadsDashboardQuery, type: :query do
+-          tenant: tenant
++          tenant:
+
+File: spec/queries/calendar_entry_index_query_spec.rb
+Apply the fix to this code:
+@@ -7,7 +7,7 @@ require "rails_helper"
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, time_zone: "Sydney", open_hours: tenant_open_hours) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, time_zone: "Sydney", open_hours: tenant_open_hours) }
+
+File: spec/queries/common/aggregate_query_builder_spec.rb
+Apply the fix to this code:
+@@ -20,7 +20,7 @@ RSpec.describe Common::AggregateQueryBuilder do
+-    let(:command) { instance.add(name, query, clear_order: clear_order) }
++    let(:command) { instance.add(name, query, clear_order:) }
+
+Apply the fix to this code:
+@@ -37,7 +37,7 @@ RSpec.describe Common::AggregateQueryBuilder do
+ 
+-          name: name,
++          name:,
+
+Apply the fix to this code:
+@@ -47,7 +47,7 @@ RSpec.describe Common::AggregateQueryBuilder do
+ 
+-            name: name,
++            name:,
+
+File: spec/queries/company_analysis_query_spec.rb
+Apply the fix to this code:
+@@ -2,7 +2,7 @@ require "rails_helper"
+ 
+-  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, time_zone: "America/Chicago") }
++  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, time_zone: "America/Chicago") }
+
+Apply the fix to this code:
+@@ -19,10 +19,10 @@ RSpec.describe CompanyAnalysisQuery, type: :presenter do
+-      tenant: tenant,
+-      str: str,
+-      start_date: start_date,
+-      sales_rep: sales_rep
++      tenant:,
++      str:,
++      start_date:,
++      sales_rep:
+
+File: spec/queries/company_index_query_spec.rb
+Apply the fix to this code:
+@@ -4,17 +4,17 @@ require "rails_helper"
+ 
+ 
+-  let(:company) { create(:company, :trait1, tenant: tenant) }
++  let(:company) { create(:company, :trait1, tenant:) }
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:query) { described_class.new(scope, opts) }
+-  let(:current_user) { create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
++  let(:query) { described_class.new(scope, **opts) }
++  let(:current_user) { create(:user, :trait1, enterprise:, tenant:) }
+-    described_class.query(scope, opts)
++    described_class.query(scope, **opts)
+-    { tenant: tenant }
++    { tenant: }
+
+Apply the fix to this code:
+@@ -78,7 +78,7 @@ RSpec.describe CompanyIndexQuery, type: :query do
+ 
+-      { tenant: tenant, rolling_12_month_start: "2024-01-01", rolling_12_month_end: "2024-12-31" }
++      { tenant:, rolling_12_month_start: "2024-01-01", rolling_12_month_end: "2024-12-31" }
+
+Apply the fix to this code:
+@@ -92,7 +92,7 @@ RSpec.describe CompanyIndexQuery, type: :query do
+ 
+-        { tenant: tenant, start_date: "2023-01-01", end_date: "2023-12-31", financial_year: financial_year }
++        { tenant:, start_date: "2023-01-01", end_date: "2023-12-31", financial_year: }
+
+Apply the fix to this code:
+@@ -128,7 +128,7 @@ RSpec.describe CompanyIndexQuery, type: :query do
+ 
+-      { tenant: tenant, top_n: "20" }
++      { tenant:, top_n: "20" }
+
+Apply the fix to this code:
+@@ -205,12 +205,12 @@ RSpec.describe CompanyIndexQuery, type: :query do
+ 
+-    let(:opts) { { tenant: tenant, store: nil } }
++    let(:opts) { { tenant:, store: nil } }
+ 
+-        expect(query.send(:set_store)).to eq({ tenant: tenant, store: "current" })
++        expect(query.send(:set_store)).to eq({ tenant:, store: "current" })
+
+Apply the fix to this code:
+@@ -222,11 +222,11 @@ RSpec.describe CompanyIndexQuery, type: :query do
+ 
+-      let(:opts) { { tenant: tenant, store: "store" } }
++      let(:opts) { { tenant:, store: "store" } }
+ 
+-        expect(query.send(:set_store)).to eq({ tenant: tenant, store: "store"})
++        expect(query.send(:set_store)).to eq({ tenant:, store: "store"})
+
+File: spec/queries/company_margin_query_spec.rb
+Apply the fix to this code:
+@@ -2,10 +2,10 @@ require "rails_helper"
+ 
+-  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, time_zone: "America/Chicago") }
++  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, time_zone: "America/Chicago") }
+-  let(:query) { described_class.query(nil, tenant: tenant, start_date: start_date, end_date: end_date) }
++  let(:query) { described_class.query(nil, tenant:, start_date:, end_date:) }
+
+File: spec/queries/company_targets_query_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:default_scope) { CompanyTarget.where(tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:default_scope) { CompanyTarget.where(tenant:) }
+
+Apply the fix to this code:
+@@ -32,7 +32,7 @@ RSpec.describe CompanyTargetsQuery, type: :query do
+-      ).to eq({year: year, key: key})
++      ).to eq({year:, key:})
+
+File: spec/queries/contact_index_query_spec.rb
+Apply the fix to this code:
+@@ -339,7 +339,7 @@ RSpec.describe ContactIndexQuery, type: :query do
+ 
+-  let(:default_scope) { Contact.where(tenant: tenant) }
++  let(:default_scope) { Contact.where(tenant:) }
+
+File: spec/queries/contact_leads_dashboard_query_spec.rb
+Apply the fix to this code:
+@@ -4,19 +4,19 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-  let(:default_scope) { Contact.where(tenant: tenant) }
+-  let!(:user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
+-  let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, user: user) }
++  let(:default_scope) { Contact.where(tenant:) }
++  let!(:user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
++  let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, user:) }
+ 
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, external_id: "1") }
+-  let!(:lead_won) { FactoryBot.create(:contact, :trait1, tenant: tenant, company: company, prospect_status_id: "1", lead_status: "won", lead_status_date: Date.today) }
+-  let(:company_1) { FactoryBot.create(:company, :trait2, tenant: tenant, external_id: "2") }
+-  let!(:lead_lost) { FactoryBot.create(:contact, :trait2, tenant: tenant, sales_rep_user_id: sales_rep.id, sales_rep_platform_id: sales_rep.platform_id, company: company_1, prospect_status_id: "2", lead_status: "lost", lead_status_date: Date.today) }
+-  let(:company_2) { FactoryBot.create(:company, :trait3, tenant: tenant, external_id: "3") }
+-  let!(:lead_archived) { FactoryBot.create(:contact, :trait3, tenant: tenant, sales_rep_user_id: sales_rep.id, sales_rep_platform_id: sales_rep.platform_id, company: company_2, prospect_status_id: "3", lead_status: "archived", lead_status_date: Date.today) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:, external_id: "1") }
++  let!(:lead_won) { FactoryBot.create(:contact, :trait1, tenant:, company:, prospect_status_id: "1", lead_status: "won", lead_status_date: Date.today) }
++  let(:company_1) { FactoryBot.create(:company, :trait2, tenant:, external_id: "2") }
++  let!(:lead_lost) { FactoryBot.create(:contact, :trait2, tenant:, sales_rep_user_id: sales_rep.id, sales_rep_platform_id: sales_rep.platform_id, company: company_1, prospect_status_id: "2", lead_status: "lost", lead_status_date: Date.today) }
++  let(:company_2) { FactoryBot.create(:company, :trait3, tenant:, external_id: "3") }
++  let!(:lead_archived) { FactoryBot.create(:contact, :trait3, tenant:, sales_rep_user_id: sales_rep.id, sales_rep_platform_id: sales_rep.platform_id, company: company_2, prospect_status_id: "3", lead_status: "archived", lead_status_date: Date.today) }
+
+Apply the fix to this code:
+@@ -24,7 +24,7 @@ RSpec.describe ContactLeadsDashboardQuery, type: :query do
+-          tenant: tenant
++          tenant:
+
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ RSpec.describe ContactLeadsDashboardQuery, type: :query do
+ 
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -65,7 +65,7 @@ RSpec.describe ContactLeadsDashboardQuery, type: :query do
+-            tenant: tenant,
++            tenant:,
+
+Apply the fix to this code:
+@@ -94,7 +94,7 @@ RSpec.describe ContactLeadsDashboardQuery, type: :query do
+ 
+-            tenant: tenant,
++            tenant:,
+
+File: spec/queries/contact_lookup_query_spec.rb
+Apply the fix to this code:
+@@ -19,14 +19,14 @@ RSpec.describe ContactLookupQuery, type: :query do
+-      tenant: tenant,
++      tenant:,
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, training: false) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, training: false) }
+-  let(:contact) { create(:contact, :trait1, tenant: tenant, email: email, phone: phone) }
++  let(:contact) { create(:contact, :trait1, tenant:, email:, phone:) }
+
+Apply the fix to this code:
+@@ -37,7 +37,7 @@ RSpec.describe ContactLookupQuery, type: :query do
+ 
+-      let(:params) { { email: email } }
++      let(:params) { { email: } }
+
+File: spec/queries/custom_form_index_query_spec.rb
+Apply the fix to this code:
+@@ -3,19 +3,19 @@ require "rails_helper"
+-  let!(:custom_forms) { create_list(:custom_form, 15, enterprise: enterprise) }
++  let!(:custom_forms) { create_list(:custom_form, 15, enterprise:) }
+ 
+-      search: search,
+-      page: page,
+-      page_size: page_size,
+-      state: state,
+-      sort: sort,
+-      direction: direction
++      search:,
++      page:,
++      page_size:,
++      state:,
++      sort:,
++      direction:
+
+Apply the fix to this code:
+@@ -34,7 +34,7 @@ RSpec.describe CustomFormIndexQuery, type: :query do
+ 
+-      let!(:searchable_custom_form) { create(:custom_form, enterprise: enterprise, name: "Searchable Form") }
++      let!(:searchable_custom_form) { create(:custom_form, enterprise:, name: "Searchable Form") }
+
+File: spec/queries/custom_form_response_query_spec.rb
+Apply the fix to this code:
+@@ -2,20 +2,20 @@ require "rails_helper"
+ 
+-  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let!(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
+-  let!(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, company: company) }
+-  let!(:custom_form_responses) { create_list(:custom_form_response, 20, contact: contact) }
++  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let!(:company) { FactoryBot.create(:company, :trait1, tenant:) }
++  let!(:contact) { FactoryBot.create(:contact, :trait1, tenant:, company:) }
++  let!(:custom_form_responses) { create_list(:custom_form_response, 20, contact:) }
+ 
+-      context: context,
+-      search: search,
+-      page: page,
+-      page_size: page_size,
+-      sort: sort,
+-      direction: direction
++      context:,
++      search:,
++      page:,
++      page_size:,
++      sort:,
++      direction:
+
+Apply the fix to this code:
+@@ -32,7 +32,7 @@ RSpec.describe CustomFormResponseQuery, type: :query do
+ 
+-        expect(results).to all(have_attributes(contact: contact))
++        expect(results).to all(have_attributes(contact:))
+
+File: spec/queries/estimate_index_query_spec.rb
+Apply the fix to this code:
+@@ -333,7 +333,7 @@ RSpec.describe EstimateIndexQuery, type: :query do
+ 
+-  let(:default_scope) { Estimate.where(tenant: tenant) }
++  let(:default_scope) { Estimate.where(tenant:) }
+
+File: spec/queries/inquiry_estimate_invoice_stats_query_spec.rb
+Apply the fix to this code:
+@@ -15,7 +15,7 @@ RSpec.describe InquiryEstimateInvoiceStatsQuery, type: :query do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -34,7 +34,7 @@ RSpec.describe InquiryEstimateInvoiceStatsQuery, type: :query do
+-        FactoryBot.create(:inquiry, tenant: tenant, inquiry_status: status)
++        FactoryBot.create(:inquiry, tenant:, inquiry_status: status)
+
+File: spec/queries/inquiry_status_stats_query_spec.rb
+Apply the fix to this code:
+@@ -15,7 +15,7 @@ RSpec.describe InquiryStatusStatsQuery, type: :query do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -35,7 +35,7 @@ RSpec.describe InquiryStatusStatsQuery, type: :query do
+-        FactoryBot.create(:inquiry, tenant: tenant, inquiry_status: status)
++        FactoryBot.create(:inquiry, tenant:, inquiry_status: status)
+
+File: spec/queries/lead_funnels_query_spec.rb
+Apply the fix to this code:
+@@ -4,28 +4,28 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+ 
+-  let!(:user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant, role: "User") }
+-  let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, user: user) }
+-
+-  let!(:lead_funnel) { FactoryBot.create(:lead_funnel, :trait1, enterprise: enterprise, tenant: tenant) }
+-  let!(:lead_funnel_stage_1) { FactoryBot.create(:lead_funnel_stage, :trait1, lead_funnel: lead_funnel) }
+-  let!(:lead_funnel_stage_2) { FactoryBot.create(:lead_funnel_stage, :trait2, lead_funnel: lead_funnel) }
+-  let!(:lead_funnel_stage_3) { FactoryBot.create(:lead_funnel_stage, :trait3, lead_funnel: lead_funnel) }
+-  let!(:prospect_status_1) { FactoryBot.create(:prospect_status, :trait1, enterprise: enterprise, tenant: tenant, lead_funnel_stage: lead_funnel_stage_1) }
+-  let!(:prospect_status_2) { FactoryBot.create(:prospect_status, :trait1, enterprise: enterprise, tenant: tenant, lead_funnel_stage: lead_funnel_stage_2) }
+-  let!(:prospect_status_3) { FactoryBot.create(:prospect_status, :trait1, enterprise: enterprise, tenant: tenant, lead_funnel_stage: lead_funnel_stage_3) }
+-  let!(:contact_1) { FactoryBot.create(:contact, :trait2, tenant: tenant, prospect_status: prospect_status_1, company_id: company_1.id, deleted: false) }
+-  let!(:contact_2) { FactoryBot.create(:contact, :trait3, tenant: tenant, prospect_status: prospect_status_2, company_id: company_2.id, deleted: false) }
+-  let!(:contact_3) { FactoryBot.create(:contact, :trait1, tenant: tenant, prospect_status: prospect_status_3, company_id: company_3.id, sales_rep_user_id: sales_rep.user_id) }
+-  let(:company_1) { FactoryBot.create(:company, :trait1, tenant: tenant, prospect_status_id: prospect_status_1.id, is_lead: true, deleted: false, lead_status: nil) }
+-  let(:company_2) { FactoryBot.create(:company, :trait2, tenant: tenant, prospect_status_id: prospect_status_2.id, is_lead: true, deleted: false, lead_status: nil) }
+-  let(:company_3) { FactoryBot.create(:company, :trait3, tenant: tenant, prospect_status_id: prospect_status_3.id, is_lead: true, deleted: false, lead_status: nil) }
++  let!(:user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:, role: "User") }
++  let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, user:) }
++
++  let!(:lead_funnel) { FactoryBot.create(:lead_funnel, :trait1, enterprise:, tenant:) }
++  let!(:lead_funnel_stage_1) { FactoryBot.create(:lead_funnel_stage, :trait1, lead_funnel:) }
++  let!(:lead_funnel_stage_2) { FactoryBot.create(:lead_funnel_stage, :trait2, lead_funnel:) }
++  let!(:lead_funnel_stage_3) { FactoryBot.create(:lead_funnel_stage, :trait3, lead_funnel:) }
++  let!(:prospect_status_1) { FactoryBot.create(:prospect_status, :trait1, enterprise:, tenant:, lead_funnel_stage: lead_funnel_stage_1) }
++  let!(:prospect_status_2) { FactoryBot.create(:prospect_status, :trait1, enterprise:, tenant:, lead_funnel_stage: lead_funnel_stage_2) }
++  let!(:prospect_status_3) { FactoryBot.create(:prospect_status, :trait1, enterprise:, tenant:, lead_funnel_stage: lead_funnel_stage_3) }
++  let!(:contact_1) { FactoryBot.create(:contact, :trait2, tenant:, prospect_status: prospect_status_1, company_id: company_1.id, deleted: false) }
++  let!(:contact_2) { FactoryBot.create(:contact, :trait3, tenant:, prospect_status: prospect_status_2, company_id: company_2.id, deleted: false) }
++  let!(:contact_3) { FactoryBot.create(:contact, :trait1, tenant:, prospect_status: prospect_status_3, company_id: company_3.id, sales_rep_user_id: sales_rep.user_id) }
++  let(:company_1) { FactoryBot.create(:company, :trait1, tenant:, prospect_status_id: prospect_status_1.id, is_lead: true, deleted: false, lead_status: nil) }
++  let(:company_2) { FactoryBot.create(:company, :trait2, tenant:, prospect_status_id: prospect_status_2.id, is_lead: true, deleted: false, lead_status: nil) }
++  let(:company_3) { FactoryBot.create(:company, :trait3, tenant:, prospect_status_id: prospect_status_3.id, is_lead: true, deleted: false, lead_status: nil) }
+
+Apply the fix to this code:
+@@ -35,7 +35,7 @@ RSpec.describe LeadFunnelsQuery, type: :query do
+-            tenant: tenant
++            tenant:
+
+Apply the fix to this code:
+@@ -55,7 +55,7 @@ RSpec.describe LeadFunnelsQuery, type: :query do
+ 
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -74,7 +74,7 @@ RSpec.describe LeadFunnelsQuery, type: :query do
+ 
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -101,7 +101,7 @@ RSpec.describe LeadFunnelsQuery, type: :query do
+-            tenant: tenant,
++            tenant:,
+
+Apply the fix to this code:
+@@ -118,7 +118,7 @@ RSpec.describe LeadFunnelsQuery, type: :query do
+ 
+-            tenant: tenant,
++            tenant:,
+
+File: spec/queries/leads_by_funnel_stage_query_spec.rb
+Apply the fix to this code:
+@@ -8,7 +8,7 @@ RSpec.describe LeadsByFunnelStageQuery, type: :query do
+ 
+-      let(:params) { { enterprise: enterprise, funnel_stage_id: funnel_stage1.id } }
++      let(:params) { { enterprise:, funnel_stage_id: funnel_stage1.id } }
+
+Apply the fix to this code:
+@@ -16,18 +16,18 @@ RSpec.describe LeadsByFunnelStageQuery, type: :query do
+ 
+-      let(:params) { { enterprise: enterprise, funnel_stage_id: funnel_stage1.id} }
++      let(:params) { { enterprise:, funnel_stage_id: funnel_stage1.id} }
+ 
+-      let(:params) { { enterprise: enterprise, funnel_stage_id: funnel_stage1.id, sort: "contacts.first_name" } }
++      let(:params) { { enterprise:, funnel_stage_id: funnel_stage1.id, sort: "contacts.first_name" } }
+-      let(:params) { { enterprise: enterprise, funnel_stage_id: funnel_stage1.id, sort: "invalid" } }
++      let(:params) { { enterprise:, funnel_stage_id: funnel_stage1.id, sort: "invalid" } }
+
+File: spec/queries/new_customer_leads_dashboard_query_spec.rb
+Apply the fix to this code:
+@@ -3,24 +3,24 @@
+ 
+-  let(:enterprise) { FactoryBot.build(:enterprise, :trait1, platform_type: platform_type) }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:enterprise) { FactoryBot.build(:enterprise, :trait1, platform_type:) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-  let(:default_scope) { Company.where(tenant: tenant) }
+-  let!(:user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
+-  let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, user: user) }
++  let(:default_scope) { Company.where(tenant:) }
++  let!(:user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
++  let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, user:) }
+ 
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, external_id: "1", first_sale_at: first_sale_at.prev_month, sales_rep_user_id: sales_rep.id, sales_rep_platform_id: sales_rep.platform_id) }
+-  let!(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, company: company, prospect_status_id: "1") }
+-  let(:company_1) { FactoryBot.create(:company, :trait2, tenant: tenant, external_id: "2", first_sale_at: first_sale_at) }
+-  let!(:contact_1) { FactoryBot.create(:contact, :trait2, tenant: tenant, sales_rep_user_id: sales_rep.id, company: company_1, prospect_status_id: "2") }
+-  let(:company_2) { FactoryBot.create(:company, :trait3, tenant: tenant, external_id: "3", first_sale_at: first_sale_at.prev_month, sales_rep_user_id: sales_rep.id, sales_rep_platform_id: sales_rep.platform_id) }
+-  let!(:contact_2) { FactoryBot.create(:contact, :trait3, tenant: tenant, sales_rep_user_id: sales_rep.id, company: company_2, prospect_status_id: "3") }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:, external_id: "1", first_sale_at: first_sale_at.prev_month, sales_rep_user_id: sales_rep.id, sales_rep_platform_id: sales_rep.platform_id) }
++  let!(:contact) { FactoryBot.create(:contact, :trait1, tenant:, company:, prospect_status_id: "1") }
++  let(:company_1) { FactoryBot.create(:company, :trait2, tenant:, external_id: "2", first_sale_at:) }
++  let!(:contact_1) { FactoryBot.create(:contact, :trait2, tenant:, sales_rep_user_id: sales_rep.id, company: company_1, prospect_status_id: "2") }
++  let(:company_2) { FactoryBot.create(:company, :trait3, tenant:, external_id: "3", first_sale_at: first_sale_at.prev_month, sales_rep_user_id: sales_rep.id, sales_rep_platform_id: sales_rep.platform_id) }
++  let!(:contact_2) { FactoryBot.create(:contact, :trait3, tenant:, sales_rep_user_id: sales_rep.id, company: company_2, prospect_status_id: "3") }
+
+Apply the fix to this code:
+@@ -36,7 +36,7 @@ RSpec.describe NewCustomerLeadsDashboardQuery, type: :query do
+-          tenant: tenant
++          tenant:
+
+Apply the fix to this code:
+@@ -58,7 +58,7 @@ RSpec.describe NewCustomerLeadsDashboardQuery, type: :query do
+ 
+-          tenant: tenant
++          tenant:
+
+File: spec/queries/portal/estimates_query_spec.rb
+Apply the fix to this code:
+@@ -9,8 +9,8 @@ RSpec.describe Portal::EstimatesQuery, type: :query do
+-      enterprise: enterprise,
+-      tenant: tenant,
++      enterprise:,
++      tenant:,
+
+Apply the fix to this code:
+@@ -19,22 +19,22 @@ RSpec.describe Portal::EstimatesQuery, type: :query do
+ 
+-  let(:default_scope) { Estimate.where(tenant: tenant) }
++  let(:default_scope) { Estimate.where(tenant:) }
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-  let(:contact) { FactoryBot.create(:contact, :trait1, company: company, tenant: tenant) }
+-  let(:contact_no_access) { FactoryBot.create(:contact, :trait1, company: company_no_access, tenant: tenant) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, company:, tenant:) }
++  let(:contact_no_access) { FactoryBot.create(:contact, :trait1, company: company_no_access, tenant:) }
+ 
+-  let!(:estimate1) { create(:estimate, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "123", contact_id: contact.id, ordered_date: "2024-01-01", approval_status: "") }
+-  let!(:estimate2) { create(:estimate, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01", approval_status: "approved") }
+-  let!(:estimate3) { create(:estimate, :trait1, tenant: tenant, portal_key: "abc123", contact_id: contact_no_access.id, ordered_date: "2024-01-01") }
+-  let!(:estimate4) { create(:estimate, :trait1, tenant: tenant, portal_key: "abc123", company_id: company_no_access.id, ordered_date: "2024-01-01") }
+-  let!(:estimate5) { create(:estimate, :trait1, tenant: tenant, portal_key: "abc123", ordered_date: "2024-01-01") }
+-  let!(:nil_status_estimate) { create(:estimate, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01", approval_status: nil) }
++  let!(:estimate1) { create(:estimate, :trait1, tenant:, portal_key: "abc123", invoice_number: "123", contact_id: contact.id, ordered_date: "2024-01-01", approval_status: "") }
++  let!(:estimate2) { create(:estimate, :trait1, tenant:, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01", approval_status: "approved") }
++  let!(:estimate3) { create(:estimate, :trait1, tenant:, portal_key: "abc123", contact_id: contact_no_access.id, ordered_date: "2024-01-01") }
++  let!(:estimate4) { create(:estimate, :trait1, tenant:, portal_key: "abc123", company_id: company_no_access.id, ordered_date: "2024-01-01") }
++  let!(:estimate5) { create(:estimate, :trait1, tenant:, portal_key: "abc123", ordered_date: "2024-01-01") }
++  let!(:nil_status_estimate) { create(:estimate, :trait1, tenant:, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01", approval_status: nil) }
+
+Apply the fix to this code:
+@@ -43,14 +43,14 @@ RSpec.describe Portal::EstimatesQuery, type: :query do
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+ 
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+
+Apply the fix to this code:
+@@ -60,13 +60,13 @@ RSpec.describe Portal::EstimatesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, search: estimate1.invoice_number, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, search: estimate1.invoice_number, **query_params)
+ 
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, search: "invalid invoice number", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, search: "invalid invoice number", **query_params)
+
+Apply the fix to this code:
+@@ -80,7 +80,7 @@ RSpec.describe Portal::EstimatesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+
+Apply the fix to this code:
+@@ -94,7 +94,7 @@ RSpec.describe Portal::EstimatesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, status: "approved", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, status: "approved", **query_params)
+
+Apply the fix to this code:
+@@ -108,7 +108,7 @@ RSpec.describe Portal::EstimatesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, sort: "invoice_number", direction: "DESC", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, sort: "invoice_number", direction: "DESC", **query_params)
+
+Apply the fix to this code:
+@@ -124,7 +124,7 @@ RSpec.describe Portal::EstimatesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+
+File: spec/queries/portal/orders_query_spec.rb
+Apply the fix to this code:
+@@ -9,8 +9,8 @@ RSpec.describe Portal::OrdersQuery, type: :query do
+-      enterprise: enterprise,
+-      tenant: tenant,
++      enterprise:,
++      tenant:,
+
+Apply the fix to this code:
+@@ -19,21 +19,21 @@ RSpec.describe Portal::OrdersQuery, type: :query do
+ 
+-  let(:default_scope) { Order.where(tenant: tenant) }
++  let(:default_scope) { Order.where(tenant:) }
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-  let(:contact) { FactoryBot.create(:contact, :trait1, company: company, tenant: tenant) }
+-  let(:contact_no_access) { FactoryBot.create(:contact, :trait1, company: company_no_access, tenant: tenant) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, company:, tenant:) }
++  let(:contact_no_access) { FactoryBot.create(:contact, :trait1, company: company_no_access, tenant:) }
+ 
+-  let!(:order1) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "123", contact_id: contact.id, ordered_date: "2024-01-01") }
+-  let!(:order2) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01") }
+-  let!(:order3) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", contact_id: contact_no_access.id, ordered_date: "2024-01-01") }
+-  let!(:order4) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", company_id: company_no_access.id, ordered_date: "2024-01-01") }
+-  let!(:order5) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", ordered_date: "2024-01-01") }
++  let!(:order1) { create(:order, :trait1, tenant:, portal_key: "abc123", invoice_number: "123", contact_id: contact.id, ordered_date: "2024-01-01") }
++  let!(:order2) { create(:order, :trait1, tenant:, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01") }
++  let!(:order3) { create(:order, :trait1, tenant:, portal_key: "abc123", contact_id: contact_no_access.id, ordered_date: "2024-01-01") }
++  let!(:order4) { create(:order, :trait1, tenant:, portal_key: "abc123", company_id: company_no_access.id, ordered_date: "2024-01-01") }
++  let!(:order5) { create(:order, :trait1, tenant:, portal_key: "abc123", ordered_date: "2024-01-01") }
+
+Apply the fix to this code:
+@@ -42,14 +42,14 @@ RSpec.describe Portal::OrdersQuery, type: :query do
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+ 
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+
+Apply the fix to this code:
+@@ -59,13 +59,13 @@ RSpec.describe Portal::OrdersQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, search: order1.invoice_number, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, search: order1.invoice_number, **query_params)
+ 
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, search: "invalid invoice number", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, search: "invalid invoice number", **query_params)
+
+File: spec/queries/portal/proofs_query_spec.rb
+Apply the fix to this code:
+@@ -9,8 +9,8 @@ RSpec.describe Portal::ProofsQuery, type: :query do
+-      enterprise: enterprise,
+-      tenant: tenant,
++      enterprise:,
++      tenant:,
+
+Apply the fix to this code:
+@@ -19,21 +19,21 @@ RSpec.describe Portal::ProofsQuery, type: :query do
+ 
+-  let(:default_scope) { Order.where(tenant: tenant) }
++  let(:default_scope) { Order.where(tenant:) }
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-  let(:contact) { FactoryBot.create(:contact, :trait1, company: company, tenant: tenant) }
+-  let(:contact_no_access) { FactoryBot.create(:contact, :trait1, company: company_no_access, tenant: tenant) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, company:, tenant:) }
++  let(:contact_no_access) { FactoryBot.create(:contact, :trait1, company: company_no_access, tenant:) }
+ 
+-  let!(:order1) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "123", contact_id: contact.id, ordered_date: "2024-01-01", proof_approval_status: "") }
+-  let!(:order2) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01", proof_approval_status: "approved") }
+-  let!(:order3) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", contact_id: contact_no_access.id, ordered_date: "2024-01-01") }
+-  let!(:order4) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", company_id: company_no_access.id, ordered_date: "2024-01-01") }
+-  let!(:order5) { create(:order, :trait1, tenant: tenant, portal_key: "abc123", ordered_date: "2024-01-01") }
++  let!(:order1) { create(:order, :trait1, tenant:, portal_key: "abc123", invoice_number: "123", contact_id: contact.id, ordered_date: "2024-01-01", proof_approval_status: "") }
++  let!(:order2) { create(:order, :trait1, tenant:, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01", proof_approval_status: "approved") }
++  let!(:order3) { create(:order, :trait1, tenant:, portal_key: "abc123", contact_id: contact_no_access.id, ordered_date: "2024-01-01") }
++  let!(:order4) { create(:order, :trait1, tenant:, portal_key: "abc123", company_id: company_no_access.id, ordered_date: "2024-01-01") }
++  let!(:order5) { create(:order, :trait1, tenant:, portal_key: "abc123", ordered_date: "2024-01-01") }
+
+Apply the fix to this code:
+@@ -42,14 +42,14 @@ RSpec.describe Portal::ProofsQuery, type: :query do
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+ 
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+
+Apply the fix to this code:
+@@ -59,13 +59,13 @@ RSpec.describe Portal::ProofsQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, search: order1.invoice_number, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, search: order1.invoice_number, **query_params)
+ 
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, search: "invalid invoice number", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, search: "invalid invoice number", **query_params)
+
+Apply the fix to this code:
+@@ -79,7 +79,7 @@ RSpec.describe Portal::ProofsQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, approval_status: "approved", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, approval_status: "approved", **query_params)
+
+Apply the fix to this code:
+@@ -93,7 +93,7 @@ RSpec.describe Portal::ProofsQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, sort: "invoice_number", direction: "DESC", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, sort: "invoice_number", direction: "DESC", **query_params)
+
+File: spec/queries/portal/sales_query_spec.rb
+Apply the fix to this code:
+@@ -9,8 +9,8 @@ RSpec.describe Portal::SalesQuery, type: :query do
+-      enterprise: enterprise,
+-      tenant: tenant,
++      enterprise:,
++      tenant:,
+
+Apply the fix to this code:
+@@ -19,21 +19,21 @@ RSpec.describe Portal::SalesQuery, type: :query do
+ 
+-  let(:default_scope) { Sale.where(tenant: tenant) }
++  let(:default_scope) { Sale.where(tenant:) }
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-  let(:contact) { FactoryBot.create(:contact, :trait1, company: company, tenant: tenant) }
+-  let(:contact_no_access) { FactoryBot.create(:contact, :trait1, company: company_no_access, tenant: tenant) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, company:, tenant:) }
++  let(:contact_no_access) { FactoryBot.create(:contact, :trait1, company: company_no_access, tenant:) }
+ 
+-  let!(:sale1) { create(:sale, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "123", contact_id: contact.id, ordered_date: "2024-01-01") }
+-  let!(:sale2) { create(:sale, :trait1, tenant: tenant, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01", amount_due: 0) }
+-  let!(:sale3) { create(:sale, :trait1, tenant: tenant, portal_key: "abc123", contact_id: contact_no_access.id, ordered_date: "2024-01-01") }
+-  let!(:sale4) { create(:sale, :trait1, tenant: tenant, portal_key: "abc123", company_id: company_no_access.id, ordered_date: "2024-01-01") }
+-  let!(:sale5) { create(:sale, :trait1, tenant: tenant, portal_key: "abc123", ordered_date: "2024-01-01") }
++  let!(:sale1) { create(:sale, :trait1, tenant:, portal_key: "abc123", invoice_number: "123", contact_id: contact.id, ordered_date: "2024-01-01") }
++  let!(:sale2) { create(:sale, :trait1, tenant:, portal_key: "abc123", invoice_number: "456", company_id: company.id, ordered_date: "2020-01-01", amount_due: 0) }
++  let!(:sale3) { create(:sale, :trait1, tenant:, portal_key: "abc123", contact_id: contact_no_access.id, ordered_date: "2024-01-01") }
++  let!(:sale4) { create(:sale, :trait1, tenant:, portal_key: "abc123", company_id: company_no_access.id, ordered_date: "2024-01-01") }
++  let!(:sale5) { create(:sale, :trait1, tenant:, portal_key: "abc123", ordered_date: "2024-01-01") }
+
+Apply the fix to this code:
+@@ -42,14 +42,14 @@ RSpec.describe Portal::SalesQuery, type: :query do
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+ 
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+
+Apply the fix to this code:
+@@ -59,13 +59,13 @@ RSpec.describe Portal::SalesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, search: sale1.invoice_number, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, search: sale1.invoice_number, **query_params)
+ 
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, search: "invalid invoice number", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, search: "invalid invoice number", **query_params)
+
+Apply the fix to this code:
+@@ -79,7 +79,7 @@ RSpec.describe Portal::SalesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, **query_params)
+
+Apply the fix to this code:
+@@ -93,7 +93,7 @@ RSpec.describe Portal::SalesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, status: "unpaid", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, status: "unpaid", **query_params)
+
+Apply the fix to this code:
+@@ -107,7 +107,7 @@ RSpec.describe Portal::SalesQuery, type: :query do
+ 
+-        query = described_class.query(default_scope, tenant: tenant, current_user: user, sort: "invoice_number", direction: "DESC", **query_params)
++        query = described_class.query(default_scope, tenant:, current_user: user, sort: "invoice_number", direction: "DESC", **query_params)
+
+File: spec/queries/template_index_query_spec.rb
+Apply the fix to this code:
+@@ -2,28 +2,28 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+-  let!(:templates) { create_list(:template, 15, enterprise: enterprise, tenant: tenant) }
++  let!(:templates) { create_list(:template, 15, enterprise:, tenant:) }
+ 
+-      enterprise: enterprise,
+-      tenant: tenant,
+-      search: search,
+-      type: type,
+-      category: category,
+-      show_shell: show_shell,
+-      show_global: show_global,
+-      show_hidden: show_hidden,
+-      show_archived: show_archived,
+-      page: page,
+-      page_size: page_size,
+-      sort: sort,
+-      direction: direction
++      enterprise:,
++      tenant:,
++      search:,
++      type:,
++      category:,
++      show_shell:,
++      show_global:,
++      show_hidden:,
++      show_archived:,
++      page:,
++      page_size:,
++      sort:,
++      direction:
+
+Apply the fix to this code:
+@@ -47,7 +47,7 @@ RSpec.describe TemplateIndexQuery, type: :query do
+ 
+-      let!(:template) { create(:template, enterprise: enterprise, tenant: tenant, name: "Searchable Template") }
++      let!(:template) { create(:template, enterprise:, tenant:, name: "Searchable Template") }
+
+Apply the fix to this code:
+@@ -57,7 +57,7 @@ RSpec.describe TemplateIndexQuery, type: :query do
+ 
+-      let!(:template) { create(:template, enterprise: enterprise, tenant: tenant, categories: ["test"]) }
++      let!(:template) { create(:template, enterprise:, tenant:, categories: ["test"]) }
+
+Apply the fix to this code:
+@@ -67,7 +67,7 @@ RSpec.describe TemplateIndexQuery, type: :query do
+ 
+-      let!(:template) { create(:template, enterprise: enterprise, tenant: tenant, shell: true) }
++      let!(:template) { create(:template, enterprise:, tenant:, shell: true) }
+
+Apply the fix to this code:
+@@ -77,7 +77,7 @@ RSpec.describe TemplateIndexQuery, type: :query do
+ 
+-      let!(:template) { create(:template, enterprise: enterprise, tenant: tenant, global: true) }
++      let!(:template) { create(:template, enterprise:, tenant:, global: true) }
+
+Apply the fix to this code:
+@@ -87,7 +87,7 @@ RSpec.describe TemplateIndexQuery, type: :query do
+ 
+-      let!(:template) { create(:template, enterprise: enterprise, tenant: tenant, hidden: true) }
++      let!(:template) { create(:template, enterprise:, tenant:, hidden: true) }
+
+File: spec/requests/admin/region_configs_spec.rb
+Apply the fix to this code:
+@@ -64,7 +64,7 @@ RSpec.describe "Admin::RegionConfigsController", type: :request do
+ 
+-          post "/admin/region_configs", params: params
++          post("/admin/region_configs", params:)
+
+File: spec/requests/admin/tenants_spec.rb
+Apply the fix to this code:
+@@ -74,7 +74,7 @@ RSpec.describe "Admin::TenantsController", type: :request do
+ 
+-          post "/admin/tenants", params: params
++          post("/admin/tenants", params:)
+
+File: spec/requests/ai_spec.rb
+Apply the fix to this code:
+@@ -22,7 +22,7 @@ RSpec.describe AiController, type: :request do
+-        post ai_prompt_path, params: { secure_prompt: secure_prompt, target_element: target_element }
++        post ai_prompt_path, params: { secure_prompt:, target_element: }
+
+Apply the fix to this code:
+@@ -30,7 +30,7 @@ RSpec.describe AiController, type: :request do
+-        post ai_prompt_path, params: { secure_prompt: secure_prompt, target_element: target_element }
++        post ai_prompt_path, params: { secure_prompt:, target_element: }
+
+Apply the fix to this code:
+@@ -40,7 +40,7 @@ RSpec.describe AiController, type: :request do
+-        post ai_prompt_path, params: { secure_prompt: secure_prompt, target_element: target_element }
++        post ai_prompt_path, params: { secure_prompt:, target_element: }
+
+Apply the fix to this code:
+@@ -51,7 +51,7 @@ RSpec.describe AiController, type: :request do
+-          post ai_modal_path, params: { category: "invalid_category", context: context, ai_data: ai_data }
++          post ai_modal_path, params: { category: "invalid_category", context:, ai_data: }
+
+File: spec/requests/api/v1/inquiries_spec.rb
+Apply the fix to this code:
+@@ -5,8 +5,8 @@ RSpec.describe Api::V1::InquiriesController, type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, tenant_picker_name: "Test-1") }
+-  let(:tenant_2) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, tenant_picker_name: "Test-2") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, tenant_picker_name: "Test-1") }
++  let(:tenant_2) { FactoryBot.create(:tenant, :trait2, enterprise:, tenant_picker_name: "Test-2") }
+
+Apply the fix to this code:
+@@ -14,9 +14,9 @@ RSpec.describe Api::V1::InquiriesController, type: :request do
+-      token: token,
+-      enterprise: enterprise,
+-      tenant: tenant,
++      token:,
++      enterprise:,
++      tenant:,
+
+File: spec/requests/api/v1/tenants_spec.rb
+Apply the fix to this code:
+@@ -5,8 +5,8 @@ RSpec.describe Api::V1::TenantsController, type: :request do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:tenant_2) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:tenant_2) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -14,9 +14,9 @@ RSpec.describe Api::V1::TenantsController, type: :request do
+-      token: token,
+-      enterprise: enterprise,
+-      tenant: tenant,
++      token:,
++      enterprise:,
++      tenant:,
+
+Apply the fix to this code:
+@@ -82,7 +82,7 @@ RSpec.describe Api::V1::TenantsController, type: :request do
+ 
+-          put "/api/v1/tenants/#{tenant.id}", params: params, headers: { Authorization:  "Token 123"}
++          put "/api/v1/tenants/#{tenant.id}", params:, headers: { Authorization:  "Token 123"}
+
+File: spec/requests/assets_spec.rb
+Apply the fix to this code:
+@@ -87,7 +87,7 @@ RSpec.describe AssetsController, type: :request do
+ 
+-            post "/asset_manager", params: params
++            post("/asset_manager", params:)
+
+File: spec/requests/bookmarks_spec.rb
+Apply the fix to this code:
+@@ -18,8 +18,8 @@ RSpec.describe BookmarksController, type: :request do
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ RSpec.describe BookmarksController, type: :request do
+ 
+-            post "/bookmarks", params: params
++            post("/bookmarks", params:)
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

@@ -1,0 +1,117 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/models/company.rb
+Apply the fix to this code:
+@@ -115,23 +115,23 @@ class Company < ApplicationRecord
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+
+Apply the fix to this code:
+@@ -145,7 +145,7 @@ class Company < ApplicationRecord
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+
+Apply the fix to this code:
+@@ -173,11 +173,11 @@ class Company < ApplicationRecord
+-          "#{ApplicationController.helpers.number_to_currency(company['invoice_value'], tenant: tenant, precision: 2)}",
+-          "#{ApplicationController.helpers.number_to_currency(company['invoice_total_value'], tenant: tenant, precision: 2)}",
++          "#{ApplicationController.helpers.number_to_currency(company['invoice_value'], tenant:, precision: 2)}",
++          "#{ApplicationController.helpers.number_to_currency(company['invoice_total_value'], tenant:, precision: 2)}",
+-          "#{ApplicationController.helpers.number_to_currency(company['invoice_value_ly'].to_f, tenant: tenant, precision: 2)}",
+-          "#{ApplicationController.helpers.number_to_currency(company['invoice_value'].to_f / company['invoice_count'].to_f || 0, tenant: tenant, precision: 2)}"
++          "#{ApplicationController.helpers.number_to_currency(company['invoice_value_ly'].to_f, tenant:, precision: 2)}",
++          "#{ApplicationController.helpers.number_to_currency(company['invoice_value'].to_f / company['invoice_count'].to_f || 0, tenant:, precision: 2)}"
+
+Apply the fix to this code:
+@@ -192,11 +192,11 @@ class Company < ApplicationRecord
+-          "#{ApplicationController.helpers.number_to_currency(company["invoice_value"], tenant: tenant, precision: 2)}",
+-          "#{ApplicationController.helpers.number_to_currency(company["invoice_total_value"], tenant: tenant, precision: 2)}",
++          "#{ApplicationController.helpers.number_to_currency(company["invoice_value"], tenant:, precision: 2)}",
++          "#{ApplicationController.helpers.number_to_currency(company["invoice_total_value"], tenant:, precision: 2)}",
+-          "#{ApplicationController.helpers.number_to_currency(company["invoice_value_ly"], tenant: tenant, precision: 2)}",
+-          "#{ApplicationController.helpers.number_to_currency(company["invoice_value"].to_f / company["invoice_count"].to_f || 0, tenant: tenant, precision: 2)}"
++          "#{ApplicationController.helpers.number_to_currency(company["invoice_value_ly"], tenant:, precision: 2)}",
++          "#{ApplicationController.helpers.number_to_currency(company["invoice_value"].to_f / company["invoice_count"].to_f || 0, tenant:, precision: 2)}"
+
+Apply the fix to this code:
+@@ -305,7 +305,7 @@ class Company < ApplicationRecord
+-         where(tenant: tenant).
++         where(tenant:).
+
+Apply the fix to this code:
+@@ -323,7 +323,7 @@ class Company < ApplicationRecord
+-         where(tenant: tenant).
++         where(tenant:).
+
+Apply the fix to this code:
+@@ -341,7 +341,7 @@ class Company < ApplicationRecord
+-         where(tenant: tenant).
++         where(tenant:).
+
+Apply the fix to this code:
+@@ -359,7 +359,7 @@ class Company < ApplicationRecord
+-            where(tenant: tenant).
++            where(tenant:).
+
+Apply the fix to this code:
+@@ -373,7 +373,7 @@ class Company < ApplicationRecord
+ 
+-    Campaign.joins(:messages).joins("JOIN contacts ON contacts.id = campaign_messages.contact_id").where(tenant_id: tenant_id, contacts: {company_id: id}).where.not(parent_id: nil).group("campaigns.id")
++    Campaign.joins(:messages).joins("JOIN contacts ON contacts.id = campaign_messages.contact_id").where(tenant_id:, contacts: {company_id: id}).where.not(parent_id: nil).group("campaigns.id")
+
+Apply the fix to this code:
+@@ -448,7 +448,7 @@ class Company < ApplicationRecord
+ 
+-    calculated_company = calculated_company.where(id: id, tenant_id: tenant.id).first
++    calculated_company = calculated_company.where(id:, tenant_id: tenant.id).first
+
+Apply the fix to this code:
+@@ -534,13 +534,13 @@ class Company < ApplicationRecord
+ 
+-      rolling_1_falloff_next_day: rolling_1_falloff_next_day,
+-      rolling_12_falloff_next_day: rolling_12_falloff_next_day,
+-      rolling_12_ly_falloff_next_day: rolling_12_ly_falloff_next_day,
+-      rolling_12_ly_ly_falloff_next_day: rolling_12_ly_ly_falloff_next_day,
+-      financial_year_falloff: financial_year_falloff,
+-      financial_year_ly_falloff: financial_year_ly_falloff,
+-      financial_year_ly_ly_falloff: financial_year_ly_ly_falloff
++      rolling_1_falloff_next_day:,
++      rolling_12_falloff_next_day:,
++      rolling_12_ly_falloff_next_day:,
++      rolling_12_ly_ly_falloff_next_day:,
++      financial_year_falloff:,
++      financial_year_ly_falloff:,
++      financial_year_ly_ly_falloff:
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

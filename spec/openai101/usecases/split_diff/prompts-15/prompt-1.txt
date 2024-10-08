@@ -1,0 +1,147 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/controllers/activities_controller.rb
+Apply the fix to this code:
+@@ -32,7 +32,7 @@ class ActivitiesController < ApplicationController
+-      render "create", locals: { activity: activity }
++      render "create", locals: { activity: }
+
+File: app/controllers/assets_controller.rb
+Apply the fix to this code:
+@@ -98,8 +98,8 @@ class AssetsController < ApplicationController
+ 
+-                         category: category,
+-                         meta_data: meta_data,
++                         category:,
++                         meta_data:,
+
+Apply the fix to this code:
+@@ -159,7 +159,7 @@ class AssetsController < ApplicationController
+-      @pending_attachment = PendingAttachment.create(uuid: params[:uuid], file_name: file_upload.original_filename, path: file_upload.path, complete: false, inline: inline)
++      @pending_attachment = PendingAttachment.create(uuid: params[:uuid], file_name: file_upload.original_filename, path: file_upload.path, complete: false, inline:)
+
+Apply the fix to this code:
+@@ -319,7 +319,7 @@ class AssetsController < ApplicationController
+-            invoice_id: invoice_id,
++            invoice_id:,
+
+File: app/controllers/builds_controller.rb
+Apply the fix to this code:
+@@ -7,7 +7,7 @@ class BuildsController < ApplicationController
+ 
+-    @s3 = Aws::S3::Client.new(credentials: credentials, region: RegionConfig.require_value("bucket_region"))
++    @s3 = Aws::S3::Client.new(credentials:, region: RegionConfig.require_value("bucket_region"))
+
+File: app/controllers/business_plans_controller.rb
+Apply the fix to this code:
+@@ -229,7 +229,7 @@ class BusinessPlansController < ApplicationController
+ 
+-      goal = @business_plan.business_plan_goals.where(kpi_name: kpi_name).first_or_create
++      goal = @business_plan.business_plan_goals.where(kpi_name:).first_or_create
+
+Apply the fix to this code:
+@@ -255,7 +255,7 @@ class BusinessPlansController < ApplicationController
+-        @business_plan.update(goal_forecast_gross: goal_forecast_gross_perc, goal_forecast_gross_value: goal_forecast_gross_value)
++        @business_plan.update(goal_forecast_gross: goal_forecast_gross_perc, goal_forecast_gross_value:)
+
+Apply the fix to this code:
+@@ -326,7 +326,7 @@ class BusinessPlansController < ApplicationController
+ 
+-      goal.update(kpi_value: kpi_value)
++      goal.update(kpi_value:)
+
+Apply the fix to this code:
+@@ -607,7 +607,7 @@ class BusinessPlansController < ApplicationController
+ 
+-    marketing_goal = BusinessPlanMarketingGoal.find_by(id: id)
++    marketing_goal = BusinessPlanMarketingGoal.find_by(id:)
+
+File: app/controllers/calendars_controller.rb
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ class CalendarsController < ApplicationController
+ 
+-                                           current_user: current_user,
++                                           current_user:,
+
+Apply the fix to this code:
+@@ -108,7 +108,7 @@ class CalendarsController < ApplicationController
+ 
+-    @tenant.update(open_hours: open_hours)
++    @tenant.update(open_hours:)
+
+File: app/controllers/campaigns_controller.rb
+Apply the fix to this code:
+@@ -102,13 +102,13 @@ class CampaignsController < ApplicationController
+ 
+-      @new_estimates = @campaign.new_contexts(Estimate, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
+-      @new_orders    = @campaign.new_contexts(Order, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_estimates = @campaign.new_contexts(Estimate, range:, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_orders    = @campaign.new_contexts(Order, range:, sales_rep_user_id: @sales_rep_user_id).to_a
+-      @new_shipments = @campaign.new_contexts(Shipment, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
+-      @new_orders    = @campaign.new_contexts(Sale, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_shipments = @campaign.new_contexts(Shipment, range:, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_orders    = @campaign.new_contexts(Sale, range:, sales_rep_user_id: @sales_rep_user_id).to_a
+-      @new_orders    = @campaign.new_contexts(Sale, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_orders    = @campaign.new_contexts(Sale, range:, sales_rep_user_id: @sales_rep_user_id).to_a
+
+Apply the fix to this code:
+@@ -306,9 +306,9 @@ class CampaignsController < ApplicationController
+-        test: test,
++        test:,
+-        override_throttle: override_throttle
++        override_throttle:
+
+Apply the fix to this code:
+@@ -348,10 +348,10 @@ class CampaignsController < ApplicationController
+ 
+-        test: test,
++        test:,
+-        target_test_emails: target_test_emails,
+-        override_throttle_tenant_ids: override_throttle_tenant_ids
++        target_test_emails:,
++        override_throttle_tenant_ids:
+
+Apply the fix to this code:
+@@ -493,7 +493,7 @@ class CampaignsController < ApplicationController
+-      template_merger = Campaign.merger(campaign: @campaign, tenant: @tenant, identity: identity, contact: @preview_for.try(:first))
++      template_merger = Campaign.merger(campaign: @campaign, tenant: @tenant, identity:, contact: @preview_for.try(:first))
+
+File: app/controllers/companies_controller.rb
+Apply the fix to this code:
+@@ -77,7 +77,7 @@ class CompaniesController < ApplicationController
+ 
+-    query = CompanyIndexQuery.query(@tenant.companies, current_user: current_user, tenant: @tenant,
++    query = CompanyIndexQuery.query(@tenant.companies, current_user:, tenant: @tenant,
+
+Apply the fix to this code:
+@@ -173,7 +173,7 @@ class CompaniesController < ApplicationController
+-      @status = company.update(automation_opting: automation_opting)
++      @status = company.update(automation_opting:)
+
+Apply the fix to this code:
+@@ -188,7 +188,7 @@ class CompaniesController < ApplicationController
+-      @status = company.update(automation_opting: automation_opting)
++      @status = company.update(automation_opting:)
+
+Apply the fix to this code:
+@@ -566,7 +566,7 @@ class CompaniesController < ApplicationController
+ 
+-        contact.update(prospect_status_id: prospect_status.id, lead_type_id: lead_type_new.id, lead_created_at: lead_created_at)
++        contact.update(prospect_status_id: prospect_status.id, lead_type_id: lead_type_new.id, lead_created_at:)
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

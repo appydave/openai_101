@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
+# The main differences between translation and transcription services with OpenAI are their purposes and functionalities:
+
+# Translation Service
+#   - Purpose: Converts text from one language to another.
+#   - Input: Text in the source language.
+#   - Output: Text in the target language.
+#   - Use Cases: Translating documents, websites, user interfaces, customer support conversations, etc.
+#   - Example: Translating an English document to Spanish.
+# Transcription Service
+#   - Purpose: Converts spoken language (audio) into written text.
+#   - Input: Audio or speech recording.
+#   - Output: Text representing the spoken words.
+#   - Use Cases: Transcribing interviews, lectures, meetings, podcasts, etc.
+#   - Example: Converting a recorded meeting into a written transcript.
+
+
 RSpec.describe 'Audio API', :tools_enabled do
   let(:client) { OpenAI::Client.new }
   let(:text_en) { 'Learn prompt engineering with Appy Dave' }

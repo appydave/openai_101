@@ -1,0 +1,109 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/services/printsmith/api/daily_sales_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -37,7 +37,7 @@ RSpec.describe Printsmith::Api::DailySales, type: :services do
+ 
+-        allow(HTTParty).to receive(:send).with("post", /dailySalesList/, { body: json.to_json, headers: headers }).and_return(api_response)
++        allow(HTTParty).to receive(:send).with("post", /dailySalesList/, { body: json.to_json, headers: }).and_return(api_response)
+
+Apply the fix to this code:
+@@ -50,7 +50,7 @@ RSpec.describe Printsmith::Api::DailySales, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/daily_sales_summary_pickups_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -50,7 +50,7 @@ RSpec.describe Printsmith::Api::DailySalesSummaryPickups, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/document_preferences_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -37,7 +37,7 @@ RSpec.describe Printsmith::Api::DocumentPreferences, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/document_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -18,7 +18,7 @@ RSpec.describe Printsmith::Api::Document, type: :services do
+ 
+-      let(:estimate) { FactoryBot.create(:estimate, tenant: tenant, invoice_number: "1234") }
++      let(:estimate) { FactoryBot.create(:estimate, tenant:, invoice_number: "1234") }
+
+Apply the fix to this code:
+@@ -29,7 +29,7 @@ RSpec.describe Printsmith::Api::Document, type: :services do
+-          { body: body, headers: headers }
++          { body:, headers: }
+
+Apply the fix to this code:
+@@ -46,7 +46,7 @@ RSpec.describe Printsmith::Api::Document, type: :services do
+-            { body: body, headers: headers }
++            { body:, headers: }
+
+Apply the fix to this code:
+@@ -86,7 +86,7 @@ RSpec.describe Printsmith::Api::Document, type: :services do
+ 
+-      let(:invoice) { FactoryBot.create(:invoice, tenant: tenant, invoice_number: "1234") }
++      let(:invoice) { FactoryBot.create(:invoice, tenant:, invoice_number: "1234") }
+
+Apply the fix to this code:
+@@ -97,7 +97,7 @@ RSpec.describe Printsmith::Api::Document, type: :services do
+-          { body: body, headers: headers }
++          { body:, headers: }
+
+Apply the fix to this code:
+@@ -114,7 +114,7 @@ RSpec.describe Printsmith::Api::Document, type: :services do
+-            { body: body, headers: headers }
++            { body:, headers: }
+
+Apply the fix to this code:
+@@ -154,7 +154,7 @@ RSpec.describe Printsmith::Api::Document, type: :services do
+ 
+-      let(:order) { FactoryBot.create(:order, tenant: tenant, invoice_number: "1234") }
++      let(:order) { FactoryBot.create(:order, tenant:, invoice_number: "1234") }
+
+Apply the fix to this code:
+@@ -165,7 +165,7 @@ RSpec.describe Printsmith::Api::Document, type: :services do
+-          { body: body, headers: headers }
++          { body:, headers: }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

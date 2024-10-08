@@ -1,0 +1,102 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/models/contact_list.rb
+Apply the fix to this code:
+@@ -31,14 +31,14 @@ class ContactList < ApplicationRecord
+ 
+-        count.assign_attributes(total_count: total_count, generate_duration: end_time - start_time)
++        count.assign_attributes(total_count:, generate_duration: end_time - start_time)
+-      Kaminari.paginate_array(result, total_count: total_count).page(0).per(total_count)
++      Kaminari.paginate_array(result, total_count:).page(0).per(total_count)
+-      Kaminari.paginate_array(result, total_count: total_count).page(page).per(per)
++      Kaminari.paginate_array(result, total_count:).page(page).per(per)
+
+Apply the fix to this code:
+@@ -272,7 +272,7 @@ class ContactList < ApplicationRecord
+-        sales_rep = SalesRep.where(tenant: tenant).where(platform_id: company.sales_rep_platform_id).first if sales_rep.nil? && !company.nil?
++        sales_rep = SalesRep.where(tenant:).where(platform_id: company.sales_rep_platform_id).first if sales_rep.nil? && !company.nil?
+
+Apply the fix to this code:
+@@ -343,10 +343,10 @@ class ContactList < ApplicationRecord
+-        combined: combined,
++        combined:,
+-        filename: filename,
++        filename:,
+
+File: app/models/contact_list_rule.rb
+Apply the fix to this code:
+@@ -476,7 +476,7 @@ class ContactListRule < ApplicationRecord
+-    Kaminari.paginate_array(result, total_count: total_count).page(page).per(per)
++    Kaminari.paginate_array(result, total_count:).page(page).per(per)
+
+Apply the fix to this code:
+@@ -777,7 +777,7 @@ class ContactListRule < ApplicationRecord
+-      result[contact.id] = {invoice_numbers: invoice_numbers, invoice_totals: invoice_totals}
++      result[contact.id] = {invoice_numbers:, invoice_totals:}
+
+Apply the fix to this code:
+@@ -2002,7 +2002,7 @@ class ContactListRule < ApplicationRecord
+-      primary_condition = sanitize_sql("ps_old.id = :value", value: value)
++      primary_condition = sanitize_sql("ps_old.id = :value", value:)
+
+Apply the fix to this code:
+@@ -2028,7 +2028,7 @@ class ContactListRule < ApplicationRecord
+ 
+-    sanitize_sql("contacts.lead_type_id #{logical_operand} :value", value: value)
++    sanitize_sql("contacts.lead_type_id #{logical_operand} :value", value:)
+
+Apply the fix to this code:
+@@ -2068,7 +2068,7 @@ class ContactListRule < ApplicationRecord
+ 
+-    sanitize_sql("companies.status #{logical_operand} :value", value: value)
++    sanitize_sql("companies.status #{logical_operand} :value", value:)
+
+Apply the fix to this code:
+@@ -2355,7 +2355,7 @@ class ContactListRule < ApplicationRecord
+-      sanitize_sql("contacts.net_promoter_label #{logical_operand} :value", value: value)
++      sanitize_sql("contacts.net_promoter_label #{logical_operand} :value", value:)
+
+Apply the fix to this code:
+@@ -2402,7 +2402,7 @@ class ContactListRule < ApplicationRecord
+ 
+-    sanitize_sql("contacts.privacy_data->>:value IS NOT NULL AND (contacts.privacy_data->:value->'state') = '1'", value: value)
++    sanitize_sql("contacts.privacy_data->>:value IS NOT NULL AND (contacts.privacy_data->:value->'state') = '1'", value:)
+
+Apply the fix to this code:
+@@ -2431,12 +2431,12 @@ class ContactListRule < ApplicationRecord
+-        sanitize_sql "companies.enrichment_data->>:value <> '' AND companies.enrichment_data->>:value IS NOT NULL", value: value
++        sanitize_sql "companies.enrichment_data->>:value <> '' AND companies.enrichment_data->>:value IS NOT NULL", value:
+-        sanitize_sql "TRIM(companies.enrichment_data->>:value) = '' OR companies.enrichment_data->>:value IS NULL", value: value
++        sanitize_sql "TRIM(companies.enrichment_data->>:value) = '' OR companies.enrichment_data->>:value IS NULL", value:
+-      sanitize_sql "companies.enrichment_data->:value ?| array[:value2]", value: value, value2: value2
++      sanitize_sql "companies.enrichment_data->:value ?| array[:value2]", value:, value2:
+
+File: app/models/custom_form.rb
+Apply the fix to this code:
+@@ -13,7 +13,7 @@ class CustomForm < ApplicationRecord
+ 
+-    elements.where(page: page).order(position: :asc).each do |element|
++    elements.where(page:).order(position: :asc).each do |element|
+
+File: app/models/custom_form_response.rb
+Apply the fix to this code:
+@@ -36,7 +36,7 @@ class CustomFormResponse < ApplicationRecord
+-    elements = elements.where(page: page) if !page.nil?
++    elements = elements.where(page:) if !page.nil?
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

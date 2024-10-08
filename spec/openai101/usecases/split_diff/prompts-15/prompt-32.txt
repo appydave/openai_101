@@ -1,0 +1,185 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/models/utils/calculate_lost_company_ids_spec.rb
+Apply the fix to this code:
+@@ -2,10 +2,10 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, time_zone: "Sydney") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, time_zone: "Sydney") }
+-  let(:company) { create(:company, tenant: tenant) }
+-  let(:invoice) { create(:invoice, company: company, tenant: tenant, pickup_date: date.beginning_of_month - 1.year) }
++  let(:company) { create(:company, tenant:) }
++  let(:invoice) { create(:invoice, company:, tenant:, pickup_date: date.beginning_of_month - 1.year) }
+
+File: spec/models/utils/calculate_new_company_ids_spec.rb
+Apply the fix to this code:
+@@ -2,10 +2,10 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, time_zone: "Sydney") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, time_zone: "Sydney") }
+-  let(:company) { create(:company, tenant: tenant) }
+-  let(:invoice) { create(:invoice, company: company, tenant: tenant, pickup_date: date.beginning_of_month) }
++  let(:company) { create(:company, tenant:) }
++  let(:invoice) { create(:invoice, company:, tenant:, pickup_date: date.beginning_of_month) }
+
+File: spec/models/utils/campaign_monitor_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, campaign_monitor_client_id: "1") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, campaign_monitor_client_id: "1") }
+
+File: spec/models/utils/health_spec.rb
+Apply the fix to this code:
+@@ -7,7 +7,7 @@ end
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, time_zone: "Sydney") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, time_zone: "Sydney") }
+
+Apply the fix to this code:
+@@ -52,7 +52,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -96,7 +96,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -140,7 +140,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:adjustment) { FactoryBot.create(:adjustment, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:adjustment) { FactoryBot.create(:adjustment, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -184,7 +184,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -228,7 +228,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:address) { FactoryBot.create(:address, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:address) { FactoryBot.create(:address, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -272,7 +272,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:sales_summary) { FactoryBot.create(:sales_summary, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:sales_summary) { FactoryBot.create(:sales_summary, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -316,7 +316,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:sales_summary_pickup) { FactoryBot.create(:sales_summary_pickup, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:sales_summary_pickup) { FactoryBot.create(:sales_summary_pickup, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -360,7 +360,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:production_location) { FactoryBot.create(:production_location, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:production_location) { FactoryBot.create(:production_location, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -404,7 +404,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:account_history_data) { FactoryBot.create(:account_history_data, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:account_history_data) { FactoryBot.create(:account_history_data, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -448,7 +448,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:sales_base_tax) { FactoryBot.create(:sales_base_tax, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:sales_base_tax) { FactoryBot.create(:sales_base_tax, :trait1, tenant:, platform_id: "1234") }
+
+Apply the fix to this code:
+@@ -492,7 +492,7 @@ RSpec.describe Utils::Health, type: :services do
+ 
+-          let!(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, platform_id: "1234") }
++          let!(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, platform_id: "1234") }
+
+File: spec/presenters/automation/enterprise_invoice_send_settings_presenter_spec.rb
+Apply the fix to this code:
+@@ -1,11 +1,11 @@
+ 
+-  let(:enterprise) { create(:enterprise, :trait1, automation_options: automation_options) }
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, etl_flag: true, demo: false, training: false) }
+-  let(:user) { create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++  let(:enterprise) { create(:enterprise, :trait1, automation_options:) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, etl_flag: true, demo: false, training: false) }
++  let(:user) { create(:user, :trait1, enterprise:, tenant:) }
+-  let(:email_template_category) { create(:email_template_category, :trait1, category: 3, email_template: email_template) }
++  let(:email_template_category) { create(:email_template_category, :trait1, category: 3, email_template:) }
+
+File: spec/presenters/automation/enterprise_settings_presenter_spec.rb
+Apply the fix to this code:
+@@ -1,11 +1,11 @@
+ 
+-  let(:enterprise) { create(:enterprise, :trait1, automation_options: automation_options) }
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, etl_flag: true, demo: false, training: false) }
+-  let(:user) { create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++  let(:enterprise) { create(:enterprise, :trait1, automation_options:) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, etl_flag: true, demo: false, training: false) }
++  let(:user) { create(:user, :trait1, enterprise:, tenant:) }
+-  let(:email_template_category) { create(:email_template_category, :trait1, category: 3, email_template: email_template) }
++  let(:email_template_category) { create(:email_template_category, :trait1, category: 3, email_template:) }
+
+File: spec/presenters/automation/enterprise_statement_send_settings_presenter_spec.rb
+Apply the fix to this code:
+@@ -1,11 +1,11 @@
+ 
+-  let(:enterprise) { create(:enterprise, :trait1, automation_options: automation_options) }
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, etl_flag: true, demo: false, training: false) }
+-  let(:user) { create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++  let(:enterprise) { create(:enterprise, :trait1, automation_options:) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, etl_flag: true, demo: false, training: false) }
++  let(:user) { create(:user, :trait1, enterprise:, tenant:) }
+-  let(:email_template_category) { create(:email_template_category, :trait1, category: 7, email_template: email_template) }
++  let(:email_template_category) { create(:email_template_category, :trait1, category: 7, email_template:) }
+
+File: spec/presenters/automation/tenant_invoice_send_settings_presenter_spec.rb
+Apply the fix to this code:
+@@ -1,11 +1,11 @@
+ 
+-  let(:enterprise) { create(:enterprise, :trait1, automation_options: automation_options) }
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, etl_flag: true, demo: false, training: false, automation_options: automation_options) }
+-  let(:user) { create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++  let(:enterprise) { create(:enterprise, :trait1, automation_options:) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, etl_flag: true, demo: false, training: false, automation_options:) }
++  let(:user) { create(:user, :trait1, enterprise:, tenant:) }
+-  let(:email_template_category) { create(:email_template_category, :trait1, category: 3, email_template: email_template) }
++  let(:email_template_category) { create(:email_template_category, :trait1, category: 3, email_template:) }
+
+File: spec/presenters/automation/tenant_settings_presenter_spec.rb
+Apply the fix to this code:
+@@ -1,11 +1,11 @@
+ 
+-  let(:enterprise) { create(:enterprise, :trait1, automation_options: automation_options) }
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, etl_flag: true, demo: false, training: false, automation_options: automation_options) }
+-  let(:user) { create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++  let(:enterprise) { create(:enterprise, :trait1, automation_options:) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, etl_flag: true, demo: false, training: false, automation_options:) }
++  let(:user) { create(:user, :trait1, enterprise:, tenant:) }
+-  let(:email_template_category) { create(:email_template_category, :trait1, category: 3, email_template: email_template) }
++  let(:email_template_category) { create(:email_template_category, :trait1, category: 3, email_template:) }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

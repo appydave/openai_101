@@ -1,0 +1,223 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/interactors/inquiries/assign_enrichment_data_spec.rb
+Apply the fix to this code:
+@@ -2,15 +2,15 @@ require "rails_helper"
+ 
+-  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type: platform_type) }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
+-  let(:inquiry) { FactoryBot.create(:inquiry, :trait1, tenant: tenant, company: company) }
++  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type:) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:) }
++  let(:inquiry) { FactoryBot.create(:inquiry, :trait1, tenant:, company:) }
+ 
+-  let!(:yesno_field) { FactoryBot.create(:company_enrichment_field, :trait1, name: "eCommerce", enterprise: enterprise) }
+-  let!(:dropdown_field) { FactoryBot.create(:company_enrichment_field, :trait2,  name: "Destination", enterprise: enterprise) }
+-  let!(:dropdown_field_2) { FactoryBot.create(:company_enrichment_field, :trait2,  name: "Courier", enterprise: enterprise) }
+-  let!(:text_field) { FactoryBot.create(:company_enrichment_field, :trait3,  name: "Number of monthly shipments", enterprise: enterprise) }
++  let!(:yesno_field) { FactoryBot.create(:company_enrichment_field, :trait1, name: "eCommerce", enterprise:) }
++  let!(:dropdown_field) { FactoryBot.create(:company_enrichment_field, :trait2,  name: "Destination", enterprise:) }
++  let!(:dropdown_field_2) { FactoryBot.create(:company_enrichment_field, :trait2,  name: "Courier", enterprise:) }
++  let!(:text_field) { FactoryBot.create(:company_enrichment_field, :trait3,  name: "Number of monthly shipments", enterprise:) }
+
+Apply the fix to this code:
+@@ -20,7 +20,7 @@ describe ::Inquiries::AssignEnrichmentData do # Always test interactors using wo
+ 
+-      let(:result) { ::Inquiries::AssignEnrichmentData.execute(inquiry: inquiry) }
++      let(:result) { ::Inquiries::AssignEnrichmentData.execute(inquiry:) }
+
+Apply the fix to this code:
+@@ -28,8 +28,8 @@ describe ::Inquiries::AssignEnrichmentData do # Always test interactors using wo
+ 
+-      let(:inquiry) { FactoryBot.create(:inquiry, :trait1, tenant: tenant, company: nil) }
+-      let(:result) { ::Inquiries::AssignEnrichmentData.execute(inquiry: inquiry) }
++      let(:inquiry) { FactoryBot.create(:inquiry, :trait1, tenant:, company: nil) }
++      let(:result) { ::Inquiries::AssignEnrichmentData.execute(inquiry:) }
+
+Apply the fix to this code:
+@@ -46,7 +46,7 @@ describe ::Inquiries::AssignEnrichmentData do # Always test interactors using wo
+ 
+-        let(:result) { ::Inquiries::AssignEnrichmentData.execute(inquiry: inquiry) }
++        let(:result) { ::Inquiries::AssignEnrichmentData.execute(inquiry:) }
+
+Apply the fix to this code:
+@@ -59,7 +59,7 @@ describe ::Inquiries::AssignEnrichmentData do # Always test interactors using wo
+ 
+-      let(:company) { FactoryBot.build(:company, :trait1, tenant: tenant) }
++      let(:company) { FactoryBot.build(:company, :trait1, tenant:) }
+
+File: spec/interactors/inquiries/create_spec.rb
+Apply the fix to this code:
+@@ -2,24 +2,24 @@ require "rails_helper"
+ 
+-  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type: platform_type) }
+-  let(:identifier) { FactoryBot.create(:identifier, :trait1, enterprise: enterprise) }
+-  let!(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let!(:corporate_tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, platform_data: { corporate: true }) }
++  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type:) }
++  let(:identifier) { FactoryBot.create(:identifier, :trait1, enterprise:) }
++  let!(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let!(:corporate_tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, platform_data: { corporate: true }) }
+ 
+-    first_name: first_name,
++    first_name:,
+-    company_name: company_name,
+-    from_email: from_email,
++    company_name:,
++    from_email:,
+-    tenant_id: tenant_id,
++    tenant_id:,
+
+Apply the fix to this code:
+@@ -30,10 +30,10 @@ describe ::Inquiries::Create do # Always test interactors using workflow call
+-    tags: tags,
+-    attachments: attachments,
+-    inquiry_identifier: inquiry_identifier,
+-    tenant: tenant
++    tags:,
++    attachments:,
++    inquiry_identifier:,
++    tenant:
+
+Apply the fix to this code:
+@@ -52,8 +52,8 @@ describe ::Inquiries::Create do # Always test interactors using workflow call
+-  let!(:tag_category_1) { FactoryBot.create(:tag_category, :trait1, enterprise: enterprise, tenant: tenant) }
+-  let!(:tag_category_2) { FactoryBot.create(:tag_category, :trait2, enterprise: enterprise, tenant: tenant) }
++  let!(:tag_category_1) { FactoryBot.create(:tag_category, :trait1, enterprise:, tenant:) }
++  let!(:tag_category_2) { FactoryBot.create(:tag_category, :trait2, enterprise:, tenant:) }
+
+Apply the fix to this code:
+@@ -274,7 +274,7 @@ describe ::Inquiries::Create do # Always test interactors using workflow call
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -304,7 +304,7 @@ describe ::Inquiries::Create do # Always test interactors using workflow call
+-            destination: destination,
++            destination:,
+
+File: spec/interactors/inquiries/transfer_spec.rb
+Apply the fix to this code:
+@@ -2,14 +2,14 @@ require "rails_helper"
+ 
+-  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type: platform_type) }
+-  let(:identifier) { FactoryBot.create(:identifier, :trait1, enterprise: enterprise) }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:enterprise) { FactoryBot.create(:enterprise, :trait1, platform_type:) }
++  let(:identifier) { FactoryBot.create(:identifier, :trait1, enterprise:) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+-  let(:corporate_tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, platform_data: { corporate: corporate }) }
+-  let(:inquiry) { FactoryBot.create(:inquiry, :trait1, tenant: tenant) }
+-  let(:to_tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:params) { { from_tenant: corporate_tenant, to_tenant: to_tenant, inquiry: inquiry } }
++  let(:corporate_tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, platform_data: { corporate: }) }
++  let(:inquiry) { FactoryBot.create(:inquiry, :trait1, tenant:) }
++  let(:to_tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:params) { { from_tenant: corporate_tenant, to_tenant:, inquiry: } }
+
+File: spec/models/asset_spec.rb
+Apply the fix to this code:
+@@ -12,8 +12,8 @@ RSpec.describe Asset, type: :model do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let!(:asset) { FactoryBot.create(:asset, :trait1, enterprise: enterprise, tenant: tenant, file_hash: "test") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let!(:asset) { FactoryBot.create(:asset, :trait1, enterprise:, tenant:, file_hash: "test") }
+
+Apply the fix to this code:
+@@ -58,7 +58,7 @@ RSpec.describe Asset, type: :model do
+-      let(:asset) { FactoryBot.build(:asset, :trait1, enterprise: enterprise, tenant: tenant, file_hash: "test") }
++      let(:asset) { FactoryBot.build(:asset, :trait1, enterprise:, tenant:, file_hash: "test") }
+
+File: spec/models/campaign_spec.rb
+Apply the fix to this code:
+@@ -239,7 +239,7 @@ RSpec.describe Campaign, type: :model do
+ 
+-    let(:new_campaign) { FactoryBot.build(:campaign, :trait2, parent_id: parent_id, name: name, email_template: email_template_trait2, enterprise: global_campaign.enterprise, identity: identity_trait2, tenant: global_campaign.tenant, user: user_trait2) }
++    let(:new_campaign) { FactoryBot.build(:campaign, :trait2, parent_id:, name:, email_template: email_template_trait2, enterprise: global_campaign.enterprise, identity: identity_trait2, tenant: global_campaign.tenant, user: user_trait2) }
+
+Apply the fix to this code:
+@@ -275,7 +275,7 @@ RSpec.describe Campaign, type: :model do
+ 
+-    let(:new_campaign) { FactoryBot.build(:campaign, :trait2, parent_id: parent_id, name: name, email_template: email_template_trait2, enterprise: local_campaign.enterprise, identity: identity_trait2, tenant: local_campaign.tenant, user: user_trait2) }
++    let(:new_campaign) { FactoryBot.build(:campaign, :trait2, parent_id:, name:, email_template: email_template_trait2, enterprise: local_campaign.enterprise, identity: identity_trait2, tenant: local_campaign.tenant, user: user_trait2) }
+
+File: spec/models/concerns/daily_cacheable_spec.rb
+Apply the fix to this code:
+@@ -2,8 +2,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant: tenant, pickup_date: 2.months.ago) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant:, pickup_date: 2.months.ago) }
+
+File: spec/models/contact_list_rule_spec.rb
+Apply the fix to this code:
+@@ -9,14 +9,14 @@ RSpec.describe ContactListRule, type: :model do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+ 
+-  let(:contact_list_1) { FactoryBot.create(:contact_list, :trait1, enterprise: enterprise, tenant: tenant) }
+-  let(:contact_list_2) { FactoryBot.create(:contact_list, :trait2, enterprise: enterprise, tenant: tenant) }
+-  let(:taken_by) { FactoryBot.create(:taken_by, :trait1, location: location_trait1, tenant: tenant, user: user_trait1) }
++  let(:contact_list_1) { FactoryBot.create(:contact_list, :trait1, enterprise:, tenant:) }
++  let(:contact_list_2) { FactoryBot.create(:contact_list, :trait2, enterprise:, tenant:) }
++  let(:taken_by) { FactoryBot.create(:taken_by, :trait1, location: location_trait1, tenant:, user: user_trait1) }
+ 
+-  let(:contact_list_rule_1) { FactoryBot.create(:contact_list_rule, :trait1, contact_list: contact_list_1, taken_by: taken_by) }
+-  let(:contact_list_rule_2) { FactoryBot.create(:contact_list_rule, :trait2, contact_list: contact_list_2, taken_by: taken_by) }
++  let(:contact_list_rule_1) { FactoryBot.create(:contact_list_rule, :trait1, contact_list: contact_list_1, taken_by:) }
++  let(:contact_list_rule_2) { FactoryBot.create(:contact_list_rule, :trait2, contact_list: contact_list_2, taken_by:) }
+
+Apply the fix to this code:
+@@ -70,7 +70,7 @@ RSpec.describe ContactListRule, type: :model do
+ 
+-      let(:contact_list_rule_3) { FactoryBot.build(:contact_list_rule, :trait1, contact_list: contact_list_1, taken_by: taken_by, category: "b2b") }
++      let(:contact_list_rule_3) { FactoryBot.build(:contact_list_rule, :trait1, contact_list: contact_list_1, taken_by:, category: "b2b") }
+
+Apply the fix to this code:
+@@ -85,7 +85,7 @@ RSpec.describe ContactListRule, type: :model do
+ 
+-      let(:contact_list_rule_4) { FactoryBot.build(:contact_list_rule, :trait1, contact_list: contact_list_1, taken_by: taken_by, category: "first_estimate_date", modifier: "date", modifier_operand: "After") }
++      let(:contact_list_rule_4) { FactoryBot.build(:contact_list_rule, :trait1, contact_list: contact_list_1, taken_by:, category: "first_estimate_date", modifier: "date", modifier_operand: "After") }
+
+File: spec/models/custom_form_element_spec.rb
+Apply the fix to this code:
+@@ -2,14 +2,14 @@ require "rails_helper"
+ 
+-  let(:tenant) { create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:company) { create(:company, :trait1, tenant: tenant) }
+-  let(:contact) { create(:contact, :trait1, tenant: tenant, company: company) }
+-  let(:custom_form) { create(:custom_form, enterprise: enterprise) }
+-  let(:custom_form_element) { create(:custom_form_element, custom_form: custom_form, element_type: :scale) }
+-  let(:custom_form_response) { create(:custom_form_response, custom_form: custom_form, contact: contact) }
+-  let(:label1) { create(:custom_form_label, custom_form: custom_form, custom_form_element: custom_form_element, condition: :range, value: "1-6", color: "red") }
+-  let(:label2) { create(:custom_form_label, custom_form: custom_form, custom_form_element: custom_form_element, condition: :range, value: "4-10", color: "green") }
++  let(:tenant) { create(:tenant, :trait2, enterprise:) }
++  let(:company) { create(:company, :trait1, tenant:) }
++  let(:contact) { create(:contact, :trait1, tenant:, company:) }
++  let(:custom_form) { create(:custom_form, enterprise:) }
++  let(:custom_form_element) { create(:custom_form_element, custom_form:, element_type: :scale) }
++  let(:custom_form_response) { create(:custom_form_response, custom_form:, contact:) }
++  let(:label1) { create(:custom_form_label, custom_form:, custom_form_element:, condition: :range, value: "1-6", color: "red") }
++  let(:label2) { create(:custom_form_label, custom_form:, custom_form_element:, condition: :range, value: "4-10", color: "green") }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

@@ -1,0 +1,142 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/services/mbe/import/interactors/estimate/upsert.rb
+Apply the fix to this code:
+@@ -171,9 +171,9 @@ class Mbe::Import::Interactors::Estimate::Upsert
+ 
+-      current_version: current_version,
+-      current_file_version_id: current_file_version_id,
+-      status_history: status_history
++      current_version:,
++      current_file_version_id:,
++      status_history:
+
+File: app/services/mbe/import/interactors/invoice/upsert.rb
+Apply the fix to this code:
+@@ -53,14 +53,14 @@ class Mbe::Import::Interactors::Invoice::Upsert
+-      grand_total: grand_total,
+-      grand_total_inc_tax: grand_total_inc_tax,
++      grand_total:,
++      grand_total_inc_tax:,
+-      pickup_date: pickup_date,
++      pickup_date:,
+
+Apply the fix to this code:
+@@ -71,9 +71,9 @@ class Mbe::Import::Interactors::Invoice::Upsert
+-      amount_due: amount_due,
+-      web: web,
+-      invoice_type: invoice_type,
++      amount_due:,
++      web:,
++      invoice_type:,
+
+File: app/services/mbe/import/interactors/user/upsert.rb
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ class Mbe::Import::Interactors::User::Upsert
+-      role: role,
++      role:,
+
+Apply the fix to this code:
+@@ -58,8 +58,8 @@ class Mbe::Import::Interactors::User::Upsert
+-      first_name: first_name,
+-      last_name: last_name,
++      first_name:,
++      last_name:,
+
+File: app/services/mbe/import/royalty.rb
+Apply the fix to this code:
+@@ -27,7 +27,7 @@ class Mbe::Import::Royalty < Mbe::Import::Base
+-            closeoutdate: closeoutdate,
++            closeoutdate:,
+
+Apply the fix to this code:
+@@ -88,12 +88,12 @@ class Mbe::Import::Royalty < Mbe::Import::Base
+ 
+-        adjustment = ::Adjustment.unscoped.find_or_initialize_by(tenant: @tenant, platform_id: platform_id)
++        adjustment = ::Adjustment.unscoped.find_or_initialize_by(tenant: @tenant, platform_id:)
+-          affect_sales: affect_sales,
++          affect_sales:,
+
+File: app/services/opensearch/aggregator/base.rb
+Apply the fix to this code:
+@@ -17,13 +17,13 @@ module Opensearch
+-            klass: klass,
+-            tenant: tenant,
+-            platform_type: platform_type,
+-            start_date: start_date,
+-            end_date: end_date,
+-            os_action: os_action,
+-            params: params
++            klass:,
++            tenant:,
++            platform_type:,
++            start_date:,
++            end_date:,
++            os_action:,
++            params:
+
+File: app/services/opensearch/health/company_validator.rb
+Apply the fix to this code:
+@@ -79,7 +79,7 @@ module Opensearch
+-                      tenant_id: tenant_id
++                      tenant_id:
+
+File: app/services/opensearch/health/estimate_validator.rb
+Apply the fix to this code:
+@@ -79,7 +79,7 @@ module Opensearch
+-                      tenant_id: tenant_id
++                      tenant_id:
+
+File: app/services/opensearch/health/invoice_validator.rb
+Apply the fix to this code:
+@@ -79,7 +79,7 @@ module Opensearch
+-                      tenant_id: tenant_id
++                      tenant_id:
+
+File: app/services/opensearch/health/shipment_validator.rb
+Apply the fix to this code:
+@@ -79,7 +79,7 @@ module Opensearch
+-                      tenant_id: tenant_id
++                      tenant_id:
+
+File: app/services/opensearch/queries/company_analysis/build.rb
+Apply the fix to this code:
+@@ -244,7 +244,7 @@ module Opensearch
+ 
+-          nil_grouping[:group_by] = { date_histogram: { field: field, interval: interval, aggs: { metric: "sum", field: "grand_total" } } }
++          nil_grouping[:group_by] = { date_histogram: { field:, interval:, aggs: { metric: "sum", field: "grand_total" } } }
+
+File: app/services/opensearch/queries/query_builder.rb
+Apply the fix to this code:
+@@ -61,10 +66,10 @@ module Opensearch
+-                  minimum_should_match: minimum_should_match
++                  minimum_should_match:
+-              size: size,
++              size:,
+
+Apply the fix to this code:
+@@ -142,7 +147,7 @@ module Opensearch
+-                    { exists: { field: field } }
++                    { exists: { field: } }
+
+Apply the fix to this code:
+@@ -163,7 +168,7 @@ module Opensearch
+-                { exists: { field: field } }
++                { exists: { field: } }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

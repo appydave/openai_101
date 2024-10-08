@@ -19,6 +19,13 @@ require 'openai101/types/base_model'
 
 require 'openai101/models/completion_params'
 
+require 'openai101/usecases/git_diff_pipeline/git_diff_parser'
+require 'openai101/usecases/git_diff_pipeline/diff_processor'
+require 'openai101/usecases/git_diff_pipeline/diff_report'
+require 'openai101/usecases/git_diff_pipeline/prompt_matcher'
+require 'openai101/usecases/git_diff_pipeline/match_processor'
+require 'openai101/usecases/git_diff_pipeline/prompt_builder'
+
 module Openai101
   # raise Openai101::Error, 'Sample message'
   Error = Class.new(StandardError)

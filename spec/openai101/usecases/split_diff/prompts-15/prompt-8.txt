@@ -1,0 +1,192 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/models/contact.rb
+Apply the fix to this code:
+@@ -121,7 +121,7 @@ class Contact < ApplicationRecord
+ 
+-  scope :inactive, -> (tenant) { where(tenant: tenant).joins("LEFT OUTER JOIN companies ON contacts.company_id = companies.id").where(deleted: true) }
++  scope :inactive, -> (tenant) { where(tenant:).joins("LEFT OUTER JOIN companies ON contacts.company_id = companies.id").where(deleted: true) }
+
+Apply the fix to this code:
+@@ -131,8 +131,8 @@ class Contact < ApplicationRecord
+ 
+-  scope :single_purchase_in_daterange, -> (start_date, end_date, invoiced: false) { any_sale_in_daterange(start_date, end_date, invoiced: invoiced).where("(#{Sale.select("COUNT(invoices.id)").invoiced(invoiced).where("invoices.tenant_id = contacts.tenant_id").where("invoices.contact_id = contacts.id").where(pickup_date: start_date..end_date).to_sql}) = 1") }
+-  scope :multiple_purchase_in_daterange, -> (start_date, end_date, invoiced: false) { any_sale_in_daterange(start_date, end_date, invoiced: invoiced).where("(#{Sale.select("COUNT(invoices.id)").invoiced(invoiced).where("invoices.tenant_id = contacts.tenant_id").where("invoices.contact_id = contacts.id").where(pickup_date: start_date..end_date).to_sql}) > 1") }
++  scope :single_purchase_in_daterange, -> (start_date, end_date, invoiced: false) { any_sale_in_daterange(start_date, end_date, invoiced:).where("(#{Sale.select("COUNT(invoices.id)").invoiced(invoiced).where("invoices.tenant_id = contacts.tenant_id").where("invoices.contact_id = contacts.id").where(pickup_date: start_date..end_date).to_sql}) = 1") }
++  scope :multiple_purchase_in_daterange, -> (start_date, end_date, invoiced: false) { any_sale_in_daterange(start_date, end_date, invoiced:).where("(#{Sale.select("COUNT(invoices.id)").invoiced(invoiced).where("invoices.tenant_id = contacts.tenant_id").where("invoices.contact_id = contacts.id").where(pickup_date: start_date..end_date).to_sql}) > 1") }
+
+Apply the fix to this code:
+@@ -365,11 +365,11 @@ class Contact < ApplicationRecord
+ 
+-    Company.unscoped.where(tenant_id: tenant_id, id: company_id).first.try(:prospect) if company_id.present? && temp == false
++    Company.unscoped.where(tenant_id:, id: company_id).first.try(:prospect) if company_id.present? && temp == false
+ 
+-    Campaign.joins(:messages).joins("JOIN contacts ON contacts.id = campaign_messages.contact_id").where(tenant_id: tenant_id, campaign_messages: {contact_id: id}).where.not(parent_id: nil).group("campaigns.id")
++    Campaign.joins(:messages).joins("JOIN contacts ON contacts.id = campaign_messages.contact_id").where(tenant_id:, campaign_messages: {contact_id: id}).where.not(parent_id: nil).group("campaigns.id")
+
+Apply the fix to this code:
+@@ -418,7 +418,7 @@ class Contact < ApplicationRecord
+ 
+-      potential_matches = Contact.where(tenant_id: tenant_id).where(conditions).where.not(id: id, company_id: nil)
++      potential_matches = Contact.where(tenant_id:).where(conditions).where.not(id:, company_id: nil)
+
+Apply the fix to this code:
+@@ -483,7 +483,7 @@ class Contact < ApplicationRecord
+-      where(tenant: tenant).
++      where(tenant:).
+
+Apply the fix to this code:
+@@ -499,7 +499,7 @@ class Contact < ApplicationRecord
+-      where(tenant: tenant).
++      where(tenant:).
+
+Apply the fix to this code:
+@@ -516,7 +516,7 @@ class Contact < ApplicationRecord
+-      where(tenant: tenant).
++      where(tenant:).
+
+Apply the fix to this code:
+@@ -532,7 +532,7 @@ class Contact < ApplicationRecord
+-      where(tenant: tenant).
++      where(tenant:).
+
+Apply the fix to this code:
+@@ -604,7 +604,7 @@ class Contact < ApplicationRecord
+-      where(id: id, tenant_id: tenant.id).
++      where(id:, tenant_id: tenant.id).
+
+Apply the fix to this code:
+@@ -778,17 +778,17 @@ class Contact < ApplicationRecord
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+
+Apply the fix to this code:
+@@ -825,14 +825,14 @@ class Contact < ApplicationRecord
+ 
+-    result = Unsubscribe.where(tenant_id: tenant_id, contact_id: id, fixed: false).to_a # RAILS 5 alteration
++    result = Unsubscribe.where(tenant_id:, contact_id: id, fixed: false).to_a # RAILS 5 alteration
+ 
+-        tenant_id: tenant_id,
++        tenant_id:,
+-        email: email,
++        email:,
+
+Apply the fix to this code:
+@@ -940,10 +940,10 @@ class Contact < ApplicationRecord
+-      tenant_id: tenant_id,
++      tenant_id:,
+-      email: email,
++      email:,
+
+Apply the fix to this code:
+@@ -1028,9 +1028,9 @@ class Contact < ApplicationRecord
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+-                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant: tenant, precision: 2)
++                ApplicationController.helpers.number_to_currency(result[c].to_f, tenant:, precision: 2)
+
+Apply the fix to this code:
+@@ -1080,13 +1080,13 @@ class Contact < ApplicationRecord
+ 
+-      rolling_1_falloff_next_day: rolling_1_falloff_next_day,
+-      rolling_12_falloff_next_day: rolling_12_falloff_next_day,
+-      rolling_12_ly_falloff_next_day: rolling_12_ly_falloff_next_day,
+-      rolling_12_ly_ly_falloff_next_day: rolling_12_ly_ly_falloff_next_day,
+-      financial_year_falloff: financial_year_falloff,
+-      financial_year_ly_falloff: financial_year_ly_falloff,
+-      financial_year_ly_ly_falloff: financial_year_ly_ly_falloff
++      rolling_1_falloff_next_day:,
++      rolling_12_falloff_next_day:,
++      rolling_12_ly_falloff_next_day:,
++      rolling_12_ly_ly_falloff_next_day:,
++      financial_year_falloff:,
++      financial_year_ly_falloff:,
++      financial_year_ly_ly_falloff:
+
+Apply the fix to this code:
+@@ -1215,7 +1215,7 @@ class Contact < ApplicationRecord
+ 
+-    lead_type.prospect_status_items.where(prospect_status_id: prospect_status_id)
++    lead_type.prospect_status_items.where(prospect_status_id:)
+
+Apply the fix to this code:
+@@ -1228,17 +1228,17 @@ class Contact < ApplicationRecord
+-      @next_item = ProspectStatusItem.where(prospect_status_id: prospect_status_id, lead_type_id: lead_type_id).first
++      @next_item = ProspectStatusItem.where(prospect_status_id:, lead_type_id:).first
+ 
+-      if !ProspectStatusItemContact.where(prospect_status_item_id: @next_item.id, contact_id:  id, tenant_id: tenant_id, status: 2).first
++      if !ProspectStatusItemContact.where(prospect_status_item_id: @next_item.id, contact_id:  id, tenant_id:, status: 2).first
+-          tenant_id: tenant_id,
++          tenant_id:,
+
+Apply the fix to this code:
+@@ -1297,7 +1297,7 @@ class Contact < ApplicationRecord
+ 
+-    ProspectStatusItem.where(lead_type: lead_type, prospect_status_id: stages.pluck(:id))
++    ProspectStatusItem.where(lead_type:, prospect_status_id: stages.pluck(:id))
+
+Apply the fix to this code:
+@@ -1366,7 +1366,7 @@ class Contact < ApplicationRecord
+-                                                                         tenant_id: tenant_id,
++                                                                         tenant_id:,
+
+Apply the fix to this code:
+@@ -1379,9 +1379,9 @@ class Contact < ApplicationRecord
+-      result = status_items.find_by(item_type: 2, portal_link: portal_link, portal_item_approval_status: portal_status)
++      result = status_items.find_by(item_type: 2, portal_link:, portal_item_approval_status: portal_status)
+-      result = status_items.find_by(item_type: 0, link_email_send: true, email_template_id: email_template_id, email_category: email_category)
++      result = status_items.find_by(item_type: 0, link_email_send: true, email_template_id:, email_category:)
+
+Apply the fix to this code:
+@@ -1575,8 +1575,8 @@ class Contact < ApplicationRecord
+ 
+-      tenant: tenant,
+-      user: user,
++      tenant:,
++      user:,
+
+Apply the fix to this code:
+@@ -1676,10 +1676,10 @@ class Contact < ApplicationRecord
+-                  ApplicationController.helpers.number_to_currency(contact.financial_year_sales.to_f, tenant: tenant, precision: 2),
+-                  ApplicationController.helpers.number_to_currency(contact.last_financial_ytd_sales.to_f, tenant: tenant, precision: 2),
+-                  ApplicationController.helpers.number_to_currency(contact.rolling_12_month_sales.to_f, tenant: tenant, precision: 2),
+-                  ApplicationController.helpers.number_to_currency(contact.rolling_12_month_sales_ly.to_f, tenant: tenant, precision: 2)]
++                  ApplicationController.helpers.number_to_currency(contact.financial_year_sales.to_f, tenant:, precision: 2),
++                  ApplicationController.helpers.number_to_currency(contact.last_financial_ytd_sales.to_f, tenant:, precision: 2),
++                  ApplicationController.helpers.number_to_currency(contact.rolling_12_month_sales.to_f, tenant:, precision: 2),
++                  ApplicationController.helpers.number_to_currency(contact.rolling_12_month_sales_ly.to_f, tenant:, precision: 2)]
+
+Apply the fix to this code:
+@@ -1687,8 +1687,8 @@ class Contact < ApplicationRecord
+ 
+-          row << ApplicationController.helpers.number_to_currency(contact.sales_last_month.to_f, tenant: tenant, precision: 2) if Platform.is_mbe?(tenant)
+-          row << ApplicationController.helpers.number_to_currency(contact.sales_last_month_ly.to_f, tenant: tenant, precision: 2) if Platform.is_mbe?(tenant)
++          row << ApplicationController.helpers.number_to_currency(contact.sales_last_month.to_f, tenant:, precision: 2) if Platform.is_mbe?(tenant)
++          row << ApplicationController.helpers.number_to_currency(contact.sales_last_month_ly.to_f, tenant:, precision: 2) if Platform.is_mbe?(tenant)
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

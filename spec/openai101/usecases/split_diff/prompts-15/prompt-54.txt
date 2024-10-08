@@ -1,0 +1,146 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/services/printsmith/api/production_location_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/version_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/errors/helpers_spec.rb
+Apply the fix to this code:
+@@ -21,7 +21,7 @@ RSpec.describe Printsmith::Errors::Helpers, type: :services do
+-            hash_including({error_class: error_class, error_message: message})
++            hash_including({error_class:, error_message: message})
+
+File: spec/services/printsmith/export/archive_estimate_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, platform_id: 12345) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, platform_id: 12345) }
+
+Apply the fix to this code:
+@@ -60,7 +60,7 @@ RSpec.describe Printsmith::Export::ArchiveEstimate, type: :services do
+ 
+-      let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, platform_id: 12345, status: "Lost") }
++      let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, platform_id: 12345, status: "Lost") }
+
+File: spec/services/printsmith/export/base_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -41,7 +41,7 @@ RSpec.describe Printsmith::Export::Base, type: :services do
+-      let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++      let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/export/company_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: 12345) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: 12345) }
+
+Apply the fix to this code:
+@@ -187,8 +187,8 @@ RSpec.describe Printsmith::Export::Company, type: :services do
+-    let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: nil) }
+-    let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: 12345) }
++    let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: nil) }
++    let(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: 12345) }
+
+Apply the fix to this code:
+@@ -244,8 +244,8 @@ RSpec.describe Printsmith::Export::Company, type: :services do
+-    let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: nil) }
+-    let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: 12345) }
++    let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: nil) }
++    let(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: 12345) }
+
+Apply the fix to this code:
+@@ -312,7 +312,7 @@ RSpec.describe Printsmith::Export::Company, type: :services do
+-    let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: 12345) }
++    let(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: 12345) }
+
+Apply the fix to this code:
+@@ -372,7 +372,7 @@ RSpec.describe Printsmith::Export::Company, type: :services do
+-    let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: 12345) }
++    let(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: 12345) }
+
+File: spec/services/printsmith/export/contact_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -13,7 +13,7 @@ RSpec.describe Printsmith::Export::Contact, type: :services do
+-    let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: 12345, temp: false, deleted: false) }
++    let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: 12345, temp: false, deleted: false) }
+
+Apply the fix to this code:
+@@ -131,7 +131,7 @@ RSpec.describe Printsmith::Export::Contact, type: :services do
+-          ).to receive(:request).with(/contact/, hash_including({body: body})).and_return(api_response)
++          ).to receive(:request).with(/contact/, hash_including({body:})).and_return(api_response)
+
+Apply the fix to this code:
+@@ -222,7 +222,7 @@ RSpec.describe Printsmith::Export::Contact, type: :services do
+-    let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: nil, temp: false, deleted: false) }
++    let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: nil, temp: false, deleted: false) }
+
+File: spec/services/printsmith/export/convert_estimate_spec.rb
+Apply the fix to this code:
+@@ -4,9 +4,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let!(:location) { FactoryBot.create(:production_location, :trait2, tenant: tenant) }
+-  let!(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, production_location_id: location.id) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let!(:location) { FactoryBot.create(:production_location, :trait2, tenant:) }
++  let!(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, production_location_id: location.id) }
+
+Apply the fix to this code:
+@@ -61,7 +61,7 @@ RSpec.describe Printsmith::Export::ConvertEstimate, type: :services do
+ 
+-      let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, platform_id: 12345, status: "Lost") }
++      let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, platform_id: 12345, status: "Lost") }
+
+File: spec/services/printsmith/export/estimate_location_spec.rb
+Apply the fix to this code:
+@@ -4,9 +4,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let!(:production_location) { FactoryBot.create(:production_location, :trait1, tenant: tenant) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, production_location: production_location) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let!(:production_location) { FactoryBot.create(:production_location, :trait1, tenant:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, production_location:) }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

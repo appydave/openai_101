@@ -1,0 +1,99 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/models/inquiry.rb
+Apply the fix to this code:
+@@ -475,7 +475,7 @@ class Inquiry < ApplicationRecord
+-          inquiry: inquiry,
++          inquiry:,
+
+Apply the fix to this code:
+@@ -494,7 +494,7 @@ class Inquiry < ApplicationRecord
+-        user_id: user_id,
++        user_id:,
+
+Apply the fix to this code:
+@@ -502,7 +502,7 @@ class Inquiry < ApplicationRecord
+ 
+-    Asset.where(context_type: "Inquiry", context_id: id, tenant_id: tenant_id).each do |asset|
++    Asset.where(context_type: "Inquiry", context_id: id, tenant_id:).each do |asset|
+
+Apply the fix to this code:
+@@ -513,31 +513,31 @@ class Inquiry < ApplicationRecord
+ 
+-    Invoice.where(tenant: tenant, inquiry_id: id)
++    Invoice.where(tenant:, inquiry_id: id)
+ 
+-    Estimate.where(tenant: tenant, inquiry_id: id)
++    Estimate.where(tenant:, inquiry_id: id)
+ 
+-    Shipment.where(tenant: tenant, inquiry_id: id)
++    Shipment.where(tenant:, inquiry_id: id)
+ 
+-    Task.where(tenant: tenant, taskable_type: "Inquiry", taskable_id: id).order(created_at: :asc)
++    Task.where(tenant:, taskable_type: "Inquiry", taskable_id: id).order(created_at: :asc)
+ 
+-    PhoneCall.where(tenant: tenant, phoneable_type: "Inquiry", phoneable_id: id).order(created_at: :asc)
++    PhoneCall.where(tenant:, phoneable_type: "Inquiry", phoneable_id: id).order(created_at: :asc)
+ 
+-    Note.where(tenant: tenant, context_type: "Inquiry", context_id: id).order("created_at DESC, id DESC")
++    Note.where(tenant:, context_type: "Inquiry", context_id: id).order("created_at DESC, id DESC")
+ 
+-    Meeting.where(tenant: tenant, context_type: "Inquiry", context_id: id).order(created_at: :asc)
++    Meeting.where(tenant:, context_type: "Inquiry", context_id: id).order(created_at: :asc)
+
+Apply the fix to this code:
+@@ -562,7 +562,7 @@ class Inquiry < ApplicationRecord
+ 
+-    contact_matches = Contact.where(tenant: tenant, deleted: false, temp: false).where.not(platform_id: nil)
++    contact_matches = Contact.where(tenant:, deleted: false, temp: false).where.not(platform_id: nil)
+
+Apply the fix to this code:
+@@ -577,14 +577,14 @@ class Inquiry < ApplicationRecord
+ 
+-    companies = Company.where(tenant: tenant, walk_in: false).where.not(platform_id: nil)
++    companies = Company.where(tenant:, walk_in: false).where.not(platform_id: nil)
+ 
+-      best_similarity_value = companies.where(tenant: tenant, walk_in: false).best_similarity_value(target_company_name)
++      best_similarity_value = companies.where(tenant:, walk_in: false).best_similarity_value(target_company_name)
+-      companies = companies.where(tenant: tenant, walk_in: false).by_fuzzy_name(target_company_name, fuzzy_value)
++      companies = companies.where(tenant:, walk_in: false).by_fuzzy_name(target_company_name, fuzzy_value)
+
+Apply the fix to this code:
+@@ -631,11 +631,11 @@ class Inquiry < ApplicationRecord
+ 
+-          tenant_id: tenant_id,
+-          first_name: first_name,
+-          last_name: last_name,
++          tenant_id:,
++          first_name:,
++          last_name:,
+-          phone: phone,
++          phone:,
+
+Apply the fix to this code:
+@@ -652,7 +652,7 @@ class Inquiry < ApplicationRecord
+ 
+-          tenant_id: tenant_id,
++          tenant_id:,
+
+Apply the fix to this code:
+@@ -667,7 +667,7 @@ class Inquiry < ApplicationRecord
+-          platform_vat_number: platform_vat_number,
++          platform_vat_number:,
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

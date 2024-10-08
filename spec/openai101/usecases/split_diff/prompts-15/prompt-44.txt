@@ -1,0 +1,180 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/requests/tasks_spec.rb
+Apply the fix to this code:
+@@ -22,10 +22,10 @@ RSpec.describe "TasksController", type: :request do
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, time_zone: "Sydney") }
+-  let(:admin_user) { create(:user, :trait1, :admin, tenant: tenant, enterprise: enterprise) }
+-  let(:task1) { create(:task, tenant: tenant, start_date: Time.zone.now - 1.hour, end_date: Time.zone.now, assigned_user_id: User.last.id, name: "Task to be updated") }
+-  let(:task2) { create(:task, tenant: tenant, start_date: Time.zone.now - 2.hour, end_date: Time.zone.now - 1.hour, assigned_user_id: User.last.id, name: "Second Task to be updated") }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, time_zone: "Sydney") }
++  let(:admin_user) { create(:user, :trait1, :admin, tenant:, enterprise:) }
++  let(:task1) { create(:task, tenant:, start_date: Time.zone.now - 1.hour, end_date: Time.zone.now, assigned_user_id: User.last.id, name: "Task to be updated") }
++  let(:task2) { create(:task, tenant:, start_date: Time.zone.now - 2.hour, end_date: Time.zone.now - 1.hour, assigned_user_id: User.last.id, name: "Second Task to be updated") }
+
+Apply the fix to this code:
+@@ -130,7 +130,7 @@ RSpec.describe "TasksController", type: :request do
+ 
+-            post "/tasks/bulk_update_due_time_write", params: params, headers: { }
++            post "/tasks/bulk_update_due_time_write", params:, headers: { }
+
+Apply the fix to this code:
+@@ -145,7 +145,7 @@ RSpec.describe "TasksController", type: :request do
+ 
+-            post "/tasks/bulk_complete_write", params: params, headers: { }
++            post "/tasks/bulk_complete_write", params:, headers: { }
+
+File: spec/requests/template_spec.rb
+Apply the fix to this code:
+@@ -9,7 +9,7 @@ RSpec.describe TemplatesController, type: :request do
+-  let(:template) { FactoryBot.create(:template, tenant: tenant, enterprise: enterprise, template_type: template_type) }
++  let(:template) { FactoryBot.create(:template, tenant:, enterprise:, template_type:) }
+
+File: spec/requests/tenant_date_filter_spec.rb
+Apply the fix to this code:
+@@ -11,13 +11,13 @@ RSpec.describe TenantDateFilterController, type: :request do
+-      tenant: tenant
++      tenant:
+-  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let!(:campaign) { FactoryBot.create(:campaign, :trait1, tenant: tenant, enterprise: tenant.enterprise, test: false, parent_id: 1, enterprise_campaign: false) }
++  let!(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let!(:campaign) { FactoryBot.create(:campaign, :trait1, tenant:, enterprise: tenant.enterprise, test: false, parent_id: 1, enterprise_campaign: false) }
+
+Apply the fix to this code:
+@@ -47,7 +47,7 @@ RSpec.describe TenantDateFilterController, type: :request do
+ 
+-            post "/tenant_date_filter", params: params
++            post("/tenant_date_filter", params:)
+
+File: spec/requests/tenants_spec.rb
+Apply the fix to this code:
+@@ -12,14 +12,14 @@ type: :request do
+-      enterprise: enterprise,
+-      tenant: tenant
++      enterprise:,
++      tenant:
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ type: :request do
+-            tenant_id: tenant_id,
++            tenant_id:,
+
+Apply the fix to this code:
+@@ -129,7 +129,7 @@ type: :request do
+ 
+-            put "/tenants/#{tenant.id}", params: params
++            put("/tenants/#{tenant.id}", params:)
+
+File: spec/services/common/csv/leads_import_spec.rb
+Apply the fix to this code:
+@@ -4,20 +4,20 @@ require "rails_helper"
+ 
+-    create(:lead_source, :trait1, enterprise: enterprise, name: "Test Source")
+-    create(:tag_category, :trait1, enterprise: enterprise, name: "Test Tag")
+-    LeadImportField.create(enterprise: enterprise, name: "contact_first_name")
+-    LeadImportField.create(enterprise: enterprise, name: "contact_last_name")
+-    LeadImportField.create(enterprise: enterprise, name: "lead_source", required: true)
+-    LeadImportField.create(enterprise: enterprise, name: "tag", required: true)
++    create(:lead_source, :trait1, enterprise:, name: "Test Source")
++    create(:tag_category, :trait1, enterprise:, name: "Test Tag")
++    LeadImportField.create(enterprise:, name: "contact_first_name")
++    LeadImportField.create(enterprise:, name: "contact_last_name")
++    LeadImportField.create(enterprise:, name: "lead_source", required: true)
++    LeadImportField.create(enterprise:, name: "tag", required: true)
+ 
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-    let(:current_user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++    let(:current_user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
+
+File: spec/services/common/debug/watcher_spec.rb
+Apply the fix to this code:
+@@ -12,7 +12,7 @@ RSpec.describe Common::Debug::Watcher, type: :services do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -33,7 +33,7 @@ RSpec.describe Common::Debug::Watcher, type: :services do
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -43,8 +43,8 @@ RSpec.describe Common::Debug::Watcher, type: :services do
+ 
+-      let(:tenant) { FactoryBot.create(:tenant, :trait1, :api, enterprise: enterprise) }
+-      let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant) }
++      let(:tenant) { FactoryBot.create(:tenant, :trait1, :api, enterprise:) }
++      let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -53,7 +53,7 @@ RSpec.describe Common::Debug::Watcher, type: :services do
+ 
+-          tenant: tenant,
++          tenant:,
+
+File: spec/services/common/emails/creator_spec.rb
+Apply the fix to this code:
+@@ -3,14 +3,14 @@ require "rails_helper"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:context) { create(:company, :trait1, tenant: tenant) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
++  let(:context) { create(:company, :trait1, tenant:) }
+-  let(:identity) { create(:identity, :trait1, tenant: tenant) }
+-  let(:from_user) { create(:user, :trait1, tenant: tenant, enterprise: enterprise, identity_id: identity.id) }
++  let(:identity) { create(:identity, :trait1, tenant:) }
++  let(:from_user) { create(:user, :trait1, tenant:, enterprise:, identity_id: identity.id) }
+-  let(:template) { FactoryBot.create(:email_template, :trait1, tenant: tenant, wrapper: nil) }
++  let(:template) { FactoryBot.create(:email_template, :trait1, tenant:, wrapper: nil) }
+
+File: spec/services/common/import/etl_setting_spec.rb
+Apply the fix to this code:
+@@ -14,10 +14,10 @@ end
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-    @dummy_class = DummyCommonEtlSettingClass.new(tenant: tenant, klass: "Contact")
++    @dummy_class = DummyCommonEtlSettingClass.new(tenant:, klass: "Contact")
+
+File: spec/services/common/integration/opensearch_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, time_zone: "Sydney") }
+-  let(:shipment) { FactoryBot.create(:shipment, :trait1, tenant: tenant, description: "Hello") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, time_zone: "Sydney") }
++  let(:shipment) { FactoryBot.create(:shipment, :trait1, tenant:, description: "Hello") }
+
+Apply the fix to this code:
+@@ -40,7 +40,7 @@ RSpec.describe Common::Integration::Opensearch, type: :services do
+ 
+-      let(:params) { { statement_type: "create", index_name: index_name, id: shipment.id, document: document } }
++      let(:params) { { statement_type: "create", index_name:, id: shipment.id, document: } }
+
+Apply the fix to this code:
+@@ -49,7 +49,7 @@ RSpec.describe Common::Integration::Opensearch, type: :services do
+ 
+-      let(:params) { { statement_type: "update", index_name: index_name, id: shipment.id, document: document } }
++      let(:params) { { statement_type: "update", index_name:, id: shipment.id, document: } }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

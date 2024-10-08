@@ -1,0 +1,171 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/services/printsmith_deprecated/export/contact.rb
+Apply the fix to this code:
+@@ -45,7 +45,7 @@ class PrintsmithDeprecated::Export::Contact < PrintsmithDeprecated::Export::Base
+-          body: body,
++          body:,
+
+File: app/services/printsmith_deprecated/export/estimate.rb
+Apply the fix to this code:
+@@ -25,7 +25,7 @@ class PrintsmithDeprecated::Export::Estimate < PrintsmithDeprecated::Export::Bas
+-          body: body,
++          body:,
+
+Apply the fix to this code:
+@@ -63,8 +63,8 @@ class PrintsmithDeprecated::Export::Estimate < PrintsmithDeprecated::Export::Bas
+-              path: path,
+-              body: body,
++              path:,
++              body:,
+
+Apply the fix to this code:
+@@ -91,7 +91,7 @@ class PrintsmithDeprecated::Export::Estimate < PrintsmithDeprecated::Export::Bas
+-        contact_id: contact_id,
++        contact_id:,
+
+File: app/services/printsmith_deprecated/export/invoice.rb
+Apply the fix to this code:
+@@ -25,7 +25,7 @@ class PrintsmithDeprecated::Export::Invoice < PrintsmithDeprecated::Export::Base
+-          body: body,
++          body:,
+
+Apply the fix to this code:
+@@ -67,8 +67,8 @@ class PrintsmithDeprecated::Export::Invoice < PrintsmithDeprecated::Export::Base
+-              path: path,
+-              body: body,
++              path:,
++              body:,
+
+Apply the fix to this code:
+@@ -101,7 +101,7 @@ class PrintsmithDeprecated::Export::Invoice < PrintsmithDeprecated::Export::Base
+-        contact_id: contact_id,
++        contact_id:,
+
+File: app/services/printsmith_deprecated/import/address.rb
+Apply the fix to this code:
+@@ -55,16 +55,16 @@ class PrintsmithDeprecated::Import::Address < PrintsmithDeprecated::Import::Base
+-        city: city,
+-        state: state,
+-        name: name,
+-        country: country,
+-        street1: street1,
+-        street2: street2,
+-        street3: street3,
++        city:,
++        state:,
++        name:,
++        country:,
++        street1:,
++        street2:,
++        street3:,
+-        zip: zip,
+-        zone: zone,
++        zip:,
++        zone:,
+
+File: app/services/printsmith_deprecated/import/adjustment.rb
+Apply the fix to this code:
+@@ -56,11 +56,11 @@ class PrintsmithDeprecated::Import::Adjustment < PrintsmithDeprecated::Import::B
+-        total: total,
+-        total_less_non_sales: total_less_non_sales,
+-        markups: markups,
+-        discounts: discounts,
+-        shipping: shipping,
++        total:,
++        total_less_non_sales:,
++        markups:,
++        discounts:,
++        shipping:,
+
+File: app/services/printsmith_deprecated/import/association_resolver.rb
+Apply the fix to this code:
+@@ -11,7 +11,7 @@ class PrintsmithDeprecated::Import::AssociationResolver
+-      klass.unscoped.where(tenant: tenant).where(associations_complete: false).order(created_at: :desc).limit(200).each do |resource|
++      klass.unscoped.where(tenant:).where(associations_complete: false).order(created_at: :desc).limit(200).each do |resource|
+
+File: app/services/printsmith_deprecated/import/contact.rb
+Apply the fix to this code:
+@@ -98,7 +98,7 @@ class PrintsmithDeprecated::Import::Contact < PrintsmithDeprecated::Import::Base
+-        temp: temp,
++        temp:,
+
+Apply the fix to this code:
+@@ -109,14 +109,14 @@ class PrintsmithDeprecated::Import::Contact < PrintsmithDeprecated::Import::Base
+ 
+-            first_name: first_name,
+-            last_name: last_name,
++            first_name:,
++            last_name:,
+-            phone: phone,
+-            mobile: mobile,
++            phone:,
++            mobile:,
+-            fax: fax
++            fax:
+
+File: app/services/printsmith_deprecated/import/estimate.rb
+Apply the fix to this code:
+@@ -190,7 +190,7 @@ class PrintsmithDeprecated::Import::Estimate < PrintsmithDeprecated::Import::Bas
+ 
+-      activity = Activity.unscoped.find_or_initialize_by(tenant_id: @tenant.id, estimate: estimate_destination, activity_for: activity_for)
++      activity = Activity.unscoped.find_or_initialize_by(tenant_id: @tenant.id, estimate: estimate_destination, activity_for:)
+
+Apply the fix to this code:
+@@ -223,7 +223,7 @@ class PrintsmithDeprecated::Import::Estimate < PrintsmithDeprecated::Import::Bas
+-              inquiry: inquiry,
++              inquiry:,
+
+File: app/services/printsmith_deprecated/import/invoice.rb
+Apply the fix to this code:
+@@ -162,7 +162,7 @@ class PrintsmithDeprecated::Import::Invoice < PrintsmithDeprecated::Import::Base
+-              inquiry: inquiry,
++              inquiry:,
+
+Apply the fix to this code:
+@@ -189,7 +189,7 @@ class PrintsmithDeprecated::Import::Invoice < PrintsmithDeprecated::Import::Base
+-              inquiry: inquiry,
++              inquiry:,
+
+Apply the fix to this code:
+@@ -263,7 +263,7 @@ class PrintsmithDeprecated::Import::Invoice < PrintsmithDeprecated::Import::Base
+ 
+-      activity = Activity.unscoped.find_or_initialize_by(tenant_id: @tenant.id, invoice: invoice_destination, activity_for: activity_for)
++      activity = Activity.unscoped.find_or_initialize_by(tenant_id: @tenant.id, invoice: invoice_destination, activity_for:)
+
+File: app/services/printsmith_deprecated/import/sales_rep.rb
+Apply the fix to this code:
+@@ -33,7 +33,7 @@ class PrintsmithDeprecated::Import::SalesRep < PrintsmithDeprecated::Import::Bas
+-        name: name,
++        name:,
+
+File: app/services/printsmith_deprecated/retry/company_account_details.rb
+Apply the fix to this code:
+@@ -30,7 +30,7 @@ class PrintsmithDeprecated::Retry::CompanyAccountDetails
+ 
+-      last_api_log = company.api_logs.where(body: body).last
++      last_api_log = company.api_logs.where(body:).last
+
+File: app/services/printsmith_deprecated/retry/company_lead_source.rb
+Apply the fix to this code:
+@@ -18,7 +18,7 @@ class PrintsmithDeprecated::Retry::CompanyLeadSource
+ 
+-      last_api_log = company.api_logs.where(body: body).last
++      last_api_log = company.api_logs.where(body:).last
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

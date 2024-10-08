@@ -1,0 +1,185 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/models/email.rb
+Apply the fix to this code:
+@@ -106,30 +106,30 @@ class Email < ApplicationRecord
+ 
+-      subject: subject,
+-      from_names: from_names,
+-      from_addresses: from_addresses,
+-      to_names: to_names,
+-      to_addresses: to_addresses,
+-      cc_names: cc_names,
+-      cc_addresses: cc_addresses,
+-      bcc_names: bcc_names,
+-      bcc_addresses: bcc_addresses,
+-      reply_to_names: reply_to_names,
+-      reply_to_addresses: reply_to_addresses,
+-      domains: domains,
++      subject:,
++      from_names:,
++      from_addresses:,
++      to_names:,
++      to_addresses:,
++      cc_names:,
++      cc_addresses:,
++      bcc_names:,
++      bcc_addresses:,
++      reply_to_names:,
++      reply_to_addresses:,
++      domains:,
+-      internal_message_id: internal_message_id,
++      internal_message_id:,
+-      contact_ids: contact_ids,
+-      company_ids: company_ids,
+-      estimate_ids: estimate_ids,
+-      invoice_ids: invoice_ids,
+-      inquiry_ids: inquiry_ids,
++      contact_ids:,
++      company_ids:,
++      estimate_ids:,
++      invoice_ids:,
++      inquiry_ids:,
+
+Apply the fix to this code:
+@@ -143,7 +143,7 @@ class Email < ApplicationRecord
+-      subject: subject,
++      subject:,
+
+Apply the fix to this code:
+@@ -175,8 +175,8 @@ class Email < ApplicationRecord
+-        contact_id: contact_id,
+-        company_id: company_id
++        contact_id:,
++        company_id:
+
+Apply the fix to this code:
+@@ -197,8 +197,8 @@ class Email < ApplicationRecord
+-        contact_id: contact_id,
+-        company_id: company_id
++        contact_id:,
++        company_id:
+
+Apply the fix to this code:
+@@ -249,13 +249,13 @@ class Email < ApplicationRecord
+ 
+-          to: to,
++          to:,
+-          cc: cc,
+-          bcc: bcc,
+-          subject: subject,
++          cc:,
++          bcc:,
++          subject:,
+-          attachment_uuid: attachment_uuid,
++          attachment_uuid:,
+
+Apply the fix to this code:
+@@ -407,10 +407,10 @@ class Email < ApplicationRecord
+-        error_message: error_message,
++        error_message:,
+-            id: id
++            id:
+
+Apply the fix to this code:
+@@ -504,7 +504,7 @@ class Email < ApplicationRecord
+-              file_contents: file_contents,
++              file_contents:,
+
+Apply the fix to this code:
+@@ -553,7 +553,7 @@ class Email < ApplicationRecord
+-      body: body
++      body:
+
+Apply the fix to this code:
+@@ -638,7 +638,7 @@ class Email < ApplicationRecord
+-          destination: destination,
++          destination:,
+
+Apply the fix to this code:
+@@ -662,8 +662,8 @@ class Email < ApplicationRecord
+-            subject: subject,
+-            body: body
++            subject:,
++            body:
+
+File: app/models/email_message.rb
+Apply the fix to this code:
+@@ -80,7 +80,7 @@ class EmailMessage < ApplicationRecord
+-          url: Rails.application.routes.url_helpers.email_attachment_path(id: id, part: attachment["part_id"])
++          url: Rails.application.routes.url_helpers.email_attachment_path(id:, part: attachment["part_id"])
+
+File: app/models/email_template.rb
+Apply the fix to this code:
+@@ -31,11 +31,11 @@ class EmailTemplate < ApplicationRecord
+-      found_template = EmailTemplate.where(global: false).where(name: name)
++      found_template = EmailTemplate.where(global: false).where(name:)
+-      found_template = EmailTemplate.by_tenant(tenant).where(global: false).where(name: name)
++      found_template = EmailTemplate.by_tenant(tenant).where(global: false).where(name:)
+-    found_template = found_template.where.not(id: id) if id.present?
++    found_template = found_template.where.not(id:) if id.present?
+
+Apply the fix to this code:
+@@ -44,8 +44,8 @@ class EmailTemplate < ApplicationRecord
+-    found_template = EmailTemplate.by_enterprise(target_tenant.enterprise).where(global: true).where(name: name)
+-    found_template = found_template.where.not(id: id) if id.present?
++    found_template = EmailTemplate.by_enterprise(target_tenant.enterprise).where(global: true).where(name:)
++    found_template = found_template.where.not(id:) if id.present?
+
+File: app/models/email_validation.rb
+Apply the fix to this code:
+@@ -232,7 +232,7 @@ class EmailValidation < ApplicationRecord
+-              rescan_needed: rescan_needed,
++              rescan_needed:,
+
+Apply the fix to this code:
+@@ -245,7 +245,7 @@ class EmailValidation < ApplicationRecord
+-                rescan_needed: rescan_needed,
++                rescan_needed:,
+
+File: app/models/estimate.rb
+Apply the fix to this code:
+@@ -140,7 +140,7 @@ class Estimate < ApplicationRecord
+ 
+-      where(tenant_id: tenant_id).
++      where(tenant_id:).
+
+Apply the fix to this code:
+@@ -201,41 +201,41 @@ class Estimate < ApplicationRecord
+ 
+-    where_condition = sanitize_sql("(tasks.taskable_type = 'Estimate' AND tasks.taskable_id = :id)", id: id)
++    where_condition = sanitize_sql("(tasks.taskable_type = 'Estimate' AND tasks.taskable_id = :id)", id:)
+-    Task.where(tenant: tenant).
++    Task.where(tenant:).
+ 
+-    where_condition = sanitize_sql("(phone_calls.phoneable_type = 'Estimate' AND phone_calls.phoneable_id = :id)", id: id)
++    where_condition = sanitize_sql("(phone_calls.phoneable_type = 'Estimate' AND phone_calls.phoneable_id = :id)", id:)
+-    PhoneCall.where(tenant: tenant).
++    PhoneCall.where(tenant:).
+ 
+-    where_condition = sanitize_sql("(notes.context_type = 'Estimate' AND notes.context_id = :id)", id: id)
++    where_condition = sanitize_sql("(notes.context_type = 'Estimate' AND notes.context_id = :id)", id:)
+-    Note.where(tenant: tenant).
++    Note.where(tenant:).
+ 
+-    where_condition = sanitize_sql("(meetings.context_type = 'Estimate' AND meetings.context_id = :id)", id: id)
++    where_condition = sanitize_sql("(meetings.context_type = 'Estimate' AND meetings.context_id = :id)", id:)
+-    Meeting.where(tenant: tenant).
++    Meeting.where(tenant:).
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

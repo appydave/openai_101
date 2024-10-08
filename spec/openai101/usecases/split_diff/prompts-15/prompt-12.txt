@@ -1,0 +1,171 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/models/invoice.rb
+Apply the fix to this code:
+@@ -170,7 +170,7 @@ class Invoice < ApplicationRecord
+-      result = Shipment.where(tenant: tenant, platform_id: platform_source_shipment_platform_id).first
++      result = Shipment.where(tenant:, platform_id: platform_source_shipment_platform_id).first
+
+Apply the fix to this code:
+@@ -206,7 +206,7 @@ class Invoice < ApplicationRecord
+ 
+-    Invoice.where(tenant: tenant).where("platform_data->>'source_invoice_platform_id' = ?", platform_id).reorder("").take
++    Invoice.where(tenant:).where("platform_data->>'source_invoice_platform_id' = ?", platform_id).reorder("").take
+
+Apply the fix to this code:
+@@ -232,7 +232,7 @@ class Invoice < ApplicationRecord
+-        result = Estimate.where(tenant: tenant, invoice_number: source_estimate_number).first
++        result = Estimate.where(tenant:, invoice_number: source_estimate_number).first
+
+Apply the fix to this code:
+@@ -243,7 +243,7 @@ class Invoice < ApplicationRecord
+ 
+-    where_condition = sanitize_sql("(tasks.taskable_type IN ('Invoice', 'Sale', 'Order') AND tasks.taskable_id = :id)", id: id)
++    where_condition = sanitize_sql("(tasks.taskable_type IN ('Invoice', 'Sale', 'Order') AND tasks.taskable_id = :id)", id:)
+
+Apply the fix to this code:
+@@ -253,13 +253,13 @@ class Invoice < ApplicationRecord
+-    Task.where(tenant: tenant).
++    Task.where(tenant:).
+ 
+-    where_condition = sanitize_sql("(phone_calls.phoneable_type IN ('Invoice', 'Sale', 'Order') AND phone_calls.phoneable_id = :id)", id: id)
++    where_condition = sanitize_sql("(phone_calls.phoneable_type IN ('Invoice', 'Sale', 'Order') AND phone_calls.phoneable_id = :id)", id:)
+
+Apply the fix to this code:
+@@ -269,13 +269,13 @@ class Invoice < ApplicationRecord
+-    PhoneCall.where(tenant: tenant).
++    PhoneCall.where(tenant:).
+ 
+-    where_condition = sanitize_sql("(notes.context_type IN ('Invoice', 'Sale', 'Order') AND notes.context_id = :id)", id: id)
++    where_condition = sanitize_sql("(notes.context_type IN ('Invoice', 'Sale', 'Order') AND notes.context_id = :id)", id:)
+
+Apply the fix to this code:
+@@ -285,13 +285,13 @@ class Invoice < ApplicationRecord
+-    Note.where(tenant: tenant).
++    Note.where(tenant:).
+ 
+-    where_condition = sanitize_sql("(meetings.context_type IN ('Invoice', 'Sale', 'Order') AND meetings.context_id = :id)", id: id)
++    where_condition = sanitize_sql("(meetings.context_type IN ('Invoice', 'Sale', 'Order') AND meetings.context_id = :id)", id:)
+
+Apply the fix to this code:
+@@ -301,7 +301,7 @@ class Invoice < ApplicationRecord
+-    Meeting.where(tenant: tenant).
++    Meeting.where(tenant:).
+
+Apply the fix to this code:
+@@ -349,7 +349,7 @@ class Invoice < ApplicationRecord
+ 
+-    Proof.where(tenant_id: tenant_id, invoice_id: id, revision_of_id: nil).order(number: :asc)
++    Proof.where(tenant_id:, invoice_id: id, revision_of_id: nil).order(number: :asc)
+
+Apply the fix to this code:
+@@ -417,18 +417,18 @@ class Invoice < ApplicationRecord
+-          "#{ApplicationController.helpers.number_to_currency(net_value, unit: "", tenant: tenant)}",
+-          "#{ApplicationController.helpers.number_to_currency(tax_value, unit: "", tenant: tenant)}",
+-          "#{ApplicationController.helpers.number_to_currency(gross_value, unit: "", tenant: tenant)}",
+-          "#{ApplicationController.helpers.number_to_currency(sale.amount_due, unit: "", tenant: tenant)}",
+-          "#{ApplicationController.helpers.number_to_currency(margin, unit:"", tenant: tenant, precision: 1)}"
++          "#{ApplicationController.helpers.number_to_currency(net_value, unit: "", tenant:)}",
++          "#{ApplicationController.helpers.number_to_currency(tax_value, unit: "", tenant:)}",
++          "#{ApplicationController.helpers.number_to_currency(gross_value, unit: "", tenant:)}",
++          "#{ApplicationController.helpers.number_to_currency(sale.amount_due, unit: "", tenant:)}",
++          "#{ApplicationController.helpers.number_to_currency(margin, unit:"", tenant:, precision: 1)}"
+ 
+-    Invoice.where(tenant: tenant, invoiced: false, deferred: false).where("platform_data->'document_detail_ids' @> '[\"#{document_id.to_i}\"]'").reorder("").take
++    Invoice.where(tenant:, invoiced: false, deferred: false).where("platform_data->'document_detail_ids' @> '[\"#{document_id.to_i}\"]'").reorder("").take
+
+Apply the fix to this code:
+@@ -460,7 +460,7 @@ class Invoice < ApplicationRecord
+ 
+-    invoices = Invoice.unscoped.where(tenant: enterprise.tenants.real, invoice_type: invoice_type)
++    invoices = Invoice.unscoped.where(tenant: enterprise.tenants.real, invoice_type:)
+
+Apply the fix to this code:
+@@ -492,8 +492,8 @@ class Invoice < ApplicationRecord
+ 
+-      tenant: tenant,
+-      user: user,
++      tenant:,
++      user:,
+
+Apply the fix to this code:
+@@ -528,8 +528,8 @@ class Invoice < ApplicationRecord
+ 
+-      tenant: tenant,
+-      user: user,
++      tenant:,
++      user:,
+
+Apply the fix to this code:
+@@ -557,8 +557,8 @@ class Invoice < ApplicationRecord
+ 
+-      Invoice.where(tenant: tenant).invoiced,
+-      tenant: tenant,
++      Invoice.where(tenant:).invoiced,
++      tenant:,
+
+Apply the fix to this code:
+@@ -589,18 +589,18 @@ class Invoice < ApplicationRecord
+-            "#{ApplicationController.helpers.number_to_currency(profit[:net_sales],  tenant: tenant)}",
+-            "#{ApplicationController.helpers.number_to_currency(profit[:vat],  tenant: tenant)}",
+-            "#{ApplicationController.helpers.number_to_currency(profit[:gross_sales],  tenant: tenant)}",
++            "#{ApplicationController.helpers.number_to_currency(profit[:net_sales],  tenant:)}",
++            "#{ApplicationController.helpers.number_to_currency(profit[:vat],  tenant:)}",
++            "#{ApplicationController.helpers.number_to_currency(profit[:gross_sales],  tenant:)}",
+-            "#{ApplicationController.helpers.number_to_currency(profit[:net_sales],  tenant: tenant)}",
+-            "#{ApplicationController.helpers.number_to_currency(profit[:vat],  tenant: tenant)}",
+-            "#{ApplicationController.helpers.number_to_currency(profit[:gross_sales],  tenant: tenant)}",
++            "#{ApplicationController.helpers.number_to_currency(profit[:net_sales],  tenant:)}",
++            "#{ApplicationController.helpers.number_to_currency(profit[:vat],  tenant:)}",
++            "#{ApplicationController.helpers.number_to_currency(profit[:gross_sales],  tenant:)}",
+
+File: app/models/lead_import_field.rb
+Apply the fix to this code:
+@@ -16,7 +16,7 @@ class LeadImportField < ApplicationRecord
+ 
+-    CompanyEnrichmentField.where(enterprise: enterprise).pluck(:name)
++    CompanyEnrichmentField.where(enterprise:).pluck(:name)
+
+Apply the fix to this code:
+@@ -34,7 +34,7 @@ class LeadImportField < ApplicationRecord
+ 
+-    required_fields = LeadImportField.where(enterprise: enterprise, required: true)
++    required_fields = LeadImportField.where(enterprise:, required: true)
+
+Apply the fix to this code:
+@@ -44,10 +44,10 @@ class LeadImportField < ApplicationRecord
+ 
+-        tags = TagCategory.where(enterprise: enterprise).global_only
++        tags = TagCategory.where(enterprise:).global_only
+-        sources = LeadSource.where(enterprise: enterprise).pluck(:name).reject(&:empty?)
++        sources = LeadSource.where(enterprise:).pluck(:name).reject(&:empty?)
+
+File: app/models/marketing_group.rb
+Apply the fix to this code:
+@@ -20,7 +20,7 @@ class MarketingGroup < ApplicationRecord
+ 
+-      result = Campaign.where(email_template_id: email_template_ids, parent_id: nil, enterprise_id: enterprise_id).order(name: :asc)
++      result = Campaign.where(email_template_id: email_template_ids, parent_id: nil, enterprise_id:).order(name: :asc)
+
+Apply the fix to this code:
+@@ -30,7 +30,7 @@ class MarketingGroup < ApplicationRecord
+ 
+-      result = Campaign.where(id: campaign_ids, enterprise_id: enterprise_id).order(name: :asc)
++      result = Campaign.where(id: campaign_ids, enterprise_id:).order(name: :asc)
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

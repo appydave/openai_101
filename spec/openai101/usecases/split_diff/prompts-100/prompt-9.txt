@@ -1,0 +1,861 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/services/common/debug/watcher_spec.rb
+Apply the fix to this code:
+@@ -12,7 +12,7 @@ RSpec.describe Common::Debug::Watcher, type: :services do
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -33,7 +33,7 @@ RSpec.describe Common::Debug::Watcher, type: :services do
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -43,8 +43,8 @@ RSpec.describe Common::Debug::Watcher, type: :services do
+ 
+-      let(:tenant) { FactoryBot.create(:tenant, :trait1, :api, enterprise: enterprise) }
+-      let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant) }
++      let(:tenant) { FactoryBot.create(:tenant, :trait1, :api, enterprise:) }
++      let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -53,7 +53,7 @@ RSpec.describe Common::Debug::Watcher, type: :services do
+ 
+-          tenant: tenant,
++          tenant:,
+
+File: spec/services/common/emails/creator_spec.rb
+Apply the fix to this code:
+@@ -3,14 +3,14 @@ require "rails_helper"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:context) { create(:company, :trait1, tenant: tenant) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
++  let(:context) { create(:company, :trait1, tenant:) }
+-  let(:identity) { create(:identity, :trait1, tenant: tenant) }
+-  let(:from_user) { create(:user, :trait1, tenant: tenant, enterprise: enterprise, identity_id: identity.id) }
++  let(:identity) { create(:identity, :trait1, tenant:) }
++  let(:from_user) { create(:user, :trait1, tenant:, enterprise:, identity_id: identity.id) }
+-  let(:template) { FactoryBot.create(:email_template, :trait1, tenant: tenant, wrapper: nil) }
++  let(:template) { FactoryBot.create(:email_template, :trait1, tenant:, wrapper: nil) }
+
+File: spec/services/common/import/etl_setting_spec.rb
+Apply the fix to this code:
+@@ -14,10 +14,10 @@ end
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+ 
+-    @dummy_class = DummyCommonEtlSettingClass.new(tenant: tenant, klass: "Contact")
++    @dummy_class = DummyCommonEtlSettingClass.new(tenant:, klass: "Contact")
+
+File: spec/services/common/integration/opensearch_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, time_zone: "Sydney") }
+-  let(:shipment) { FactoryBot.create(:shipment, :trait1, tenant: tenant, description: "Hello") }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, time_zone: "Sydney") }
++  let(:shipment) { FactoryBot.create(:shipment, :trait1, tenant:, description: "Hello") }
+
+Apply the fix to this code:
+@@ -40,7 +40,7 @@ RSpec.describe Common::Integration::Opensearch, type: :services do
+ 
+-      let(:params) { { statement_type: "create", index_name: index_name, id: shipment.id, document: document } }
++      let(:params) { { statement_type: "create", index_name:, id: shipment.id, document: } }
+
+Apply the fix to this code:
+@@ -49,7 +49,7 @@ RSpec.describe Common::Integration::Opensearch, type: :services do
+ 
+-      let(:params) { { statement_type: "update", index_name: index_name, id: shipment.id, document: document } }
++      let(:params) { { statement_type: "update", index_name:, id: shipment.id, document: } }
+
+File: spec/services/common/reports/sales_metrics_spec.rb
+Apply the fix to this code:
+@@ -2,9 +2,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, training: false, demo: false) }
+-  let(:company) { create(:company, :trait1, tenant: tenant, prospect: false, walk_in: false, rolling_12_month_sales_ly: 100_000) }
+-  let(:group_attrs) { attributes_for(:group, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, training: false, demo: false) }
++  let(:company) { create(:company, :trait1, tenant:, prospect: false, walk_in: false, rolling_12_month_sales_ly: 100_000) }
++  let(:group_attrs) { attributes_for(:group, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -16,9 +16,9 @@ RSpec.describe Common::Reports::SalesMetrics, type: :services do
+-        contact = create(:contact, :trait1, company: company, tenant: tenant, first_sale_at: random_date_within_range, latest_order_date: random_date_within_range, source_created_at: random_date_within_range, temp: false, platform_id: Contact.last ? Contact.last.id + 1 : 1)
+-        create(:estimate, :trait1, company: company, contact_id: contact.id, created_at: random_date_within_range)
+-        create(:invoice, :trait1, company: company, sale_id: nil, external_id: Faker::Internet.password, tenant_id: tenant.id, contact_id: contact.id, created_at: random_date_within_range, pickup_date: random_date_within_range)
++        contact = create(:contact, :trait1, company:, tenant:, first_sale_at: random_date_within_range, latest_order_date: random_date_within_range, source_created_at: random_date_within_range, temp: false, platform_id: Contact.last ? Contact.last.id + 1 : 1)
++        create(:estimate, :trait1, company:, contact_id: contact.id, created_at: random_date_within_range)
++        create(:invoice, :trait1, company:, sale_id: nil, external_id: Faker::Internet.password, tenant_id: tenant.id, contact_id: contact.id, created_at: random_date_within_range, pickup_date: random_date_within_range)
+
+File: spec/services/common/sanitizers/url_sanitizer_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.build(:tenant, :trait2, enterprise: enterprise, facebook: "https://www.facebook.com") }
++  let(:tenant) { FactoryBot.build(:tenant, :trait2, enterprise:, facebook: "https://www.facebook.com") }
+
+Apply the fix to this code:
+@@ -15,7 +15,7 @@ RSpec.describe Common::Sanitizers::UrlSanitizer, type: :services do
+ 
+-      let(:tenant) { FactoryBot.build(:tenant, :trait2, enterprise: enterprise, facebook: "http://www.facebook.com") }
++      let(:tenant) { FactoryBot.build(:tenant, :trait2, enterprise:, facebook: "http://www.facebook.com") }
+
+File: spec/services/common/tagger/activity_spec.rb
+Apply the fix to this code:
+@@ -4,14 +4,14 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.build(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.build(:tenant, :trait1, enterprise:) }
+ 
+-      let!(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
++      let!(:company) { FactoryBot.create(:company, :trait1, tenant:) }
+-      let!(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, company_id: company.id, contact_id: contact.id) }
+-      let!(:activity) { FactoryBot.create(:activity, :trait1, tenant: tenant, estimate: estimate, activity_for: "estimate") }
++      let!(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, company_id: company.id, contact_id: contact.id) }
++      let!(:activity) { FactoryBot.create(:activity, :trait1, tenant:, estimate:, activity_for: "estimate") }
+
+File: spec/services/corebridge/api/account_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/corebridge/api/base_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -17,13 +17,25 @@ RSpec.describe Corebridge::Api::Base, type: :services do
+ 
++    context "Corebridge api url" do
++      context "when nil" do
++        let(:path) { nil }
++
++        it "is expected to return response as nil" do
++          expect(
++            subject.request(path, method: :GET)
++          ).to eq(nil)
++        end
++      end
++    end
++
+ 
+-            subject.request(path: path, method: :GET)
++            subject.request(path, method: :GET)
+
+File: spec/services/corebridge/api/contact_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/corebridge/api/sales_rep_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/corebridge/api/tenant_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/corebridge/import/interactors/account/upsert_spec.rb
+Apply the fix to this code:
+@@ -4,9 +4,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:account_new) { FactoryBot.build(:company, :trait2, tenant: tenant) }
+-  let(:account) { FactoryBot.create(:company, :trait2, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:account_new) { FactoryBot.build(:company, :trait2, tenant:) }
++  let(:account) { FactoryBot.create(:company, :trait2, tenant:) }
+
+Apply the fix to this code:
+@@ -17,10 +17,10 @@ RSpec.describe Corebridge::Import::Interactors::Account::Upsert, type: :services
+-          account: account,
+-          created: created,
+-          modified: modified,
+-          source: source
++          account:,
++          created:,
++          modified:,
++          source:
+
+Apply the fix to this code:
+@@ -35,9 +35,9 @@ RSpec.describe Corebridge::Import::Interactors::Account::Upsert, type: :services
+-          created: created,
+-          modified: modified,
+-          source: source
++          created:,
++          modified:,
++          source:
+
+File: spec/services/corebridge/import/interactors/address/upsert_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:address) { FactoryBot.create(:address, :trait2, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:address) { FactoryBot.create(:address, :trait2, tenant:) }
+
+Apply the fix to this code:
+@@ -21,9 +21,9 @@ RSpec.describe Corebridge::Import::Interactors::Address::Upsert, type: :services
+-            tenant: tenant,
+-            created: created,
+-            modified: modified,
++            tenant:,
++            created:,
++            modified:,
+
+Apply the fix to this code:
+@@ -33,9 +33,9 @@ RSpec.describe Corebridge::Import::Interactors::Address::Upsert, type: :services
+-          tenant: tenant,
+-          created: created,
+-          modified: modified,
++          tenant:,
++          created:,
++          modified:,
+
+Apply the fix to this code:
+@@ -54,9 +54,9 @@ RSpec.describe Corebridge::Import::Interactors::Address::Upsert, type: :services
+-          address: address,
+-          created: created,
+-          modified: modified,
++          address:,
++          created:,
++          modified:,
+
+File: spec/services/corebridge/import/interactors/contact/upsert_spec.rb
+Apply the fix to this code:
+@@ -4,9 +4,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:contact_new) { FactoryBot.build(:contact, :trait2, tenant: tenant) }
+-  let(:contact) { FactoryBot.create(:contact, :trait2, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:contact_new) { FactoryBot.build(:contact, :trait2, tenant:) }
++  let(:contact) { FactoryBot.create(:contact, :trait2, tenant:) }
+
+Apply the fix to this code:
+@@ -18,11 +18,11 @@ RSpec.describe Corebridge::Import::Interactors::Contact::Upsert, type: :services
+-          contact: contact,
+-          created: created,
+-          modified: modified,
+-          source: source,
+-          account_source: account_source
++          contact:,
++          created:,
++          modified:,
++          source:,
++          account_source:
+
+Apply the fix to this code:
+@@ -37,11 +37,11 @@ RSpec.describe Corebridge::Import::Interactors::Contact::Upsert, type: :services
+-          contact: contact,
+-          created: created,
+-          modified: modified,
+-          source: source,
+-          account_source: account_source
++          contact:,
++          created:,
++          modified:,
++          source:,
++          account_source:
+
+Apply the fix to this code:
+@@ -50,10 +50,10 @@ RSpec.describe Corebridge::Import::Interactors::Contact::Upsert, type: :services
+-          created: created,
+-          modified: modified,
+-          source: source,
+-          account_source: account_source
++          created:,
++          modified:,
++          source:,
++          account_source:
+
+File: spec/services/corebridge/import/interactors/sales_rep/upsert_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:sales_rep) { FactoryBot.build(:sales_rep, :trait2, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:sales_rep) { FactoryBot.build(:sales_rep, :trait2, tenant:) }
+
+Apply the fix to this code:
+@@ -16,10 +16,10 @@ RSpec.describe Corebridge::Import::Interactors::SalesRep::Upsert, type: :service
+-          sales_rep: sales_rep,
+-          created: created,
+-          modified: modified,
+-          source: source
++          sales_rep:,
++          created:,
++          modified:,
++          source:
+
+File: spec/services/corebridge/import/interactors/user/upsert_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -15,8 +15,8 @@ RSpec.describe Corebridge::Import::Interactors::User::Upsert, type: :services do
+-          tenant: tenant,
+-          source: source
++          tenant:,
++          source:
+
+File: spec/services/opensearch/aggregator/base_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, opensearchable: true) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, opensearchable: true) }
+
+Apply the fix to this code:
+@@ -14,13 +14,13 @@ RSpec.describe Opensearch::Aggregator::Base, type: :services do
+ 
+-      klass: klass,
+-      tenant: tenant,
+-      platform_type: platform_type,
+-      start_date: start_date,
+-      end_date: end_date,
+-      os_action: os_action,
+-      params: params
++      klass:,
++      tenant:,
++      platform_type:,
++      start_date:,
++      end_date:,
++      os_action:,
++      params:
+
+File: spec/services/opensearch/health/company_validator_spec.rb
+Apply the fix to this code:
+@@ -5,12 +5,12 @@ require "opensearch/health/company_validator"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
+-  let(:company) { create(:company, :trait1, tenant: tenant) }
++  let(:company) { create(:company, :trait1, tenant:) }
+
+File: spec/services/opensearch/health/estimate_validator_spec.rb
+Apply the fix to this code:
+@@ -5,12 +5,12 @@ require "opensearch/health/estimate_validator"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
+-  let(:estimate) { create(:estimate, :trait1, tenant: tenant) }
++  let(:estimate) { create(:estimate, :trait1, tenant:) }
+
+File: spec/services/opensearch/health/etl_sync_validator_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:etl_setting_out_of_sync) { OpensearchEtlSetting.create(klass: klass, last_updated_at: Time.now - 25.hours) }
++    let(:etl_setting_out_of_sync) { OpensearchEtlSetting.create(klass:, last_updated_at: Time.now - 25.hours) }
+
+Apply the fix to this code:
+@@ -17,14 +17,14 @@ RSpec.describe Opensearch::Health::EtlSyncValidator, type: :services do
+ 
+-        expect(Honeybadger).to receive(:notify).with(
++        expect(Honeybadger).to receive(:notify).with(hash_including(
+-            klass: klass,
++            klass:,
+-        )
++        ))
+
+File: spec/services/opensearch/health/invoice_validator_spec.rb
+Apply the fix to this code:
+@@ -5,12 +5,12 @@ require "opensearch/health/invoice_validator"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
+-  let(:invoice) { create(:invoice, :trait1, tenant: tenant) }
++  let(:invoice) { create(:invoice, :trait1, tenant:) }
+
+File: spec/services/opensearch/health/shipment_validator_spec.rb
+Apply the fix to this code:
+@@ -5,12 +5,12 @@ require "opensearch/health/shipment_validator"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
+-  let(:shipment) { create(:shipment, :trait1, tenant: tenant) }
++  let(:shipment) { create(:shipment, :trait1, tenant:) }
+
+File: spec/services/opensearch/queries/company_analysis/build_spec.rb
+Apply the fix to this code:
+@@ -4,12 +4,12 @@ require "rails_helper"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
+ 
+-  subject { described_class.new(tenant: tenant, start_date: start_date, end_date: end_date) }
++  subject { described_class.new(tenant:, start_date:, end_date:) }
+
+File: spec/services/opensearch/queries/daily_sales_activity/daily_estimates_activity_printsmith/build_spec.rb
+Apply the fix to this code:
+@@ -4,12 +4,12 @@ require "rails_helper"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
+ 
+-  subject { described_class.new(tenant: tenant, start_date: start_date, end_date: end_date) }
++  subject { described_class.new(tenant:, start_date:, end_date:) }
+
+File: spec/services/opensearch/queries/daily_sales_activity/daily_sales_activity_printsmith/build_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:) }
+
+File: spec/services/opensearch/tasks/opensearch_tasks_spec.rb
+Apply the fix to this code:
+@@ -4,11 +4,11 @@ require "rails_helper"
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, sales_rep_for_locations: false) }
+-  let(:user) { create(:user, enterprise: enterprise, tenant: tenant) }
+-  let(:sale_one) { create(:sale, :trait1, tenant: tenant, sales_rep_user_id: user.id, pickup_date: DateTime.now - 1.day) }
+-  let(:sale_two) { create(:sale, :trait1, tenant: tenant, location_user_id: location.id, pickup_date: DateTime.now - 1.day) }
+-  let(:location) { create(:location, :trait1, tenant: tenant) }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, sales_rep_for_locations: false) }
++  let(:user) { create(:user, enterprise:, tenant:) }
++  let(:sale_one) { create(:sale, :trait1, tenant:, sales_rep_user_id: user.id, pickup_date: DateTime.now - 1.day) }
++  let(:sale_two) { create(:sale, :trait1, tenant:, location_user_id: location.id, pickup_date: DateTime.now - 1.day) }
++  let(:location) { create(:location, :trait1, tenant:) }
+
+File: spec/services/pack_and_send/api/account_spec.rb
+Apply the fix to this code:
+@@ -4,9 +4,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {platform_id: "1234"}) }
+-  let(:account) { FactoryBot.create(:company, :trait1, tenant: tenant, invoice_address: address, b2b: false) }
+-  let(:address) { FactoryBot.create(:address, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {platform_id: "1234"}) }
++  let(:account) { FactoryBot.create(:company, :trait1, tenant:, invoice_address: address, b2b: false) }
++  let(:address) { FactoryBot.create(:address, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -85,7 +85,7 @@ RSpec.describe PackAndSend::Api::Account, type: :services do
+-        ).to receive(:send).with("post", /organisations/, {headers: headers, body: payload.to_json}).and_return(api_response)
++        ).to receive(:send).with("post", /organisations/, {headers:, body: payload.to_json}).and_return(api_response)
+
+File: spec/services/pack_and_send/api/base_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+File: spec/services/pack_and_send/api/contact_spec.rb
+Apply the fix to this code:
+@@ -4,9 +4,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {platform_id: "1234"}) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, address: address) }
+-  let(:address) { FactoryBot.create(:address, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {platform_id: "1234"}) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, address:) }
++  let(:address) { FactoryBot.create(:address, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -90,7 +90,7 @@ RSpec.describe PackAndSend::Api::Contact, type: :services do
+-        ).to receive(:send).with("post", /customers/, {headers: headers, body: payload.to_json}).and_return(api_response)
++        ).to receive(:send).with("post", /customers/, {headers:, body: payload.to_json}).and_return(api_response)
+
+File: spec/services/pack_and_send/api/document_spec.rb
+Apply the fix to this code:
+@@ -4,9 +4,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {platform_id: "1234"}) }
+-  let(:estimate) { FactoryBot.build(:estimate, :trait1, invoice_number: "1234", tenant: tenant) }
+-  let(:invoice) { FactoryBot.build(:invoice, :trait1, invoice_number: "1234", tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {platform_id: "1234"}) }
++  let(:estimate) { FactoryBot.build(:estimate, :trait1, invoice_number: "1234", tenant:) }
++  let(:invoice) { FactoryBot.build(:invoice, :trait1, invoice_number: "1234", tenant:) }
+
+Apply the fix to this code:
+@@ -27,7 +27,7 @@ RSpec.describe PackAndSend::Api::Document, type: :services do
+-        ).to receive(:send).with("get", /service-estimate-summary/, {headers: headers, body: {}.to_json}).and_return(api_response_body)
++        ).to receive(:send).with("get", /service-estimate-summary/, {headers:, body: {}.to_json}).and_return(api_response_body)
+
+Apply the fix to this code:
+@@ -39,7 +39,7 @@ RSpec.describe PackAndSend::Api::Document, type: :services do
+-        ).to receive(:send).with("get", /tax-invoice/, {headers: headers, body: {}.to_json}).and_return(api_response_body)
++        ).to receive(:send).with("get", /tax-invoice/, {headers:, body: {}.to_json}).and_return(api_response_body)
+
+File: spec/services/pack_and_send/api/estimate_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {platform_id: "1234"}) }
+-  let(:estimate) { FactoryBot.build(:estimate, :trait1, invoice_number: "1234", tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {platform_id: "1234"}) }
++  let(:estimate) { FactoryBot.build(:estimate, :trait1, invoice_number: "1234", tenant:) }
+
+Apply the fix to this code:
+@@ -25,7 +25,7 @@ RSpec.describe PackAndSend::Api::Estimate, type: :services do
+-        ).to receive(:send).with("get", /tax-invoice/, {headers: headers, body: {}.to_json}).and_return(api_response)
++        ).to receive(:send).with("get", /tax-invoice/, {headers:, body: {}.to_json}).and_return(api_response)
+
+File: spec/services/pack_and_send/api/event_spec.rb
+Apply the fix to this code:
+@@ -4,16 +4,16 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {platform_id: "1234"}) }
+-  let(:invoice) { FactoryBot.create(:invoice, :trait1, invoice_number: "1234", tenant: tenant) }
+-  let(:sale) { FactoryBot.create(:sale, :trait1, invoice_number: "1234", tenant: tenant) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait1, invoice_number: "1234", tenant: tenant) }
+-  let(:email) { FactoryBot.create(:email, :trait1, context: estimate, tenant: tenant) }
+-  let(:email_2) { FactoryBot.create(:email, :trait1, context: invoice, tenant: tenant) }
+-  let(:email_3) { FactoryBot.create(:email, :trait1, context: sale, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {platform_id: "1234"}) }
++  let(:invoice) { FactoryBot.create(:invoice, :trait1, invoice_number: "1234", tenant:) }
++  let(:sale) { FactoryBot.create(:sale, :trait1, invoice_number: "1234", tenant:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait1, invoice_number: "1234", tenant:) }
++  let(:email) { FactoryBot.create(:email, :trait1, context: estimate, tenant:) }
++  let(:email_2) { FactoryBot.create(:email, :trait1, context: invoice, tenant:) }
++  let(:email_3) { FactoryBot.create(:email, :trait1, context: sale, tenant:) }
+ 
+-  let(:address) { FactoryBot.create(:address, :trait1, tenant: tenant) }
+-  let(:current_user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++  let(:address) { FactoryBot.create(:address, :trait1, tenant:) }
++  let(:current_user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
+
+Apply the fix to this code:
+@@ -58,7 +58,7 @@ RSpec.describe PackAndSend::Api::Event, type: :services do
+-        ).to receive(:send).with("post", /events/, {headers: headers, body: payload.to_json}).and_return(api_response)
++        ).to receive(:send).with("post", /events/, {headers:, body: payload.to_json}).and_return(api_response)
+
+Apply the fix to this code:
+@@ -76,7 +76,7 @@ RSpec.describe PackAndSend::Api::Event, type: :services do
+-        ).to receive(:send).with("post", /events/, {headers: headers, body: payload.to_json}).and_return(api_response)
++        ).to receive(:send).with("post", /events/, {headers:, body: payload.to_json}).and_return(api_response)
+
+File: spec/services/pack_and_send/api/health_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {platform_id: "1234"}) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {platform_id: "1234"}) }
+
+File: spec/services/pack_and_send/api/invoice_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {platform_id: "1234"}) }
+-  let(:invoice) { FactoryBot.build(:invoice, :trait1, invoice_number: "1234", tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {platform_id: "1234"}) }
++  let(:invoice) { FactoryBot.build(:invoice, :trait1, invoice_number: "1234", tenant:) }
+
+Apply the fix to this code:
+@@ -25,7 +25,7 @@ RSpec.describe PackAndSend::Api::Invoice, type: :services do
+-        ).to receive(:send).with("get", /tax-invoice/, {headers: headers, body: {}.to_json}).and_return(api_response)
++        ).to receive(:send).with("get", /tax-invoice/, {headers:, body: {}.to_json}).and_return(api_response)
+
+File: spec/services/pack_and_send/api/note_spec.rb
+Apply the fix to this code:
+@@ -4,12 +4,12 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {platform_id: "1234"}) }
+-  let(:invoice) { FactoryBot.build(:invoice, :trait1, invoice_number: "1234", tenant: tenant) }
+-  let(:estimate) { FactoryBot.build(:estimate, :trait1, invoice_number: "1234", tenant: tenant) }
+-  let(:note) { FactoryBot.create(:note, :trait1, context: estimate, tenant: tenant, message: "note") }
+-  let(:address) { FactoryBot.create(:address, :trait1, tenant: tenant) }
+-  let(:current_user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {platform_id: "1234"}) }
++  let(:invoice) { FactoryBot.build(:invoice, :trait1, invoice_number: "1234", tenant:) }
++  let(:estimate) { FactoryBot.build(:estimate, :trait1, invoice_number: "1234", tenant:) }
++  let(:note) { FactoryBot.create(:note, :trait1, context: estimate, tenant:, message: "note") }
++  let(:address) { FactoryBot.create(:address, :trait1, tenant:) }
++  let(:current_user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
+
+File: spec/services/pack_and_send/export/account_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: { platform_id: "1234"}) }
+-  let(:address) { FactoryBot.create(:address, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: { platform_id: "1234"}) }
++  let(:address) { FactoryBot.create(:address, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -17,7 +17,7 @@ RSpec.describe PackAndSend::Export::Account, type: :services do
+-    let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: nil, deleted: false) }
++    let(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: nil, deleted: false) }
+
+File: spec/services/pack_and_send/export/contact_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: { platform_id: "1234"}) }
+-  let(:address) { FactoryBot.create(:address, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: { platform_id: "1234"}) }
++  let(:address) { FactoryBot.create(:address, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -17,7 +17,7 @@ RSpec.describe PackAndSend::Export::Contact, type: :services do
+-    let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: nil, temp: false, deleted: false) }
++    let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: nil, temp: false, deleted: false) }
+
+File: spec/services/pack_and_send/export/estimate_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: { platform_id: "1234"}) }
+-  let(:address) { FactoryBot.create(:address, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: { platform_id: "1234"}) }
++  let(:address) { FactoryBot.create(:address, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -17,8 +17,8 @@ RSpec.describe PackAndSend::Export::Estimate, type: :services do
+-    let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant, platform_id: nil, deleted: false) }
+-    let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant: tenant, platform_id: nil, deleted: false) }
++    let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:, platform_id: nil, deleted: false) }
++    let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant:, platform_id: nil, deleted: false) }
+
+File: spec/services/pack_and_send/export/invoice_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: { platform_id: "1234"}) }
+-  let(:address) { FactoryBot.create(:address, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: { platform_id: "1234"}) }
++  let(:address) { FactoryBot.create(:address, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -17,8 +17,8 @@ RSpec.describe PackAndSend::Export::Invoice, type: :services do
+-    let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant: tenant, platform_id: nil, deleted: false) }
+-    let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant: tenant, platform_id: nil, deleted: false) }
++    let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant:, platform_id: nil, deleted: false) }
++    let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant:, platform_id: nil, deleted: false) }
+
+File: spec/services/pack_and_send/health/sales_summary_stats_check_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let!(:tenant) { FactoryBot.create(:tenant, :trait1, :api, enterprise: enterprise, training: false, demo: false) }
++  let!(:tenant) { FactoryBot.create(:tenant, :trait1, :api, enterprise:, training: false, demo: false) }
+
+File: spec/services/pack_and_send/import/interactors/account/upsert_spec.rb
+Apply the fix to this code:
+@@ -3,10 +3,10 @@
+ 
+-  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name: name, platform_type: "pack_and_send") }
++  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name:, platform_type: "pack_and_send") }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:account) { FactoryBot.build(:company, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:account) { FactoryBot.build(:company, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -15,7 +15,7 @@ RSpec.describe PackAndSend::Import::Interactors::Account::Upsert, type: :service
+-          account: account,
++          account:,
+
+Apply the fix to this code:
+@@ -33,7 +33,7 @@ RSpec.describe PackAndSend::Import::Interactors::Account::Upsert, type: :service
+ 
+-          account: account,
++          account:,
+
+File: spec/services/pack_and_send/import/interactors/contact/upsert_spec.rb
+Apply the fix to this code:
+@@ -3,10 +3,10 @@
+ 
+-  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name: name, platform_type: "pack_and_send") }
++  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name:, platform_type: "pack_and_send") }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, training: false) }
+-  let(:contact) { FactoryBot.build(:contact, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, training: false) }
++  let(:contact) { FactoryBot.build(:contact, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -17,7 +17,7 @@ RSpec.describe PackAndSend::Import::Interactors::Contact::Upsert, type: :service
+-            contact: contact,
++            contact:,
+
+Apply the fix to this code:
+@@ -32,12 +32,12 @@ RSpec.describe PackAndSend::Import::Interactors::Contact::Upsert, type: :service
+-        let(:contact) { FactoryBot.build(:contact, :trait1, tenant: tenant, platform_id: source["CustomerID"]) }
++        let(:contact) { FactoryBot.build(:contact, :trait1, tenant:, platform_id: source["CustomerID"]) }
+ 
+-            contact: contact,
+-            source: source
++            contact:,
++            source:
+
+Apply the fix to this code:
+@@ -56,7 +56,7 @@ RSpec.describe PackAndSend::Import::Interactors::Contact::Upsert, type: :service
+ 
+-            contact: contact,
++            contact:,
+
+File: spec/services/pack_and_send/import/interactors/estimate/upsert_spec.rb
+Apply the fix to this code:
+@@ -3,10 +3,10 @@
+ 
+-  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name: name, platform_type: "pack_and_send") }
++  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name:, platform_type: "pack_and_send") }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:job) { FactoryBot.build(:estimate, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:job) { FactoryBot.build(:estimate, :trait1, tenant:) }
+
+File: spec/services/pack_and_send/import/interactors/invoice/upsert_spec.rb
+Apply the fix to this code:
+@@ -3,10 +3,10 @@
+ 
+-  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name: name, platform_type: "pack_and_send") }
++  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name:, platform_type: "pack_and_send") }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:job) { FactoryBot.build(:invoice, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:job) { FactoryBot.build(:invoice, :trait1, tenant:) }
+
+File: spec/services/pack_and_send/import/interactors/package/upsert_spec.rb
+Apply the fix to this code:
+@@ -3,10 +3,10 @@
+ 
+-  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name: name, platform_type: "pack_and_send") }
++  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name:, platform_type: "pack_and_send") }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:package) { FactoryBot.build(:package, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:package) { FactoryBot.build(:package, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -21,7 +21,7 @@ RSpec.describe PackAndSend::Import::Interactors::Package::Upsert, type: :service
+-          package: package,
++          package:,
+
+File: spec/services/pack_and_send/import/interactors/part/upsert_spec.rb
+Apply the fix to this code:
+@@ -3,10 +3,10 @@
+ 
+-  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name: name, platform_type: "pack_and_send") }
++  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name:, platform_type: "pack_and_send") }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:part) { FactoryBot.build(:part, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:part) { FactoryBot.build(:part, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -21,7 +21,7 @@ RSpec.describe PackAndSend::Import::Interactors::Part::Upsert, type: :services d
+-          part: part,
++          part:,
+
+File: spec/services/pack_and_send/import/interactors/sales_rep/upsert_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait2, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait2, tenant:) }
+
+Apply the fix to this code:
+@@ -13,7 +13,7 @@ RSpec.describe PackAndSend::Import::Interactors::SalesRep::Upsert, type: :servic
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -24,12 +24,12 @@ RSpec.describe PackAndSend::Import::Interactors::SalesRep::Upsert, type: :servic
+ 
+-      let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, name: "Test") }
++      let!(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, name: "Test") }
+ 
+-          tenant: tenant,
++          tenant:,
+
+File: spec/services/pack_and_send/import/interactors/shipment/upsert_spec.rb
+Apply the fix to this code:
+@@ -3,10 +3,10 @@
+ 
+-  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name: name, platform_type: "pack_and_send") }
++  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name:, platform_type: "pack_and_send") }
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
+-  let(:shipment) { FactoryBot.build(:shipment, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
++  let(:shipment) { FactoryBot.build(:shipment, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -16,7 +16,7 @@ RSpec.describe PackAndSend::Import::Interactors::Shipment::Upsert, type: :servic
+-          shipment: shipment,
++          shipment:,
+
+File: spec/services/pack_and_send/import/interactors/taken_by/create_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait2, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait2, tenant:) }
+
+Apply the fix to this code:
+@@ -13,7 +13,7 @@ RSpec.describe PackAndSend::Import::Interactors::TakenBy::Create, type: :service
+-          tenant: tenant,
++          tenant:,
+
+File: spec/services/pack_and_send/import/interactors/tenant/upsert_spec.rb
+Apply the fix to this code:
+@@ -3,9 +3,9 @@
+ 
+-  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name: name, platform_type: "pack_and_send") }
++  let!(:enterprise) { FactoryBot.create(:enterprise, :trait1, name:, platform_type: "pack_and_send") }
+-  let(:tenant) { FactoryBot.build(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.build(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -14,7 +14,7 @@ RSpec.describe PackAndSend::Import::Interactors::Tenant::Upsert, type: :services
+-          tenant: tenant,
++          tenant:,
+
+File: spec/services/pack_and_send/import/interactors/user/upsert_spec.rb
+Apply the fix to this code:
+@@ -4,9 +4,9 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait2, tenant: tenant) }
+-  let(:user) { FactoryBot.build(:user, :trait1, tenant: tenant, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait2, tenant:) }
++  let(:user) { FactoryBot.build(:user, :trait1, tenant:, enterprise:) }
+
+Apply the fix to this code:
+@@ -14,10 +14,10 @@ RSpec.describe PackAndSend::Import::Interactors::User::Upsert, type: :services d
+-        subject.execute({
+-          user: user,
++        subject.execute(
++          user:,
+-        })
++        )
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

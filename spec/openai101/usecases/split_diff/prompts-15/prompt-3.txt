@@ -1,0 +1,120 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/controllers/identities_controller.rb
+Apply the fix to this code:
+@@ -68,7 +68,7 @@ class IdentitiesController < Admin::BaseController
+ 
+-      response_data = { message: message }
++      response_data = { message: }
+
+Apply the fix to this code:
+@@ -80,7 +80,7 @@ class IdentitiesController < Admin::BaseController
+-        render json: { message: message }, status: :ok
++        render json: { message: }, status: :ok
+
+Apply the fix to this code:
+@@ -88,7 +88,7 @@ class IdentitiesController < Admin::BaseController
+-        render json: { message: message }, status: :ok
++        render json: { message: }, status: :ok
+
+Apply the fix to this code:
+@@ -110,7 +110,7 @@ class IdentitiesController < Admin::BaseController
+ 
+-        render json: { message: message }, status: :ok
++        render json: { message: }, status: :ok
+
+Apply the fix to this code:
+@@ -131,7 +131,7 @@ class IdentitiesController < Admin::BaseController
+-        render json: { message: message }, status: :ok
++        render json: { message: }, status: :ok
+
+File: app/controllers/inquiries_controller.rb
+Apply the fix to this code:
+@@ -86,7 +86,7 @@ class InquiriesController < ApplicationController
+-      @inquiries = @inquiries.where(identifier: identifier)
++      @inquiries = @inquiries.where(identifier:)
+
+Apply the fix to this code:
+@@ -215,7 +215,7 @@ class InquiriesController < ApplicationController
+ 
+-    @inquiry.assign_attributes(notification_ids: notification_ids) if notification_ids.present?
++    @inquiry.assign_attributes(notification_ids:) if notification_ids.present?
+
+Apply the fix to this code:
+@@ -418,7 +418,7 @@ class InquiriesController < ApplicationController
+-          identifier: identifier
++          identifier:
+
+Apply the fix to this code:
+@@ -547,7 +547,7 @@ class InquiriesController < ApplicationController
+-        converted_order.update(inquiry_id: inquiry_id)
++        converted_order.update(inquiry_id:)
+
+Apply the fix to this code:
+@@ -570,7 +570,7 @@ class InquiriesController < ApplicationController
+-      order.update(inquiry_id: inquiry_id)
++      order.update(inquiry_id:)
+
+Apply the fix to this code:
+@@ -596,7 +596,7 @@ class InquiriesController < ApplicationController
+-      shipment.update(inquiry_id: inquiry_id)
++      shipment.update(inquiry_id:)
+
+Apply the fix to this code:
+@@ -618,7 +618,7 @@ class InquiriesController < ApplicationController
+-      sale.update(inquiry_id: inquiry_id)
++      sale.update(inquiry_id:)
+
+File: app/controllers/leads_dashboard_controller.rb
+Apply the fix to this code:
+@@ -11,7 +11,7 @@ class LeadsDashboardController < ApplicationController
+-      activities_due: activities_due,
++      activities_due:,
+
+Apply the fix to this code:
+@@ -37,8 +37,8 @@ class LeadsDashboardController < ApplicationController
+ 
+ 
+-    @calls_url = sales_rep_path(@active_sales_rep.gsub("u_", ""), tab: "cal", daterange: daterange, leads: "leads") if params[:active_sales_rep].present? &&  params[:active_sales_rep] != "all"
+-    @meetings_url = sales_rep_path(@active_sales_rep.gsub("u_", ""), tab: "meeting", daterange: daterange, leads: "leads") if params[:active_sales_rep].present? &&  params[:active_sales_rep] != "all"
++    @calls_url = sales_rep_path(@active_sales_rep.gsub("u_", ""), tab: "cal", daterange:, leads: "leads") if params[:active_sales_rep].present? &&  params[:active_sales_rep] != "all"
++    @meetings_url = sales_rep_path(@active_sales_rep.gsub("u_", ""), tab: "meeting", daterange:, leads: "leads") if params[:active_sales_rep].present? &&  params[:active_sales_rep] != "all"
+
+File: app/controllers/meetings_controller.rb
+Apply the fix to this code:
+@@ -58,7 +58,7 @@ class MeetingsController < ApplicationController
+-        calendar.create_calendar_entry(@meeting.title, @meeting.start_date, @meeting.end_date, status: status, description: @meeting.summary, context: @meeting, virtual: @meeting.virtual, attendees: @attendees, sync_remote: @meeting.calendar_needs_update)
++        calendar.create_calendar_entry(@meeting.title, @meeting.start_date, @meeting.end_date, status:, description: @meeting.summary, context: @meeting, virtual: @meeting.virtual, attendees: @attendees, sync_remote: @meeting.calendar_needs_update)
+
+File: app/controllers/phone_calls_controller.rb
+Apply the fix to this code:
+@@ -149,7 +149,7 @@ class PhoneCallsController < ApplicationController
+-          calendar.create_calendar_entry(@phone_call.subject, @phone_call.call_date, @phone_call.call_end_date, status: status, description: @phone_call.body, context: @phone_call)
++          calendar.create_calendar_entry(@phone_call.subject, @phone_call.call_date, @phone_call.call_end_date, status:, description: @phone_call.body, context: @phone_call)
+
+Apply the fix to this code:
+@@ -159,7 +159,7 @@ class PhoneCallsController < ApplicationController
+-              to: to,
++              to:,
+
+Apply the fix to this code:
+@@ -174,7 +174,7 @@ class PhoneCallsController < ApplicationController
+-            @phone_call.update(sms_status: status, twillio_message: twillio_message) if twillio_message.present?
++            @phone_call.update(sms_status: status, twillio_message:) if twillio_message.present?
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

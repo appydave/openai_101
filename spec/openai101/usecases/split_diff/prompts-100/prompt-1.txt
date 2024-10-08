@@ -1,0 +1,730 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/controllers/activities_controller.rb
+Apply the fix to this code:
+@@ -32,7 +32,7 @@ class ActivitiesController < ApplicationController
+-      render "create", locals: { activity: activity }
++      render "create", locals: { activity: }
+
+File: app/controllers/assets_controller.rb
+Apply the fix to this code:
+@@ -98,8 +98,8 @@ class AssetsController < ApplicationController
+ 
+-                         category: category,
+-                         meta_data: meta_data,
++                         category:,
++                         meta_data:,
+
+Apply the fix to this code:
+@@ -159,7 +159,7 @@ class AssetsController < ApplicationController
+-      @pending_attachment = PendingAttachment.create(uuid: params[:uuid], file_name: file_upload.original_filename, path: file_upload.path, complete: false, inline: inline)
++      @pending_attachment = PendingAttachment.create(uuid: params[:uuid], file_name: file_upload.original_filename, path: file_upload.path, complete: false, inline:)
+
+Apply the fix to this code:
+@@ -319,7 +319,7 @@ class AssetsController < ApplicationController
+-            invoice_id: invoice_id,
++            invoice_id:,
+
+File: app/controllers/builds_controller.rb
+Apply the fix to this code:
+@@ -7,7 +7,7 @@ class BuildsController < ApplicationController
+ 
+-    @s3 = Aws::S3::Client.new(credentials: credentials, region: RegionConfig.require_value("bucket_region"))
++    @s3 = Aws::S3::Client.new(credentials:, region: RegionConfig.require_value("bucket_region"))
+
+File: app/controllers/business_plans_controller.rb
+Apply the fix to this code:
+@@ -229,7 +229,7 @@ class BusinessPlansController < ApplicationController
+ 
+-      goal = @business_plan.business_plan_goals.where(kpi_name: kpi_name).first_or_create
++      goal = @business_plan.business_plan_goals.where(kpi_name:).first_or_create
+
+Apply the fix to this code:
+@@ -255,7 +255,7 @@ class BusinessPlansController < ApplicationController
+-        @business_plan.update(goal_forecast_gross: goal_forecast_gross_perc, goal_forecast_gross_value: goal_forecast_gross_value)
++        @business_plan.update(goal_forecast_gross: goal_forecast_gross_perc, goal_forecast_gross_value:)
+
+Apply the fix to this code:
+@@ -326,7 +326,7 @@ class BusinessPlansController < ApplicationController
+ 
+-      goal.update(kpi_value: kpi_value)
++      goal.update(kpi_value:)
+
+Apply the fix to this code:
+@@ -607,7 +607,7 @@ class BusinessPlansController < ApplicationController
+ 
+-    marketing_goal = BusinessPlanMarketingGoal.find_by(id: id)
++    marketing_goal = BusinessPlanMarketingGoal.find_by(id:)
+
+File: app/controllers/calendars_controller.rb
+Apply the fix to this code:
+@@ -44,7 +44,7 @@ class CalendarsController < ApplicationController
+ 
+-                                           current_user: current_user,
++                                           current_user:,
+
+Apply the fix to this code:
+@@ -108,7 +108,7 @@ class CalendarsController < ApplicationController
+ 
+-    @tenant.update(open_hours: open_hours)
++    @tenant.update(open_hours:)
+
+File: app/controllers/campaigns_controller.rb
+Apply the fix to this code:
+@@ -102,13 +102,13 @@ class CampaignsController < ApplicationController
+ 
+-      @new_estimates = @campaign.new_contexts(Estimate, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
+-      @new_orders    = @campaign.new_contexts(Order, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_estimates = @campaign.new_contexts(Estimate, range:, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_orders    = @campaign.new_contexts(Order, range:, sales_rep_user_id: @sales_rep_user_id).to_a
+-      @new_shipments = @campaign.new_contexts(Shipment, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
+-      @new_orders    = @campaign.new_contexts(Sale, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_shipments = @campaign.new_contexts(Shipment, range:, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_orders    = @campaign.new_contexts(Sale, range:, sales_rep_user_id: @sales_rep_user_id).to_a
+-      @new_orders    = @campaign.new_contexts(Sale, range: range, sales_rep_user_id: @sales_rep_user_id).to_a
++      @new_orders    = @campaign.new_contexts(Sale, range:, sales_rep_user_id: @sales_rep_user_id).to_a
+
+Apply the fix to this code:
+@@ -306,9 +306,9 @@ class CampaignsController < ApplicationController
+-        test: test,
++        test:,
+-        override_throttle: override_throttle
++        override_throttle:
+
+Apply the fix to this code:
+@@ -348,10 +348,10 @@ class CampaignsController < ApplicationController
+ 
+-        test: test,
++        test:,
+-        target_test_emails: target_test_emails,
+-        override_throttle_tenant_ids: override_throttle_tenant_ids
++        target_test_emails:,
++        override_throttle_tenant_ids:
+
+Apply the fix to this code:
+@@ -493,7 +493,7 @@ class CampaignsController < ApplicationController
+-      template_merger = Campaign.merger(campaign: @campaign, tenant: @tenant, identity: identity, contact: @preview_for.try(:first))
++      template_merger = Campaign.merger(campaign: @campaign, tenant: @tenant, identity:, contact: @preview_for.try(:first))
+
+File: app/controllers/companies_controller.rb
+Apply the fix to this code:
+@@ -77,7 +77,7 @@ class CompaniesController < ApplicationController
+ 
+-    query = CompanyIndexQuery.query(@tenant.companies, current_user: current_user, tenant: @tenant,
++    query = CompanyIndexQuery.query(@tenant.companies, current_user:, tenant: @tenant,
+
+Apply the fix to this code:
+@@ -173,7 +173,7 @@ class CompaniesController < ApplicationController
+-      @status = company.update(automation_opting: automation_opting)
++      @status = company.update(automation_opting:)
+
+Apply the fix to this code:
+@@ -188,7 +188,7 @@ class CompaniesController < ApplicationController
+-      @status = company.update(automation_opting: automation_opting)
++      @status = company.update(automation_opting:)
+
+Apply the fix to this code:
+@@ -566,7 +566,7 @@ class CompaniesController < ApplicationController
+ 
+-        contact.update(prospect_status_id: prospect_status.id, lead_type_id: lead_type_new.id, lead_created_at: lead_created_at)
++        contact.update(prospect_status_id: prospect_status.id, lead_type_id: lead_type_new.id, lead_created_at:)
+
+File: app/controllers/company_targets_controller.rb
+Apply the fix to this code:
+@@ -36,7 +36,7 @@ class CompanyTargetsController < ApplicationController
+ 
+-      format.html { redirect_to action: :index, year: year, key: company_target_params[:key] || 0, tab: "by_sales_rep" }
++      format.html { redirect_to action: :index, year:, key: company_target_params[:key] || 0, tab: "by_sales_rep" }
+
+Apply the fix to this code:
+@@ -74,9 +74,9 @@ class CompanyTargetsController < ApplicationController
+ 
+-        year: year,
+-        month: month,
+-        key: key,
++        year:,
++        month:,
++        key:,
+
+File: app/controllers/concerns/home_page_dashboard.rb
+Apply the fix to this code:
+@@ -11,7 +11,7 @@ module HomePageDashboard
+ 
+-                                            current_user: current_user,
++                                            current_user:,
+
+File: app/controllers/concerns/location_updateable.rb
+Apply the fix to this code:
+@@ -29,12 +29,12 @@ module LocationUpdateable
+ 
+-      production_location_id: production_location_id,
++      production_location_id:,
+ 
+-      estimate_stage_id: estimate_stage_id
++      estimate_stage_id:
+
+File: app/controllers/contacts_controller.rb
+Apply the fix to this code:
+@@ -71,7 +71,7 @@ class ContactsController < ApplicationController
+-      current_user: current_user,
++      current_user:,
+
+File: app/controllers/emails_controller.rb
+Apply the fix to this code:
+@@ -322,7 +322,7 @@ class EmailsController < ApplicationController
+ 
+-          most_recent_context_email = Email.where(to: to, context_type: @context.class.to_s, context_id: @context.id, created_at: 1.day.ago..Time.now).order(created_at: :desc).try(:first)
++          most_recent_context_email = Email.where(to:, context_type: @context.class.to_s, context_id: @context.id, created_at: 1.day.ago..Time.now).order(created_at: :desc).try(:first)
+
+Apply the fix to this code:
+@@ -376,18 +376,18 @@ class EmailsController < ApplicationController
+ 
+-                             subject: subject,
++                             subject:,
+-                             to: to,
++                             to:,
+-                             cc: cc,
+-                             bcc: bcc,
++                             cc:,
++                             bcc:,
+-                             scheduled_at: scheduled_at,
++                             scheduled_at:,
+
+File: app/controllers/enterprises/budgets_controller.rb
+Apply the fix to this code:
+@@ -22,8 +22,8 @@ class Enterprises::BudgetsController < Enterprises::BaseController
+ 
+-    current_fy_month_sales = SalesSummary.where(tenant: tenant, monthly: true).where("closeoutdate > ?", current_fy_month_dates[0]).order(:closeoutdate)
+-    current_fy_budget = Budget.find_by(tenant: tenant, financial_year: current_financial_year)
++    current_fy_month_sales = SalesSummary.where(tenant:, monthly: true).where("closeoutdate > ?", current_fy_month_dates[0]).order(:closeoutdate)
++    current_fy_budget = Budget.find_by(tenant:, financial_year: current_financial_year)
+
+File: app/controllers/enterprises/prospect_status_items_controller.rb
+Apply the fix to this code:
+@@ -86,7 +86,7 @@ class Enterprises::ProspectStatusItemsController < Enterprises::BaseController
+ 
+-      matching_PSIC = ProspectStatusItemContact.where(contact_id: contact_id, prospect_status_item_id: item.id).first
++      matching_PSIC = ProspectStatusItemContact.where(contact_id:, prospect_status_item_id: item.id).first
+
+File: app/controllers/enterprises_controller.rb
+Apply the fix to this code:
+@@ -291,7 +291,7 @@ class EnterprisesController < ApplicationController
+-          range: range,
++          range:,
+
+Apply the fix to this code:
+@@ -305,9 +305,9 @@ class EnterprisesController < ApplicationController
+-          status_view: status_view,
+-          completed_view: completed_view,
+-          data: data
++          status_view:,
++          completed_view:,
++          data:
+
+Apply the fix to this code:
+@@ -615,7 +615,7 @@ class EnterprisesController < ApplicationController
+-                         meta_data: meta_data,
++                         meta_data:,
+
+Apply the fix to this code:
+@@ -1018,7 +1018,7 @@ class EnterprisesController < ApplicationController
+ 
+-        @enterprise.update(learning_plans: learning_plans)
++        @enterprise.update(learning_plans:)
+
+Apply the fix to this code:
+@@ -1280,7 +1280,7 @@ class EnterprisesController < ApplicationController
+ 
+-      contact = Contact.find_by(id: id)
++      contact = Contact.find_by(id:)
+
+Apply the fix to this code:
+@@ -1299,7 +1299,7 @@ class EnterprisesController < ApplicationController
+ 
+-      contact = Contact.find_by(id: id)
++      contact = Contact.find_by(id:)
+
+Apply the fix to this code:
+@@ -1585,7 +1585,7 @@ class EnterprisesController < ApplicationController
+-      enterprise.enterprise_togglefields.find_or_create_by(enterprise_id: enterprise.id, field: field)
++      enterprise.enterprise_togglefields.find_or_create_by(enterprise_id: enterprise.id, field:)
+
+Apply the fix to this code:
+@@ -1792,10 +1792,10 @@ class EnterprisesController < ApplicationController
+-        total_company_count: total_company_count,
++        total_company_count:,
+-        report_monthly_data: report_monthly_data,
+-        report_monthly_data_ly: report_monthly_data_ly
++        report_monthly_data:,
++        report_monthly_data_ly:
+
+File: app/controllers/holidays_controller.rb
+Apply the fix to this code:
+@@ -25,7 +25,7 @@ class HolidaysController < Admin::BaseController
+ 
+-      tenant_id: tenant_id,
++      tenant_id:,
+
+File: app/controllers/identities_controller.rb
+Apply the fix to this code:
+@@ -68,7 +68,7 @@ class IdentitiesController < Admin::BaseController
+ 
+-      response_data = { message: message }
++      response_data = { message: }
+
+Apply the fix to this code:
+@@ -80,7 +80,7 @@ class IdentitiesController < Admin::BaseController
+-        render json: { message: message }, status: :ok
++        render json: { message: }, status: :ok
+
+Apply the fix to this code:
+@@ -88,7 +88,7 @@ class IdentitiesController < Admin::BaseController
+-        render json: { message: message }, status: :ok
++        render json: { message: }, status: :ok
+
+Apply the fix to this code:
+@@ -110,7 +110,7 @@ class IdentitiesController < Admin::BaseController
+ 
+-        render json: { message: message }, status: :ok
++        render json: { message: }, status: :ok
+
+Apply the fix to this code:
+@@ -131,7 +131,7 @@ class IdentitiesController < Admin::BaseController
+-        render json: { message: message }, status: :ok
++        render json: { message: }, status: :ok
+
+File: app/controllers/inquiries_controller.rb
+Apply the fix to this code:
+@@ -86,7 +86,7 @@ class InquiriesController < ApplicationController
+-      @inquiries = @inquiries.where(identifier: identifier)
++      @inquiries = @inquiries.where(identifier:)
+
+Apply the fix to this code:
+@@ -215,7 +215,7 @@ class InquiriesController < ApplicationController
+ 
+-    @inquiry.assign_attributes(notification_ids: notification_ids) if notification_ids.present?
++    @inquiry.assign_attributes(notification_ids:) if notification_ids.present?
+
+Apply the fix to this code:
+@@ -418,7 +418,7 @@ class InquiriesController < ApplicationController
+-          identifier: identifier
++          identifier:
+
+Apply the fix to this code:
+@@ -547,7 +547,7 @@ class InquiriesController < ApplicationController
+-        converted_order.update(inquiry_id: inquiry_id)
++        converted_order.update(inquiry_id:)
+
+Apply the fix to this code:
+@@ -570,7 +570,7 @@ class InquiriesController < ApplicationController
+-      order.update(inquiry_id: inquiry_id)
++      order.update(inquiry_id:)
+
+Apply the fix to this code:
+@@ -596,7 +596,7 @@ class InquiriesController < ApplicationController
+-      shipment.update(inquiry_id: inquiry_id)
++      shipment.update(inquiry_id:)
+
+Apply the fix to this code:
+@@ -618,7 +618,7 @@ class InquiriesController < ApplicationController
+-      sale.update(inquiry_id: inquiry_id)
++      sale.update(inquiry_id:)
+
+File: app/controllers/leads_dashboard_controller.rb
+Apply the fix to this code:
+@@ -11,7 +11,7 @@ class LeadsDashboardController < ApplicationController
+-      activities_due: activities_due,
++      activities_due:,
+
+Apply the fix to this code:
+@@ -37,8 +37,8 @@ class LeadsDashboardController < ApplicationController
+ 
+ 
+-    @calls_url = sales_rep_path(@active_sales_rep.gsub("u_", ""), tab: "cal", daterange: daterange, leads: "leads") if params[:active_sales_rep].present? &&  params[:active_sales_rep] != "all"
+-    @meetings_url = sales_rep_path(@active_sales_rep.gsub("u_", ""), tab: "meeting", daterange: daterange, leads: "leads") if params[:active_sales_rep].present? &&  params[:active_sales_rep] != "all"
++    @calls_url = sales_rep_path(@active_sales_rep.gsub("u_", ""), tab: "cal", daterange:, leads: "leads") if params[:active_sales_rep].present? &&  params[:active_sales_rep] != "all"
++    @meetings_url = sales_rep_path(@active_sales_rep.gsub("u_", ""), tab: "meeting", daterange:, leads: "leads") if params[:active_sales_rep].present? &&  params[:active_sales_rep] != "all"
+
+File: app/controllers/meetings_controller.rb
+Apply the fix to this code:
+@@ -58,7 +58,7 @@ class MeetingsController < ApplicationController
+-        calendar.create_calendar_entry(@meeting.title, @meeting.start_date, @meeting.end_date, status: status, description: @meeting.summary, context: @meeting, virtual: @meeting.virtual, attendees: @attendees, sync_remote: @meeting.calendar_needs_update)
++        calendar.create_calendar_entry(@meeting.title, @meeting.start_date, @meeting.end_date, status:, description: @meeting.summary, context: @meeting, virtual: @meeting.virtual, attendees: @attendees, sync_remote: @meeting.calendar_needs_update)
+
+File: app/controllers/phone_calls_controller.rb
+Apply the fix to this code:
+@@ -149,7 +149,7 @@ class PhoneCallsController < ApplicationController
+-          calendar.create_calendar_entry(@phone_call.subject, @phone_call.call_date, @phone_call.call_end_date, status: status, description: @phone_call.body, context: @phone_call)
++          calendar.create_calendar_entry(@phone_call.subject, @phone_call.call_date, @phone_call.call_end_date, status:, description: @phone_call.body, context: @phone_call)
+
+Apply the fix to this code:
+@@ -159,7 +159,7 @@ class PhoneCallsController < ApplicationController
+-              to: to,
++              to:,
+
+Apply the fix to this code:
+@@ -174,7 +174,7 @@ class PhoneCallsController < ApplicationController
+-            @phone_call.update(sms_status: status, twillio_message: twillio_message) if twillio_message.present?
++            @phone_call.update(sms_status: status, twillio_message:) if twillio_message.present?
+
+File: app/controllers/portal/sales_controller.rb
+Apply the fix to this code:
+@@ -8,7 +8,7 @@ class Portal::SalesController < ApplicationController
+-      current_user: current_user,
++      current_user:,
+
+Apply the fix to this code:
+@@ -77,7 +77,7 @@ class Portal::SalesController < ApplicationController
+ 
+-      redirect_to request.referer, flash: { errors: errors }
++      redirect_to request.referer, flash: { errors: }
+
+Apply the fix to this code:
+@@ -102,17 +102,17 @@ class Portal::SalesController < ApplicationController
+-          tenant: tenant,
+-          uuid: uuid,
++          tenant:,
++          uuid:,
+-            closing_date: closing_date,
++            closing_date:,
+-            payment_date: payment_date
++            payment_date:
+
+Apply the fix to this code:
+@@ -124,7 +124,7 @@ class Portal::SalesController < ApplicationController
+ 
+-      format.json { render json: { download_url: @download_url, success: @success, error: @error_message, uuid: uuid } }
++      format.json { render json: { download_url: @download_url, success: @success, error: @error_message, uuid: } }
+
+File: app/controllers/portal/tasks_controller.rb
+Apply the fix to this code:
+@@ -59,7 +59,7 @@ class Portal::TasksController < ApplicationController
+ 
+-      render :new, locals: { params: params.merge!(request_type: request_type) }
++      render :new, locals: { params: params.merge!(request_type:) }
+
+File: app/controllers/portal/users_controller.rb
+Apply the fix to this code:
+@@ -386,7 +386,7 @@ class Portal::UsersController < ApplicationController
+ 
+-    render json: { contacts: contacts, companies: companies }
++    render json: { contacts:, companies: }
+
+File: app/controllers/prospect_status_item_contacts_controller.rb
+Apply the fix to this code:
+@@ -98,7 +98,7 @@ class ProspectStatusItemContactsController < ApplicationController
+-                task: task,
++                task:,
+
+Apply the fix to this code:
+@@ -163,7 +163,7 @@ class ProspectStatusItemContactsController < ApplicationController
+-          task = Task.where(taskable_type: taskable_type, prospect_status_item_contact_id: @prospect_status_item_contact.id).first
++          task = Task.where(taskable_type:, prospect_status_item_contact_id: @prospect_status_item_contact.id).first
+
+File: app/controllers/prospect_status_items_controller.rb
+Apply the fix to this code:
+@@ -98,7 +98,7 @@ class ProspectStatusItemsController < ApplicationController
+ 
+-      matching_PSIC = ProspectStatusItemContact.where(contact_id: contact_id, prospect_status_item_id: item.id).first
++      matching_PSIC = ProspectStatusItemContact.where(contact_id:, prospect_status_item_id: item.id).first
+
+File: app/controllers/prospects_controller.rb
+Apply the fix to this code:
+@@ -111,7 +111,7 @@ class ProspectsController < ApplicationController
+-      b2b: b2b,
++      b2b:,
+
+Apply the fix to this code:
+@@ -1061,7 +1061,7 @@ class ProspectsController < ApplicationController
+ 
+-            scheduled: scheduled,
++            scheduled:,
+
+Apply the fix to this code:
+@@ -1649,7 +1649,7 @@ class ProspectsController < ApplicationController
+ 
+-        task = Task.where(taskable_type: taskable_type, prospect_status_item_contact_id: prospect_status_item_contact.id).first
++        task = Task.where(taskable_type:, prospect_status_item_contact_id: prospect_status_item_contact.id).first
+
+File: app/controllers/reports_controller.rb
+Apply the fix to this code:
+@@ -240,8 +240,8 @@ class ReportsController < ApplicationController
+-          "sales" => Statistic.joins(:user).where('users.id': user.id).where(tenant: tenant, statistic_for: "#{params[:type]}-day").group_by_month(:date, time_zone: "UTC", range: @report_start_date..@report_end_date).sum(:total),
+-          "sales_ly" => Statistic.joins(:user).where('users.id': user.id).where(tenant: tenant, statistic_for: "#{params[:type]}-day").group_by_month(:date, time_zone: "UTC", range: @report_start_date_ly..@report_end_date_ly).sum(:total),
++          "sales" => Statistic.joins(:user).where('users.id': user.id).where(tenant:, statistic_for: "#{params[:type]}-day").group_by_month(:date, time_zone: "UTC", range: @report_start_date..@report_end_date).sum(:total),
++          "sales_ly" => Statistic.joins(:user).where('users.id': user.id).where(tenant:, statistic_for: "#{params[:type]}-day").group_by_month(:date, time_zone: "UTC", range: @report_start_date_ly..@report_end_date_ly).sum(:total),
+
+Apply the fix to this code:
+@@ -664,7 +664,7 @@ class ReportsController < ApplicationController
+-      @estimates = @estimates.where(estimates: {taken_by_user_id: taken_by_user_id}) if taken_by_user_id.present? && taken_by_user_id != "none"
++      @estimates = @estimates.where(estimates: {taken_by_user_id:}) if taken_by_user_id.present? && taken_by_user_id != "none"
+
+Apply the fix to this code:
+@@ -1407,15 +1407,15 @@ class ReportsController < ApplicationController
+-      @primary = EmailValidation.result_query(tenant: @tenant, page: page, sort: params[:sort], sort_order: params[:sort_order], search: params[:search], deliverable: true)
++      @primary = EmailValidation.result_query(tenant: @tenant, page:, sort: params[:sort], sort_order: params[:sort_order], search: params[:search], deliverable: true)
+-      @primary = EmailValidation.result_query(tenant: @tenant, page: page, sort: params[:sort], sort_order: params[:sort_order], search: params[:search], deliverable_but_unverified: true)
++      @primary = EmailValidation.result_query(tenant: @tenant, page:, sort: params[:sort], sort_order: params[:sort_order], search: params[:search], deliverable_but_unverified: true)
+-      @primary = EmailValidation.result_query(tenant: @tenant, page: page, sort: params[:sort], sort_order: params[:sort_order], search: params[:search], undeliverable: true)
++      @primary = EmailValidation.result_query(tenant: @tenant, page:, sort: params[:sort], sort_order: params[:sort_order], search: params[:search], undeliverable: true)
+-      @primary = EmailValidation.result_query(tenant: @tenant, page: page, sort: params[:sort], sort_order: params[:sort_order], search: params[:search], unverified: true)
++      @primary = EmailValidation.result_query(tenant: @tenant, page:, sort: params[:sort], sort_order: params[:sort_order], search: params[:search], unverified: true)
+-      @primary = EmailValidation.result_query(tenant: @tenant, page: page, sort: params[:sort], sort_order: params[:sort_order], search: params[:search])
++      @primary = EmailValidation.result_query(tenant: @tenant, page:, sort: params[:sort], sort_order: params[:sort_order], search: params[:search])
+
+File: app/controllers/sales_controller.rb
+Apply the fix to this code:
+@@ -352,7 +352,7 @@ class SalesController < ApplicationController
+ 
+-      @sale.update(reorder_date: reorder_date)
++      @sale.update(reorder_date:)
+
+Apply the fix to this code:
+@@ -371,7 +371,7 @@ class SalesController < ApplicationController
+-          sale.update(reorder_date: reorder_date)
++          sale.update(reorder_date:)
+
+File: app/controllers/targets_controller.rb
+Apply the fix to this code:
+@@ -21,7 +21,7 @@ class TargetsController < ApplicationController
+-          target = Target.unscoped.find_or_initialize_by(tenant_id: @tenant.id, month: month, location_id: location.id, year: params[:targets][:year], klass: Target.klasses[params[:targets][:klass].singularize.downcase])
++          target = Target.unscoped.find_or_initialize_by(tenant_id: @tenant.id, month:, location_id: location.id, year: params[:targets][:year], klass: Target.klasses[params[:targets][:klass].singularize.downcase])
+
+Apply the fix to this code:
+@@ -37,7 +37,7 @@ class TargetsController < ApplicationController
+ 
+-          target = Target.unscoped.find_or_initialize_by(tenant_id: @tenant.id, month: month, sales_rep_user_id: user.id, year: params[:targets][:year], klass: Target.klasses[params[:targets][:klass].singularize.downcase])
++          target = Target.unscoped.find_or_initialize_by(tenant_id: @tenant.id, month:, sales_rep_user_id: user.id, year: params[:targets][:year], klass: Target.klasses[params[:targets][:klass].singularize.downcase])
+
+File: app/controllers/tasks_controller.rb
+Apply the fix to this code:
+@@ -24,7 +24,7 @@ class TasksController < ApplicationController
+-      notification_ids: notification_ids
++      notification_ids:
+
+Apply the fix to this code:
+@@ -110,7 +110,7 @@ class TasksController < ApplicationController
+-    @context.update(end_date: end_date)
++    @context.update(end_date:)
+
+Apply the fix to this code:
+@@ -183,7 +183,7 @@ class TasksController < ApplicationController
+ 
+-        @task.assign_attributes(taskable_type: taskable_type, taskable_id: taskable_id)
++        @task.assign_attributes(taskable_type:, taskable_id:)
+
+Apply the fix to this code:
+@@ -202,10 +202,10 @@ class TasksController < ApplicationController
+-      completed_at: completed_at,
++      completed_at:,
+-      notification_ids: notification_ids
++      notification_ids:
+
+Apply the fix to this code:
+@@ -310,7 +310,7 @@ class TasksController < ApplicationController
+-      completed_at: completed_at
++      completed_at:
+
+File: app/controllers/tokens_controller.rb
+Apply the fix to this code:
+@@ -17,7 +17,7 @@ class TokensController < ApplicationController
+-      render json: { user_ids: user_ids, user_tokens: user_tokens }
++      render json: { user_ids:, user_tokens: }
+
+File: app/controllers/tracker_controller.rb
+Apply the fix to this code:
+@@ -88,7 +88,7 @@ class TrackerController < ApplicationController
+-          template_merger = Campaign.merger(campaign: campaign, contact: contact, tenant: tenant, identity: identity)
++          template_merger = Campaign.merger(campaign:, contact:, tenant:, identity:)
+
+File: app/controllers/users_controller.rb
+Apply the fix to this code:
+@@ -108,7 +108,7 @@ class UsersController < ApplicationController
+ 
+-    @context.update(assigned_user_id: assigned_user_id)
++    @context.update(assigned_user_id:)
+
+File: app/helpers/ai_helper.rb
+Apply the fix to this code:
+@@ -14,7 +14,7 @@ module AiHelper
+-      prompt_link(prompt, model: template.model, identifier: identifier, template_id: template.id, attributes: attributes, &block)
++      prompt_link(prompt, model: template.model, identifier:, template_id: template.id, attributes:, &block)
+
+File: app/helpers/application_helper.rb
+Apply the fix to this code:
+@@ -73,7 +73,7 @@ module ApplicationHelper
+-    link_to(name, "#", class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
++    link_to(name, "#", class: "add_fields", data: {id:, fields: fields.gsub("\n", "")})
+
+Apply the fix to this code:
+@@ -85,7 +85,7 @@ module ApplicationHelper
+-    link_to title, params.merge(sort: column, direction: direction, page: nil), {class: css_class}
++    link_to title, params.merge(sort: column, direction:, page: nil), {class: css_class}
+
+Apply the fix to this code:
+@@ -266,7 +266,7 @@ module ApplicationHelper
+ 
+-    link_to contact_path(contact), target: target do
++    link_to(contact_path(contact), target:) do
+
+File: app/helpers/cogs_helper.rb
+Apply the fix to this code:
+@@ -33,7 +33,7 @@ module CogsHelper
+ 
+-    number_with_precision(cogs_percentage, precision: precision)
++    number_with_precision(cogs_percentage, precision:)
+
+File: app/helpers/growth_helper.rb
+Apply the fix to this code:
+@@ -35,7 +35,7 @@ module GrowthHelper
+-    icon = growth >= 0.0 ? stream_icon({ name: "performance-increase.svg", color: color, size: "14px", top: "-2px" }) : stream_icon({ name: "performance-decrease.svg", color: color, size: "14px", top: "-2px" })
++    icon = growth >= 0.0 ? stream_icon({ name: "performance-increase.svg", color:, size: "14px", top: "-2px" }) : stream_icon({ name: "performance-decrease.svg", color:, size: "14px", top: "-2px" })
+
+Apply the fix to this code:
+@@ -59,7 +59,7 @@ module GrowthHelper
+-    icon = risk_level >= 0.0 ? material_icon({ name: "check_circle", size: 16, color: color, top: "-1px"}) : material_icon({ name: "error", size: 16, color: color, top: "-1px"})
++    icon = risk_level >= 0.0 ? material_icon({ name: "check_circle", size: 16, color:, top: "-1px"}) : material_icon({ name: "error", size: 16, color:, top: "-1px"})
+
+File: app/interactors/inquiries/create.rb
+Apply the fix to this code:
+@@ -215,7 +215,7 @@ module Inquiries
+ 
+-        tenant: tenant,
++        tenant:,
+
+File: app/interactors/sales_summaries/pack_and_send/generate_stats.rb
+Apply the fix to this code:
+@@ -294,11 +294,11 @@ module SalesSummaries
+-            tenant: tenant,
++            tenant:,
+-            accounting_month: accounting_month,
+-            accounting_year: accounting_year
++            accounting_month:,
++            accounting_year:
+
+Apply the fix to this code:
+@@ -350,10 +350,10 @@ module SalesSummaries
+ 
+-          tenant: tenant,
++          tenant:,
+-          accounting_month: accounting_month,
+-          accounting_year: accounting_year
++          accounting_month:,
++          accounting_year:
+
+File: app/models/ai_response.rb
+Apply the fix to this code:
+@@ -15,13 +15,13 @@ class AiResponse < ApplicationRecord
+-      tenant: tenant,
+-      prompt: prompt,
+-      response: response,
+-      model: model,
+-      template_id: template_id,
++      tenant:,
++      prompt:,
++      response:,
++      model:,
++      template_id:,
+-      messages: messages
++      messages:
+
+File: app/models/asset.rb
+Apply the fix to this code:
+@@ -101,7 +101,7 @@ class Asset < ApplicationRecord
+ 
+-    Aws::S3::Client.new(credentials: credentials, region: RegionConfig.require_value("bucket_region"))
++    Aws::S3::Client.new(credentials:, region: RegionConfig.require_value("bucket_region"))
+
+Apply the fix to this code:
+@@ -111,7 +111,7 @@ class Asset < ApplicationRecord
+-        duplicate_assets = Asset.where(file_hash: file_hash, file_name: file_name)
++        duplicate_assets = Asset.where(file_hash:, file_name:)
+
+File: app/models/background_job.rb
+Apply the fix to this code:
+@@ -12,16 +12,16 @@ class BackgroundJob < ApplicationRecord
+ 
+-      tenant_id: tenant_id,
+-      user_id: user_id,
+-      job_hash: job_hash,
+-      job_type: job_type,
+-      name: name,
+-      description: description,
+-      status_view: status_view,
+-      completed_view: completed_view,
+-      allow_download: allow_download,
+-      data: data,
++      tenant_id:,
++      user_id:,
++      job_hash:,
++      job_type:,
++      name:,
++      description:,
++      status_view:,
++      completed_view:,
++      allow_download:,
++      data:,
+
+Apply the fix to this code:
+@@ -50,15 +50,15 @@ class BackgroundJob < ApplicationRecord
+ 
+-      tenant: tenant,
+-      job_type: job_type,
++      tenant:,
++      job_type:,
+ 
+-        tenant: tenant,
+-        job_type: job_type,
++        tenant:,
++        job_type:,
+
+File: app/models/budget.rb
+Apply the fix to this code:
+@@ -10,7 +10,7 @@ class Budget < ApplicationRecord
+-      budget_months.where(month_date: month_date).first
++      budget_months.where(month_date:).first
+
+Apply the fix to this code:
+@@ -20,7 +20,7 @@ class Budget < ApplicationRecord
+-      budget_month = budget_months.find_by(month_date: month_date)
++      budget_month = budget_months.find_by(month_date:)
+
+File: app/models/calendar.rb
+Apply the fix to this code:
+@@ -54,16 +54,16 @@ class Calendar < ApplicationRecord
+ 
+-      summary: summary,
+-      start_time: start_time,
+-      end_time: end_time,
+-      description: description,
+-      entry_ident: entry_ident,
+-      context: context,
++      summary:,
++      start_time:,
++      end_time:,
++      description:,
++      entry_ident:,
++      context:,
+-      status: status,
+-      virtual: virtual,
+-      sync_remote: sync_remote
++      status:,
++      virtual:,
++      sync_remote:
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

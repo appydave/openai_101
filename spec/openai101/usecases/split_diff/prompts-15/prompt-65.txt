@@ -1,0 +1,155 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/services/reports/qvinci/import/balance_sheet_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, qvinci_location_ids: 12345) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, qvinci_location_ids: 12345) }
+
+Apply the fix to this code:
+@@ -24,23 +24,23 @@ RSpec.describe Reports::Qvinci::Import::BalanceSheet, type: :services do
+-                              tenant: tenant,
+-                              start_date: start_date,
+-                              end_date: end_date
++                              tenant:,
++                              start_date:,
++                              end_date:
+ 
+-        let!(:json_store) { FactoryBot.create(:json_store, enterprise_id: enterprise.id, tenant_id: tenant.id, key: key, data: nil) }
++        let!(:json_store) { FactoryBot.create(:json_store, enterprise_id: enterprise.id, tenant_id: tenant.id, key:, data: nil) }
+ 
+-                            tenant: tenant,
+-                            start_date: start_date,
+-                            end_date: end_date
++                            tenant:,
++                            start_date:,
++                            end_date:
+
+Apply the fix to this code:
+@@ -54,23 +54,23 @@ RSpec.describe Reports::Qvinci::Import::BalanceSheet, type: :services do
+-                              tenant: tenant,
+-                              start_date: start_date,
+-                              end_date: end_date
++                              tenant:,
++                              start_date:,
++                              end_date:
+ 
+-        let!(:json_store) { FactoryBot.create(:json_store, enterprise_id: enterprise.id, tenant_id: tenant.id, key: key, data: nil) }
++        let!(:json_store) { FactoryBot.create(:json_store, enterprise_id: enterprise.id, tenant_id: tenant.id, key:, data: nil) }
+ 
+-                            tenant: tenant,
+-                            start_date: start_date,
+-                            end_date: end_date
++                            tenant:,
++                            start_date:,
++                            end_date:
+
+File: spec/services/reports/qvinci/import/profit_and_loss_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, qvinci_location_ids: 12345) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, qvinci_location_ids: 12345) }
+
+Apply the fix to this code:
+@@ -29,9 +29,9 @@ RSpec.describe Reports::Qvinci::Import::ProfitAndLoss, type: :services do
+-                              tenant: tenant,
+-                              start_date: start_date,
+-                              end_date: end_date,
++                              tenant:,
++                              start_date:,
++                              end_date:,
+
+Apply the fix to this code:
+@@ -41,14 +41,14 @@ RSpec.describe Reports::Qvinci::Import::ProfitAndLoss, type: :services do
+ 
+-        let!(:json_store) { FactoryBot.create(:json_store, enterprise_id: enterprise.id, tenant_id: tenant.id, key: key, data: nil) }
++        let!(:json_store) { FactoryBot.create(:json_store, enterprise_id: enterprise.id, tenant_id: tenant.id, key:, data: nil) }
+ 
+-                            tenant: tenant,
+-                            start_date: start_date,
+-                            end_date: end_date,
++                            tenant:,
++                            start_date:,
++                            end_date:,
+
+Apply the fix to this code:
+@@ -65,23 +65,23 @@ RSpec.describe Reports::Qvinci::Import::ProfitAndLoss, type: :services do
+-                              tenant: tenant,
+-                              start_date: start_date,
+-                              end_date: end_date
++                              tenant:,
++                              start_date:,
++                              end_date:
+ 
+-        let!(:json_store) { FactoryBot.create(:json_store, enterprise_id: enterprise.id, tenant_id: tenant.id, key: key, data: nil) }
++        let!(:json_store) { FactoryBot.create(:json_store, enterprise_id: enterprise.id, tenant_id: tenant.id, key:, data: nil) }
+ 
+-                            tenant: tenant,
+-                            start_date: start_date,
+-                            end_date: end_date
++                            tenant:,
++                            start_date:,
++                            end_date:
+
+Apply the fix to this code:
+@@ -95,9 +95,9 @@ RSpec.describe Reports::Qvinci::Import::ProfitAndLoss, type: :services do
+-                              tenant: tenant,
+-                              start_date: start_date,
+-                              end_date: end_date,
++                              tenant:,
++                              start_date:,
++                              end_date:,
+
+File: spec/services/reports/qvinci/import/refresh_kpi_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise, qvinci_location_ids: 12345) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:, qvinci_location_ids: 12345) }
+
+Apply the fix to this code:
+@@ -37,7 +37,7 @@ RSpec.describe Reports::Qvinci::Import::RefreshKpi, type: :service do
+ 
+ 
+-      described_class.new(tenant: tenant).send(:fetch_reports)
++      described_class.new(tenant:).send(:fetch_reports)
+
+Apply the fix to this code:
+@@ -46,7 +46,7 @@ RSpec.describe Reports::Qvinci::Import::RefreshKpi, type: :service do
+ 
+-      described_class.new(tenant: tenant).send(:fetch_reports)
++      described_class.new(tenant:).send(:fetch_reports)
+
+Apply the fix to this code:
+@@ -59,13 +59,13 @@ RSpec.describe Reports::Qvinci::Import::RefreshKpi, type: :service do
+ 
+-      described_class.new(tenant: tenant).send(:fetch_reports)
++      described_class.new(tenant:).send(:fetch_reports)
+ 
+ 
+-      expect(described_class.new(tenant: tenant).send(:fetch_reports)).to be_nil
++      expect(described_class.new(tenant:).send(:fetch_reports)).to be_nil
+
+File: spec/support/shared_examples/pagination.rb
+Apply the fix to this code:
+@@ -16,7 +16,7 @@ RSpec.shared_examples :pagination do
+ 
+-      let(:params) { { page: page_number, page_size: page_size } }
++      let(:params) { { page: page_number, page_size: } }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

@@ -1,0 +1,137 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/services/printsmith/api/estimate_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -36,7 +36,7 @@ RSpec.describe Printsmith::Api::Estimate, type: :services do
+ 
+-        allow(HTTParty).to receive(:send).with("post", /estimates/, { body: json.to_json, headers: headers }).and_return(api_response)
++        allow(HTTParty).to receive(:send).with("post", /estimates/, { body: json.to_json, headers: }).and_return(api_response)
+
+Apply the fix to this code:
+@@ -49,7 +49,7 @@ RSpec.describe Printsmith::Api::Estimate, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -61,7 +61,7 @@ RSpec.describe Printsmith::Api::Estimate, type: :services do
+ 
+-        allow(HTTParty).to receive(:send).with("get", /estimate/, {headers: headers, body: nil.to_json}).and_return(api_response)
++        allow(HTTParty).to receive(:send).with("get", /estimate/, {headers:, body: nil.to_json}).and_return(api_response)
+
+Apply the fix to this code:
+@@ -74,7 +74,7 @@ RSpec.describe Printsmith::Api::Estimate, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/finance_charge_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/invoice_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -49,7 +49,7 @@ RSpec.describe Printsmith::Api::Invoice, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -62,7 +62,7 @@ RSpec.describe Printsmith::Api::Invoice, type: :services do
+-        ).to receive(:send).with("get", /invoice/, {headers: headers, body: nil.to_json}).and_return(api_response)
++        ).to receive(:send).with("get", /invoice/, {headers:, body: nil.to_json}).and_return(api_response)
+
+Apply the fix to this code:
+@@ -75,7 +75,7 @@ RSpec.describe Printsmith::Api::Invoice, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -108,7 +108,7 @@ RSpec.describe Printsmith::Api::Invoice, type: :services do
+ 
+-        allow(HTTParty).to receive(:send).with("post", /invoices\/pendinglist/, {headers: headers, body: json.to_json}).and_return(api_response)
++        allow(HTTParty).to receive(:send).with("post", /invoices\/pendinglist/, {headers:, body: json.to_json}).and_return(api_response)
+
+Apply the fix to this code:
+@@ -121,7 +121,7 @@ RSpec.describe Printsmith::Api::Invoice, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/job_titles_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/lead_source_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/monthly_sales_base_tax_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -50,7 +50,7 @@ RSpec.describe Printsmith::Api::MonthlySalesBaseTax, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/monthly_sales_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -50,7 +50,7 @@ RSpec.describe Printsmith::Api::MonthlySales, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/api/monthly_sales_summary_pickups_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+Apply the fix to this code:
+@@ -50,7 +50,7 @@ RSpec.describe Printsmith::Api::MonthlySalesSummaryPickups, type: :services do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

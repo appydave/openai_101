@@ -1,0 +1,153 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/models/meeting.rb
+Apply the fix to this code:
+@@ -34,10 +34,10 @@ class Meeting < ApplicationRecord
+ 
+-    subject = I18n.t("new_printspeak_meeting", title: title)
+-    subject = I18n.t("updated_printspeak_meeting", title: title) if type == "update"
+-    subject = I18n.t("upcoming_printspeak_meeting", title: title) if type == "reminder"
+-    subject = I18n.t("cancelled_printspeak_meeting", title: title) if type == "cancelled"
++    subject = I18n.t("new_printspeak_meeting", title:)
++    subject = I18n.t("updated_printspeak_meeting", title:) if type == "update"
++    subject = I18n.t("upcoming_printspeak_meeting", title:) if type == "reminder"
++    subject = I18n.t("cancelled_printspeak_meeting", title:) if type == "cancelled"
+
+File: app/models/pdf.rb
+Apply the fix to this code:
+@@ -1,40 +1,40 @@
+-    context = Invoice.where(key: key, platform_id: platform_id).first
+-    context = Estimate.where(key: key, platform_id: platform_id).first if context.nil?
+-    Pdf.presigned_pdf(context, inline: inline, expires_in: expires_in)
++    context = Invoice.where(key:, platform_id:).first
++    context = Estimate.where(key:, platform_id:).first if context.nil?
++    Pdf.presigned_pdf(context, inline:, expires_in:)
+ 
+-      s3_client = Aws::S3::Client.new(credentials: credentials, region: RegionConfig.require_value("bucket_region"))
++      s3_client = Aws::S3::Client.new(credentials:, region: RegionConfig.require_value("bucket_region"))
+-      url = signer.presigned_url(:get_object, bucket: bucket_info[:bucket], key: bucket_info[:key], response_content_disposition: disposition, response_content_type: "application/pdf", expires_in: expires_in)
++      url = signer.presigned_url(:get_object, bucket: bucket_info[:bucket], key: bucket_info[:key], response_content_disposition: disposition, response_content_type: "application/pdf", expires_in:)
+ 
+-    s3_client = Aws::S3::Client.new(credentials: credentials, region: RegionConfig.require_value("bucket_region"))
++    s3_client = Aws::S3::Client.new(credentials:, region: RegionConfig.require_value("bucket_region"))
+-    url = signer.presigned_url(:get_object, bucket: bucket_info[:bucket], key: bucket_info[:key], expires_in: expires_in)
++    url = signer.presigned_url(:get_object, bucket: bucket_info[:bucket], key: bucket_info[:key], expires_in:)
+ 
+-      tenant: tenant,
++      tenant:,
+
+File: app/models/pending_attachment.rb
+Apply the fix to this code:
+@@ -17,7 +17,7 @@ class PendingAttachment < ApplicationRecord
+-          account_statement = Utils::AccountStatement.new(tenant, company, invoices_only: invoices_only, master_billing: master_billing, closing_date: closing_date, payment_date: payment_date).generate
++          account_statement = Utils::AccountStatement.new(tenant, company, invoices_only:, master_billing:, closing_date:, payment_date:).generate
+
+Apply the fix to this code:
+@@ -111,7 +111,7 @@ class PendingAttachment < ApplicationRecord
+-        attaching_asset = Asset.where(tenant_id: tenant_id, id: attaching_asset_id).first if !attaching_asset_id.blank?
++        attaching_asset = Asset.where(tenant_id:, id: attaching_asset_id).first if !attaching_asset_id.blank?
+
+File: app/models/phone_call_data.rb
+Apply the fix to this code:
+@@ -14,11 +14,11 @@ class PhoneCallData < ApplicationRecord
+ 
+-      { color: "red", name: "sentiment_dissatisfied", size: size }
++      { color: "red", name: "sentiment_dissatisfied", size: }
+-      { color: "orange", name: "sentiment_neutral", size: size }
++      { color: "orange", name: "sentiment_neutral", size: }
+-      { color: "green", name: "sentiment_satisfied", size: size }
++      { color: "green", name: "sentiment_satisfied", size: }
+
+File: app/models/proof.rb
+Apply the fix to this code:
+@@ -9,7 +9,7 @@ class Proof < ApplicationRecord
+ 
+-      tenant_id: tenant_id,
++      tenant_id:,
+
+Apply the fix to this code:
+@@ -18,15 +18,15 @@ class Proof < ApplicationRecord
+ 
+-      tenant_id: tenant_id,
+-      invoice_id: invoice_id,
++      tenant_id:,
++      invoice_id:,
+ 
+-    revision = Proof.where(tenant_id: tenant_id,
+-                           invoice_id: invoice_id,
++    revision = Proof.where(tenant_id:,
++                           invoice_id:,
+
+Apply the fix to this code:
+@@ -51,7 +51,7 @@ class Proof < ApplicationRecord
+ 
+-    all_proofs = Proof.where(invoice_id: invoice_id, revision_of_id: nil)
++    all_proofs = Proof.where(invoice_id:, revision_of_id: nil)
+
+File: app/models/prospect_status.rb
+Apply the fix to this code:
+@@ -28,7 +28,7 @@ class ProspectStatus < ApplicationRecord
+ 
+-    if lead_type_id != 0 && ProspectStatus.where(lead_type_id: lead_type_id, name: name, prospect_status_version_id: prospect_status_version_id).first
++    if lead_type_id != 0 && ProspectStatus.where(lead_type_id:, name:, prospect_status_version_id:).first
+
+File: app/models/prospect_status_item.rb
+Apply the fix to this code:
+@@ -50,7 +50,7 @@ class ProspectStatusItem < ApplicationRecord
+ 
+-    ProspectStatusItemContact.where(prospect_status_item_id: id, contact_id: contact_id).first
++    ProspectStatusItemContact.where(prospect_status_item_id: id, contact_id:).first
+
+File: app/models/prospect_status_item_contact.rb
+Apply the fix to this code:
+@@ -17,13 +17,13 @@ class ProspectStatusItemContact < ApplicationRecord
+ 
+-      if !ProspectStatusItemContact.where(prospect_status_item_id: @next_item.id, contact_id:  contact_id, tenant_id: id).first
++      if !ProspectStatusItemContact.where(prospect_status_item_id: @next_item.id, contact_id:, tenant_id: id).first
+-          contact_id: contact_id,
++          contact_id:,
+-          tenant_id: tenant_id,
++          tenant_id:,
+
+Apply the fix to this code:
+@@ -46,13 +46,13 @@ class ProspectStatusItemContact < ApplicationRecord
+ 
+-        if  !ProspectStatusItemContact.where(prospect_status_item_id: @next_item.id, contact_id:  contact_id, tenant_id: tenant_id).first
++        if  !ProspectStatusItemContact.where(prospect_status_item_id: @next_item.id, contact_id:, tenant_id:).first
+-            contact_id: contact_id,
++            contact_id:,
+-            tenant_id: tenant_id,
++            tenant_id:,
+
+Apply the fix to this code:
+@@ -104,7 +104,7 @@ class ProspectStatusItemContact < ApplicationRecord
+-      task: task,
++      task:,
+
+Apply the fix to this code:
+@@ -114,7 +114,7 @@ class ProspectStatusItemContact < ApplicationRecord
+ 
+-    task = Task.find_by(tenant_id: tenant_id, prospect_status_item_contact_id: id)
++    task = Task.find_by(tenant_id:, prospect_status_item_contact_id: id)
+
+Apply the fix to this code:
+@@ -123,7 +123,7 @@ class ProspectStatusItemContact < ApplicationRecord
+-      task: task,
++      task:,
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

@@ -1,0 +1,154 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/services/printsmith/import/production_location_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith/import/sales_rep_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith_deprecated/export/archive_estimate_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -76,7 +76,7 @@ RSpec.describe PrintsmithDeprecated::Export::ArchiveEstimate, type: :services do
+ 
+-        let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant) }
++        let(:contact) { FactoryBot.create(:contact, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -100,7 +100,7 @@ RSpec.describe PrintsmithDeprecated::Export::ArchiveEstimate, type: :services do
+ 
+-            ).to receive(:request).with(/Estimate/ , hash_including({body: body})).and_return(api_response)
++            ).to receive(:request).with(/Estimate/ , hash_including({body:})).and_return(api_response)
+
+File: spec/services/printsmith_deprecated/export/base_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -37,7 +37,7 @@ RSpec.describe PrintsmithDeprecated::Export::Base, type: :services do
+-      let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++      let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+File: spec/services/printsmith_deprecated/export/company_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: 12345) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: 12345) }
+
+File: spec/services/printsmith_deprecated/export/contact_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: 12345, temp: false, deleted: false) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: 12345, temp: false, deleted: false) }
+
+File: spec/services/printsmith_deprecated/export/estimate_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant: tenant) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:estimate) { FactoryBot.create(:estimate, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -60,8 +60,8 @@ RSpec.describe PrintsmithDeprecated::Export::Estimate, type: :services do
+-      let(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, platform_id: "test") }
+-      let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant) }
++      let(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, platform_id: "test") }
++      let(:contact) { FactoryBot.create(:contact, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -95,14 +95,14 @@ RSpec.describe PrintsmithDeprecated::Export::Estimate, type: :services do
+-              wanted_by: wanted_by
++              wanted_by:
+ 
+-            ).to receive(:request).with(/Estimate/ , hash_including({body: body})).and_return(api_response)
++            ).to receive(:request).with(/Estimate/ , hash_including({body:})).and_return(api_response)
+
+Apply the fix to this code:
+@@ -112,7 +112,7 @@ RSpec.describe PrintsmithDeprecated::Export::Estimate, type: :services do
+-              wanted_by: wanted_by
++              wanted_by:
+
+Apply the fix to this code:
+@@ -122,7 +122,7 @@ RSpec.describe PrintsmithDeprecated::Export::Estimate, type: :services do
+-            ).to receive(:request).with(/Estimate/ , hash_including({body: body})).and_return(api_response)
++            ).to receive(:request).with(/Estimate/ , hash_including({body:})).and_return(api_response)
+
+File: spec/services/printsmith_deprecated/export/invoice_spec.rb
+Apply the fix to this code:
+@@ -4,8 +4,8 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
+-  let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant: tenant, sale_id: nil) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
++  let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant:, sale_id: nil) }
+
+Apply the fix to this code:
+@@ -60,8 +60,8 @@ RSpec.describe PrintsmithDeprecated::Export::Invoice, type: :services do
+-      let(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant: tenant, platform_id: "test") }
+-      let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant) }
++      let(:sales_rep) { FactoryBot.create(:sales_rep, :trait1, tenant:, platform_id: "test") }
++      let(:contact) { FactoryBot.create(:contact, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -99,7 +99,7 @@ RSpec.describe PrintsmithDeprecated::Export::Invoice, type: :services do
+-              proof_by: proof_by,
++              proof_by:,
+
+Apply the fix to this code:
+@@ -121,7 +121,7 @@ RSpec.describe PrintsmithDeprecated::Export::Invoice, type: :services do
+-              proof_by: proof_by,
++              proof_by:,
+
+Apply the fix to this code:
+@@ -134,7 +134,7 @@ RSpec.describe PrintsmithDeprecated::Export::Invoice, type: :services do
+-            ).to receive(:request).with(/Invoice/ , hash_including({body: body})).and_return(api_response)
++            ).to receive(:request).with(/Invoice/ , hash_including({body:})).and_return(api_response)
+
+Apply the fix to this code:
+@@ -149,7 +149,7 @@ RSpec.describe PrintsmithDeprecated::Export::Invoice, type: :services do
+ 
+-          ).to receive(:request).with(/Invoice/ , hash_including({body: body})).and_return(api_response)
++          ).to receive(:request).with(/Invoice/ , hash_including({body:})).and_return(api_response)
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

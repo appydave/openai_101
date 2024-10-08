@@ -1,0 +1,132 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: spec/services/pack_and_send/import/resolver_spec.rb
+Apply the fix to this code:
+@@ -4,7 +4,7 @@ require "rails_helper"
+ 
+-  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise: enterprise) }
++  let(:tenant) { FactoryBot.create(:tenant, :trait1, enterprise:) }
+
+Apply the fix to this code:
+@@ -23,7 +23,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-        tenant: tenant,
++        tenant:,
+
+Apply the fix to this code:
+@@ -31,7 +31,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+ 
+-        let!(:dummy_company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: "DUMMY_COMPANY", name: "No company", b2c: true) }
++        let!(:dummy_company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: "DUMMY_COMPANY", name: "No company", b2c: true) }
+
+Apply the fix to this code:
+@@ -66,7 +66,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -80,7 +80,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -110,7 +110,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -125,8 +125,8 @@ RSpec.describe PackAndSend::Import::Resolver do
+ 
+-        let!(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: estimate.source_account_id) }
+-        let!(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: estimate.source_contact_id, temp: false) }
++        let!(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: estimate.source_account_id) }
++        let!(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: estimate.source_contact_id, temp: false) }
+
+Apply the fix to this code:
+@@ -149,7 +149,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -165,8 +165,8 @@ RSpec.describe PackAndSend::Import::Resolver do
+ 
+-        let!(:company) { FactoryBot.create(:company, :trait1, tenant: tenant, platform_id: invoice.source_account_id) }
+-        let!(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, platform_id: invoice.source_contact_id, temp: false) }
++        let!(:company) { FactoryBot.create(:company, :trait1, tenant:, platform_id: invoice.source_account_id) }
++        let!(:contact) { FactoryBot.create(:contact, :trait1, tenant:, platform_id: invoice.source_contact_id, temp: false) }
+
+Apply the fix to this code:
+@@ -188,7 +188,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-        tenant: tenant,
++        tenant:,
+
+Apply the fix to this code:
+@@ -202,12 +202,12 @@ RSpec.describe PackAndSend::Import::Resolver do
+-        tenant: tenant,
++        tenant:,
+-    let(:company) { FactoryBot.create(:company, :trait1, tenant: tenant) }
+-    let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant) }
++    let(:company) { FactoryBot.create(:company, :trait1, tenant:) }
++    let(:contact) { FactoryBot.create(:contact, :trait1, tenant:) }
+
+Apply the fix to this code:
+@@ -242,7 +242,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-        tenant: tenant,
++        tenant:,
+
+Apply the fix to this code:
+@@ -255,7 +255,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-            tenant: tenant,
++            tenant:,
+
+Apply the fix to this code:
+@@ -290,7 +290,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-            tenant: tenant,
++            tenant:,
+
+Apply the fix to this code:
+@@ -303,7 +303,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-            tenant: tenant,
++            tenant:,
+
+Apply the fix to this code:
+@@ -342,7 +342,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-        tenant: tenant,
++        tenant:,
+
+Apply the fix to this code:
+@@ -354,7 +354,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-          tenant: tenant,
++          tenant:,
+
+Apply the fix to this code:
+@@ -384,7 +384,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-        tenant: tenant,
++        tenant:,
+
+Apply the fix to this code:
+@@ -404,7 +404,7 @@ RSpec.describe PackAndSend::Import::Resolver do
+-        tenant: tenant,
++        tenant:,
+
+File: spec/services/printsmith/api/account_history_data_spec.rb
+Apply the fix to this code:
+@@ -5,7 +5,7 @@ require "rails_helper"
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:) }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.

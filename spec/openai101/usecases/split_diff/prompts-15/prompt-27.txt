@@ -1,0 +1,246 @@
+In this process, we are reversing Ruby's shorthand hash syntax back to its explicit form.
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+In this process, we are reversing Rubys shorthand hash syntax (e.g., `activity:`) back to its explicit form (e.g., `activity: activity`).
+
+For example:
+Before (shorthand): `activity:`
+After (explicit): `activity: activity`
+
+Similarly, if there are multiple key-value pairs:
+
+Before (shorthand): `first_name:, last_name:, date_of_birth:`
+After (explicit): `first_name: first_name, last_name: last_name, date_of_birth: date_of_birth`
+
+Below are the specific diffs for each file. Apply the necessary fixes as outlined.
+
+
+File: app/services/reports/qvinci/business_plan/kpi.rb
+Apply the fix to this code:
+@@ -17,9 +17,9 @@ class Reports::Qvinci::BusinessPlan::Kpi
+-        tenant: tenant,
+-        start_date: start_date,
+-        end_date: end_date
++        tenant:,
++        start_date:,
++        end_date:
+
+Apply the fix to this code:
+@@ -86,40 +86,40 @@ class Reports::Qvinci::BusinessPlan::Kpi
+ 
+-      total_sales: total_sales,
+-      inhouse_sales: inhouse_sales,
+-      sublet_sales: sublet_sales,
+-      total_cogs: total_cogs,
+-      inhouse_cogs: inhouse_cogs,
+-      sublet_cogs: sublet_cogs,
+-      employee_expenses: employee_expenses,
+-      building_expenses: building_expenses,
+-      equipment_lease_expenses: equipment_lease_expenses,
+-      auto_expenses: auto_expenses,
+-      advertising_expenses: advertising_expenses,
+-      general_admin_costs: general_admin_costs,
+-      total_fixed_costs: total_fixed_costs,
+-      ebitda: ebitda,
+-      owners_comp: owners_comp,
+-      interest_expenses: interest_expenses,
++      total_sales:,
++      inhouse_sales:,
++      sublet_sales:,
++      total_cogs:,
++      inhouse_cogs:,
++      sublet_cogs:,
++      employee_expenses:,
++      building_expenses:,
++      equipment_lease_expenses:,
++      auto_expenses:,
++      advertising_expenses:,
++      general_admin_costs:,
++      total_fixed_costs:,
++      ebitda:,
++      owners_comp:,
++      interest_expenses:,
+-      gross_margin_total: gross_margin_total,
+-      gross_margin_deductions: gross_margin_deductions,
+-      gross_margin_total_gross_margin: gross_margin_total_gross_margin,
++      gross_margin_total:,
++      gross_margin_deductions:,
++      gross_margin_total_gross_margin:,
+-      total_sales_for_last_month: total_sales_for_last_month
++      total_sales_for_last_month:
+ 
+-      ar_trade_balance: ar_trade_balance,
+-      ap_balance: ap_balance,
+-      credit_card_balance: credit_card_balance,
+-      total_assets: total_assets,
+-      total_liabilities: total_liabilities,
+-      total_current_liabilities: total_current_liabilities,
+-      total_savings_and_ar: total_savings_and_ar,
++      ar_trade_balance:,
++      ap_balance:,
++      credit_card_balance:,
++      total_assets:,
++      total_liabilities:,
++      total_current_liabilities:,
++      total_savings_and_ar:,
+
+File: app/services/reports/qvinci/import/balance_sheet.rb
+Apply the fix to this code:
+@@ -13,10 +13,10 @@ class Reports::Qvinci::Import::BalanceSheet
+-        tenant: tenant,
+-        start_date: start_date,
+-        end_date: end_date,
+-        options: options
++        tenant:,
++        start_date:,
++        end_date:,
++        options:
+
+File: app/services/reports/qvinci/import/profit_and_loss.rb
+Apply the fix to this code:
+@@ -17,10 +17,10 @@ class Reports::Qvinci::Import::ProfitAndLoss
+-        tenant: tenant,
+-        start_date: start_date,
+-        end_date: end_date,
+-        options: options
++        tenant:,
++        start_date:,
++        end_date:,
++        options:
+
+File: spec/controllers/concerns/context_contact_updateable_spec.rb
+Apply the fix to this code:
+@@ -19,11 +19,11 @@ RSpec.describe ContextContactUpdateable, type: :concerns do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {"use_printsmith_deprecated_api"=>true}) }
+-    let(:company) { FactoryBot.create(:company, :trait2, tenant: tenant) }
+-    let(:invoice) { FactoryBot.create(:order, :trait1, tenant: tenant, sale_id: nil, company: company) }
+-    let(:user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
+-    let!(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, company: company, platform_id: 1234) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {"use_printsmith_deprecated_api"=>true}) }
++    let(:company) { FactoryBot.create(:company, :trait2, tenant:) }
++    let(:invoice) { FactoryBot.create(:order, :trait1, tenant:, sale_id: nil, company:) }
++    let(:user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
++    let!(:contact) { FactoryBot.create(:contact, :trait1, tenant:, company:, platform_id: 1234) }
+
+File: spec/controllers/concerns/location_updateable_spec.rb
+Apply the fix to this code:
+@@ -19,9 +19,9 @@ RSpec.describe LocationUpdateable do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {"use_printsmith_deprecated_api"=> required }) }
+-    let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant: tenant, sale_id: nil) }
+-    let(:user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {"use_printsmith_deprecated_api"=> required }) }
++    let(:invoice) { FactoryBot.create(:invoice, :trait1, tenant:, sale_id: nil) }
++    let(:user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
+
+File: spec/controllers/concerns/proof_date_updateable_spec.rb
+Apply the fix to this code:
+@@ -26,9 +26,9 @@ RSpec.describe ProofDateUpdateable, type: :concerns do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {"use_printsmith_deprecated_api"=>true}) }
+-    let(:invoice) { FactoryBot.create(:order, :trait1, tenant: tenant, sale_id: nil) }
+-    let(:user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {"use_printsmith_deprecated_api"=>true}) }
++    let(:invoice) { FactoryBot.create(:order, :trait1, tenant:, sale_id: nil) }
++    let(:user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
+
+File: spec/controllers/concerns/wanted_by_updateable_spec.rb
+Apply the fix to this code:
+@@ -26,9 +26,9 @@ RSpec.describe WantedByUpdateable, type: :concerns do
+ 
+-    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise: enterprise, platform_data: {"use_printsmith_deprecated_api"=>true}) }
+-    let(:invoice) { FactoryBot.create(:order, :trait1, tenant: tenant, sale_id: nil) }
+-    let(:user) { FactoryBot.create(:user, :trait1, enterprise: enterprise, tenant: tenant) }
++    let(:tenant) { FactoryBot.create(:tenant, :trait2, enterprise:, platform_data: {"use_printsmith_deprecated_api"=>true}) }
++    let(:invoice) { FactoryBot.create(:order, :trait1, tenant:, sale_id: nil) }
++    let(:user) { FactoryBot.create(:user, :trait1, enterprise:, tenant:) }
+
+File: spec/helpers/application_helper_spec.rb
+Apply the fix to this code:
+@@ -1,12 +1,12 @@
+ 
+-  let(:enterprise) { create(:enterprise, :trait1, platform_type: platform_type, currency_locale: "AUD") }
+-  let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, time_zone: "UTC", financial_year_start_month: financial_year_start_month) }
++  let(:enterprise) { create(:enterprise, :trait1, platform_type:, currency_locale: "AUD") }
++  let(:tenant) { create(:tenant, :trait1, enterprise:, time_zone: "UTC", financial_year_start_month:) }
+-  let(:estimate) { create(:estimate, :trait1, reason: reason, reason_value: reason_value, status: status, tenant: tenant, company: company) }
+-  let(:user) { create(:user, :trait1, role: "Super User", tenant: tenant, enterprise: enterprise, lock_set_default: false) }
+-  let(:contact) { create(:contact, :trait1, tenant: tenant, platform_flavour: platform_flavour) }
++  let(:estimate) { create(:estimate, :trait1, reason:, reason_value:, status:, tenant:, company:) }
++  let(:user) { create(:user, :trait1, role: "Super User", tenant:, enterprise:, lock_set_default: false) }
++  let(:contact) { create(:contact, :trait1, tenant:, platform_flavour:) }
+
+Apply the fix to this code:
+@@ -18,7 +18,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+-      create(:sale, :trait1, tenant: tenant, sale_id: nil)
++      create(:sale, :trait1, tenant:, sale_id: nil)
+
+Apply the fix to this code:
+@@ -247,7 +247,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-    let(:company) { build(:company, :trait1, id: 123, name: company_name, walk_in: walk_in) }
++    let(:company) { build(:company, :trait1, id: 123, name: company_name, walk_in:) }
+
+Apply the fix to this code:
+@@ -297,8 +297,8 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-      let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, training: false) }
+-      let(:company) { create(:company, :trait1, name: "No company", tenant: tenant) }
++      let(:tenant) { create(:tenant, :trait1, enterprise:, training: false) }
++      let(:company) { create(:company, :trait1, name: "No company", tenant:) }
+
+Apply the fix to this code:
+@@ -837,25 +837,25 @@ RSpec.describe ApplicationHelper, type: :helper do
+-        let(:contact) { build(:contact, next_activity: "a-activity", tenant: tenant, enterprise: enterprise, id: 123, phone: "", mobile: nil, email: nil, first_name: nil, last_name: nil) }
++        let(:contact) { build(:contact, next_activity: "a-activity", tenant:, enterprise:, id: 123, phone: "", mobile: nil, email: nil, first_name: nil, last_name: nil) }
+-        let(:contact) { build(:contact, next_activity: "a-activity", tenant: tenant, enterprise: enterprise, id: 123, phone: "123456789", mobile: nil, email: nil, first_name: nil, last_name: nil) }
++        let(:contact) { build(:contact, next_activity: "a-activity", tenant:, enterprise:, id: 123, phone: "123456789", mobile: nil, email: nil, first_name: nil, last_name: nil) }
+-        let(:contact) { build(:contact, next_activity: "a-activity", tenant: tenant, enterprise: enterprise, id: 123, phone: nil, mobile: "123456789", email: nil, first_name: nil, last_name: nil) }
++        let(:contact) { build(:contact, next_activity: "a-activity", tenant:, enterprise:, id: 123, phone: nil, mobile: "123456789", email: nil, first_name: nil, last_name: nil) }
+-        let(:contact) { build(:contact, next_activity: "a-activity", tenant: tenant, enterprise: enterprise, id: 123, phone: nil, mobile: nil, email: nil, first_name: "John", last_name: nil) }
++        let(:contact) { build(:contact, next_activity: "a-activity", tenant:, enterprise:, id: 123, phone: nil, mobile: nil, email: nil, first_name: "John", last_name: nil) }
+
+Apply the fix to this code:
+@@ -915,7 +915,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-      let(:contact) { FactoryBot.create(:contact, :trait1, tenant: tenant, temp: true) }
++      let(:contact) { FactoryBot.create(:contact, :trait1, tenant:, temp: true) }
+
+Apply the fix to this code:
+@@ -1034,7 +1034,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-    let(:options) { { errors: errors, label: "label-xmen" } }
++    let(:options) { { errors:, label: "label-xmen" } }
+
+Apply the fix to this code:
+@@ -1042,7 +1042,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-      let(:options) { { errors: errors } }
++      let(:options) { { errors: } }
+
+Apply the fix to this code:
+@@ -1449,7 +1449,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-      let(:options) { {tenant: tenant} }
++      let(:options) { {tenant:} }
+
+Apply the fix to this code:
+@@ -1464,7 +1464,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-      let(:tenant) { create(:tenant, :trait1, enterprise: enterprise, time_zone: "UTC", financial_year_start_month: Time.now.month) }
++      let(:tenant) { create(:tenant, :trait1, enterprise:, time_zone: "UTC", financial_year_start_month: Time.now.month) }
+
+Apply the fix to this code:
+@@ -1498,7 +1498,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-        let(:enterprise) { create(:enterprise, :trait1, platform_type: platform_type, currency_locale: "AUD", brand: "mbe") }
++        let(:enterprise) { create(:enterprise, :trait1, platform_type:, currency_locale: "AUD", brand: "mbe") }
+
+Apply the fix to this code:
+@@ -1507,7 +1507,7 @@ RSpec.describe ApplicationHelper, type: :helper do
+ 
+-        let(:enterprise) { create(:enterprise, :trait1, platform_type: platform_type, currency_locale: "AUD", brand: "kka") }
++        let(:enterprise) { create(:enterprise, :trait1, platform_type:, currency_locale: "AUD", brand: "kka") }
+
+
+Once you've completed the changes, ensure all modified code follows the style guide and is tested.
